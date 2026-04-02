@@ -46,10 +46,28 @@ export interface DeliveryQuote {
   shippingMethodTitle: string;
   deliveryLabel: string;
   deliveryTotal: string;
+  supported: boolean;
+  message?: string;
 }
 
-export function getDeliveryQuote(postalCode: string): DeliveryQuote {
+export function isJohannesburgCity(city: string) {
+  return city.trim().toLowerCase() === "johannesburg";
+}
+
+export function getDeliveryQuote(postalCode: string, city = "Johannesburg"): DeliveryQuote {
   const normalizedPostcode = postalCode.trim();
+  const inJohannesburg = isJohannesburgCity(city);
+
+  if (!inJohannesburg) {
+    return {
+      shippingMethodId: "flat_rate",
+      shippingMethodTitle: "Unavailable",
+      deliveryLabel: "Area not currently serviced",
+      deliveryTotal: "0.00",
+      supported: false,
+      message: "Sorry, we’re currently only servicing Johannesburg addresses.",
+    };
+  }
 
   if (FOURWAYS_POSTCODES.has(normalizedPostcode)) {
     return {
@@ -57,6 +75,7 @@ export function getDeliveryQuote(postalCode: string): DeliveryQuote {
       shippingMethodTitle: "Free shipping",
       deliveryLabel: "Free delivery in Fourways",
       deliveryTotal: "0.00",
+      supported: true,
     };
   }
 
@@ -65,6 +84,7 @@ export function getDeliveryQuote(postalCode: string): DeliveryQuote {
     shippingMethodTitle: "Flat rate",
     deliveryLabel: "Gauteng delivery",
     deliveryTotal: GAUTENG_DELIVERY_FEE.toFixed(2),
+    supported: true,
   };
 }
 
@@ -75,8 +95,8 @@ export function formatCurrency(amount: string | number) {
   return `R${safeAmount.toFixed(0)}`;
 }
 
-export function calculateOrderTotal(productPrice: string, postalCode: string) {
-  return (Number(parsePrice(productPrice)) + Number(getDeliveryQuote(postalCode).deliveryTotal)).toFixed(2);
+export function calculateOrderTotal(productPrice: string, postalCode: string, city = "Johannesburg") {
+  return (Number(parsePrice(productPrice)) + Number(getDeliveryQuote(postalCode, city).deliveryTotal)).toFixed(2);
 }
 
 export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmissionResult {
@@ -113,6 +133,8 @@ export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmis
 
   if (!values.city.trim()) {
     fieldErrors.city = "Please enter the city.";
+  } else if (!isJohannesburgCity(values.city)) {
+    fieldErrors.city = "Sorry, we’re currently only servicing Johannesburg addresses.";
   }
 
   if (!/^\d{4}$/.test(values.postalCode.trim())) {
@@ -133,7 +155,7 @@ export function buildWooOrderPayload(values: CheckoutFormValues) {
   }
 
   const bookingRange = getBookingRange(values.date);
-  const deliveryQuote = getDeliveryQuote(values.postalCode);
+  const deliveryQuote = getDeliveryQuote(values.postalCode, values.city);
 
   return {
     payment_method: "payfast",

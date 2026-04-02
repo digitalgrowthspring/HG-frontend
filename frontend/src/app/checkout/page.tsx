@@ -100,14 +100,6 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
                 <strong>{product.name}</strong>
               </div>
               <div className="checkout-summary-row">
-                <span>{hasWeekendWindow ? "Selected day" : "Booking date"}</span>
-                <strong>{formatBookingDate(date)}</strong>
-              </div>
-              <div className="checkout-summary-row">
-                <span>Area</span>
-                <strong>{area}</strong>
-              </div>
-              <div className="checkout-summary-row">
                 <span>Subtotal</span>
                 <strong>{product.price}</strong>
               </div>

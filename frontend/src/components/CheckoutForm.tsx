@@ -16,8 +16,8 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
   const [submitMessage, setSubmitMessage] = useState("");
   const [isPending, startTransition] = useTransition();
   const product = getRentalProduct(formValues.product);
-  const deliveryQuote = getDeliveryQuote(formValues.postalCode);
-  const estimatedTotal = product ? calculateOrderTotal(product.price, formValues.postalCode) : "0.00";
+  const deliveryQuote = getDeliveryQuote(formValues.postalCode, formValues.city);
+  const estimatedTotal = product ? calculateOrderTotal(product.price, formValues.postalCode, formValues.city) : "0.00";
 
   function updateField<K extends keyof CheckoutFormValues>(field: K, value: CheckoutFormValues[K]) {
     setFormValues((current) => ({ ...current, [field]: value }));
@@ -137,7 +137,9 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
         <p className="checkout-delivery-estimate-label">Delivery</p>
         <strong>{formValues.postalCode.trim() ? deliveryQuote.deliveryLabel : "Enter your postal code to confirm delivery"}</strong>
         <span>
-          {formValues.postalCode.trim()
+          {!deliveryQuote.supported && deliveryQuote.message
+            ? deliveryQuote.message
+            : formValues.postalCode.trim()
             ? `${formatCurrency(deliveryQuote.deliveryTotal)} delivery · Estimated total ${formatCurrency(estimatedTotal)}`
             : "WooCommerce currently gives free delivery for 2191 and R120 flat delivery across the wider Gauteng zone."}
         </span>
@@ -156,7 +158,7 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
       {submitMessage ? <p className="checkout-submit-message">{submitMessage}</p> : null}
 
       <div className="checkout-actions checkout-actions-inline checkout-field-full">
-        <button type="submit" className="checkout-btn checkout-btn-primary" disabled={isPending}>
+        <button type="submit" className="checkout-btn checkout-btn-primary" disabled={isPending || !deliveryQuote.supported}>
           {isPending ? "Starting Booking..." : "Place Booking"}
         </button>
       </div>
