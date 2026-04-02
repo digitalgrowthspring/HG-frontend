@@ -26,10 +26,10 @@ export default function RentalsPage() {
         <div className="hg-container">
           <div className="rentals-hero-top">
             <div className="rentals-hero-content">
-              <h1 className="rentals-badge">Jumping Castle Hire &amp; Rental Fourways</h1>
-              <h2>
-                Shop Our <span>Inflatable Rentals</span>
-              </h2>
+              <p className="rentals-badge">Free delivery to Fourways</p>
+              <h1>
+                Jumping Castle <span>Rental Fourways</span>
+              </h1>
               <p className="rentals-hero-sub">
                 Zero effort, maximum fun. Pick the inflatable that suits your party, then let us handle the delivery, setup, and collection.
               </p>
