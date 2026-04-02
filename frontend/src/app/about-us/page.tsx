@@ -110,7 +110,7 @@ export default function AboutPage() {
       </section>
 
       {/* ── Story ── */}
-      <section id="about-products" className="about-section about-section-light">
+      <section id="about-story" className="about-section about-section-light">
         <div className="hg-container">
           <div className="about-section-header about-story-header">
             <h2>Our Story</h2>

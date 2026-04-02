@@ -101,7 +101,7 @@ export default function ContactPage() {
                 Need a jumping castle, slide, or just a way to keep the kids busy while you sip your coffee in peace? We&apos;ve got you.
               </p>
               <div className="contact-hero-ctas">
-                <Link href="/rentals" className="btn-contact-primary">
+                <Link href="/rentals#rentals-products" className="btn-contact-primary">
                   Rent Online Now
                 </Link>
                 <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-contact-secondary">
@@ -219,7 +219,7 @@ export default function ContactPage() {
                 </div>
               </div>
               <div className="contact-map-ctas">
-                <Link href="/rentals" className="btn-contact-primary">
+                <Link href="/rentals#rentals-products" className="btn-contact-primary">
                   Rent Online Now
                 </Link>
                 <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-contact-secondary">
