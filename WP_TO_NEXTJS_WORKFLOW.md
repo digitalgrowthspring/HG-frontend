@@ -161,18 +161,22 @@ Preferred sequence:
 
 1. push code to GitHub
 2. import into Vercel
-3. add environment variables in Vercel
-4. confirm latest deployment is `Ready`
-5. attach the production domain in Vercel
-6. update DNS in the actual DNS provider
-7. wait for SSL
-8. run full launch QA
+3. if the app lives in a subfolder such as `frontend`, explicitly set the Vercel Root Directory to that folder
+4. if Vercel does not clearly detect the framework, add an explicit `vercel.json` in the app root so the deployment is treated as `nextjs`
+5. add environment variables in Vercel
+6. confirm latest deployment is `Ready`
+7. open the actual `*.vercel.app` deployment URL and verify it loads the app, not a Vercel `404: NOT_FOUND` page
+8. attach the production domain in Vercel
+9. update DNS in the actual DNS provider
+10. wait for SSL
+11. run full launch QA
 
 Checks:
 
 - use Vercel as the source of truth for domain targets
 - keep mail-related DNS records untouched
 - check runtime logs if the deployed site still hits the wrong backend hostname
+- if a deployment is `Ready` but the `*.vercel.app` URL shows `404: NOT_FOUND`, first suspect the wrong Root Directory or missing explicit framework detection before debugging app routes
 
 ### Step 11. Run pre-launch QA on the deployed site
 
@@ -223,12 +227,13 @@ For most WP to Next.js conversions, the default pattern should be:
 
 ## Heavenly Giggles Note
 
-Right now Heavenly Giggles is still in the temporary build/testing phase:
+Heavenly Giggles has now completed the backend split:
 
-- local frontend
-- live WordPress and WooCommerce backend on `heavenlygiggles.com`
-
-Before launch, this must become:
-
-- public frontend on `heavenlygiggles.com`
 - backend WordPress and WooCommerce on `wp.heavenlygiggles.com`
+- Next.js frontend deployed via Vercel
+
+Important deployment lesson from this project:
+
+- because the app lives in `/frontend`, Vercel must use `frontend` as the Root Directory
+- adding `frontend/vercel.json` with explicit Next.js build settings prevents Vercel from treating the project like a generic static deployment
+- a `Ready` deployment plus a Vercel-hosted `404: NOT_FOUND` page usually means Vercel did not recognize the app root/framework correctly, not that the Next.js routes are broken

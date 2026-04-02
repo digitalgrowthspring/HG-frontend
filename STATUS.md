@@ -11,6 +11,9 @@ Start with: `cd frontend && npm run dev`
 ## Next Session Handoff
 - First read:
   `STATUS.md`, `CONTEXT.md`, `notebooklm.md`, `WP_TO_NEXTJS_WORKFLOW.md`
+- Deployment note:
+  because the app lives in `/frontend`, Vercel must use `frontend` as the Root Directory,
+  and `frontend/vercel.json` was added to force explicit Next.js detection after Vercel first returned a platform `404: NOT_FOUND`
 - Current high-value context:
   local booking and checkout UX are in a good place,
   WooCommerce order handoff from Next.js has been scaffolded and tested successfully against the live Heavenly Giggles domain,
