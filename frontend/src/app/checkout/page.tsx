@@ -111,19 +111,6 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
                 <span>Estimated total</span>
                 <strong>{formatCurrency(defaultEstimatedTotal)}</strong>
               </div>
-
-              <div className="checkout-payment-box">
-                <p className="checkout-payment-kicker">Next Step</p>
-                <p>
-                  Enter your postal code and we&apos;ll apply the live WooCommerce delivery rule before handing you over to secure payment.
-                </p>
-              </div>
-
-              <div className="checkout-actions">
-                <Link href={`/book/${product.slug}`} className="checkout-btn checkout-btn-secondary">
-                  Change Date
-                </Link>
-              </div>
             </aside>
 
             <div className="checkout-form-card">

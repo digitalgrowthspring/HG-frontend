@@ -115,10 +115,6 @@ export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmis
     fieldErrors.fullName = "Please enter your full name.";
   }
 
-  if (!values.phone.trim()) {
-    fieldErrors.phone = "Please enter a phone number.";
-  }
-
   if (!values.email.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
     fieldErrors.email = "Please enter a valid email address.";
   }

@@ -242,29 +242,6 @@
   color: #ef2f99;
 }
 
-.checkout-payment-box {
-  margin-top: 1rem;
-  padding: 1rem 1.05rem;
-  border-radius: 1rem;
-  background: linear-gradient(180deg, #eff9f8 0%, #f7fcfc 100%);
-  border: 1px solid rgba(20, 200, 188, 0.1);
-}
-
-.checkout-payment-kicker {
-  margin: 0 0 0.4rem;
-  color: #147d77;
-  font-size: 0.85rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.checkout-payment-box p:last-child {
-  margin: 0;
-  color: #597275;
-  line-height: 1.65;
-}
-
 .checkout-actions {
   display: flex;
   flex-direction: column;

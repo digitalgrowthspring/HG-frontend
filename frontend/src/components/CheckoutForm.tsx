@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { calculateOrderTotal, formatCurrency, getDeliveryQuote, type CheckoutFormValues, type CheckoutSubmissionResult } from "@/lib/checkout";
+import { calculateOrderTotal, formatCurrency, getDeliveryQuote, isJohannesburgCity, type CheckoutFormValues, type CheckoutSubmissionResult } from "@/lib/checkout";
 import { getRentalProduct } from "@/app/rentals/products";
 
 interface CheckoutFormProps {
@@ -27,6 +27,32 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitMessage("");
+
+    const nextErrors: Partial<Record<keyof CheckoutFormValues, string>> = {};
+
+    if (!formValues.email.trim()) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!formValues.addressLine1.trim()) {
+      nextErrors.addressLine1 = "Please enter the delivery address.";
+    }
+
+    if (!formValues.city.trim()) {
+      nextErrors.city = "Please enter the city.";
+    } else if (!isJohannesburgCity(formValues.city)) {
+      nextErrors.city = "Sorry, we’re currently only servicing Johannesburg addresses.";
+    }
+
+    if (!/^\d{4}$/.test(formValues.postalCode.trim())) {
+      nextErrors.postalCode = "Please enter a valid 4-digit postal code.";
+    }
+
+    if (Object.keys(nextErrors).length > 0) {
+      setFieldErrors((current) => ({ ...current, ...nextErrors }));
+      setSubmitMessage(nextErrors.city || nextErrors.postalCode || "Please fix the highlighted details and try again.");
+      return;
+    }
 
     startTransition(async () => {
       const response = await fetch("/api/checkout", {
@@ -66,7 +92,7 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
       </label>
 
       <label className="checkout-field">
-        <span>Phone</span>
+        <span>Phone (optional)</span>
         <input
           type="tel"
           value={formValues.phone}
@@ -158,7 +184,7 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
       {submitMessage ? <p className="checkout-submit-message">{submitMessage}</p> : null}
 
       <div className="checkout-actions checkout-actions-inline checkout-field-full">
-        <button type="submit" className="checkout-btn checkout-btn-primary" disabled={isPending || !deliveryQuote.supported}>
+        <button type="submit" className="checkout-btn checkout-btn-primary" disabled={isPending}>
           {isPending ? "Starting Booking..." : "Place Booking"}
         </button>
       </div>

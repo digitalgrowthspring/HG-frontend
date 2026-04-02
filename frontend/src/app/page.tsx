@@ -117,9 +117,9 @@ export default function HomePage() {
                 <span>Because <strong>mums deserve two days off,</strong> not one.</span>
               </div>
               <div className="hg-hero-ctas">
-                <Link href="#homepage-products" className="btn-hg-primary">
+                <a href="#homepage-products" className="btn-hg-primary">
                   Rent Online Now
-                </Link>
+                </a>
                 <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
                   Speak to Us on WhatsApp
                 </a>
@@ -240,9 +240,9 @@ export default function HomePage() {
             ))}
           </div>
           <div className="hg-steps-cta">
-            <Link href="#homepage-products" className="btn-hg-primary">
+            <a href="#homepage-products" className="btn-hg-primary">
               Rent Online Now
-            </Link>
+            </a>
           </div>
         </div>
       </section>

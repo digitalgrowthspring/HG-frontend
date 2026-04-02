@@ -632,11 +632,11 @@ h1, h2, h3, h4 {
 
 @media (max-width: 780px) {
   .glass-header {
-    padding: 0.65rem 0;
+    padding: 0.45rem 0;
   }
 
   .site-main {
-    padding-top: 64px;
+    padding-top: 56px;
   }
 
   .hg-hero,
@@ -659,7 +659,7 @@ h1, h2, h3, h4 {
   }
 
   .site-logo {
-    height: 64px;
+    height: 54px;
   }
 
   .header-actions {
@@ -683,6 +683,8 @@ h1, h2, h3, h4 {
 
   .burger-button {
     display: inline-flex;
+    width: 40px;
+    height: 40px;
   }
 
   .mobile-menu-panel {
@@ -740,11 +742,11 @@ h1, h2, h3, h4 {
 
 @media (max-width: 560px) {
   .glass-header {
-    padding: 0.5rem 0;
+    padding: 0.35rem 0;
   }
 
   .site-main {
-    padding-top: 60px;
+    padding-top: 52px;
   }
 
   .hg-hero,
@@ -754,7 +756,7 @@ h1, h2, h3, h4 {
   .product-hero,
   .booking-hero,
   .checkout-hero {
-    padding-top: calc(70px + 0.7rem) !important;
+    padding-top: calc(58px + 0.5rem) !important;
   }
 
   .header-content {
@@ -770,9 +772,9 @@ h1, h2, h3, h4 {
   }
 
   .site-logo {
-    height: 58px;
+    height: 46px;
     width: auto;
-    max-width: min(58vw, 240px);
+    max-width: min(52vw, 200px);
   }
 
   .header-actions {
@@ -798,8 +800,9 @@ h1, h2, h3, h4 {
   }
 
   .burger-button {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
   }
 
   .mobile-menu-panel {
