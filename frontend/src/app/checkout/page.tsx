@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CheckoutForm from "@/components/CheckoutForm";
 import { getRentalProduct } from "@/app/rentals/products";
+import { calculateOrderTotal, formatCurrency, getDeliveryQuote } from "@/lib/checkout";
 import { formatBookingDate, getBookingRange, isDateAvailable } from "@/lib/booking";
 import "./checkout.css";
 
@@ -27,6 +28,9 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
     bookingRange.to &&
     bookingRange.from !== bookingRange.to,
   );
+  const defaultPostalCode = "2191";
+  const defaultDeliveryQuote = getDeliveryQuote(defaultPostalCode);
+  const defaultEstimatedTotal = product ? calculateOrderTotal(product.price, defaultPostalCode) : "0.00";
 
   if (!product) {
     return (
@@ -107,15 +111,19 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
                 <span>Subtotal</span>
                 <strong>{product.price}</strong>
               </div>
+              <div className="checkout-summary-row">
+                <span>Delivery</span>
+                <strong>{defaultDeliveryQuote.deliveryLabel}</strong>
+              </div>
               <div className="checkout-summary-row checkout-summary-total">
-                <span>Total</span>
-                <strong>{product.price}</strong>
+                <span>Estimated total</span>
+                <strong>{formatCurrency(defaultEstimatedTotal)}</strong>
               </div>
 
               <div className="checkout-payment-box">
                 <p className="checkout-payment-kicker">Next Step</p>
                 <p>
-                  Fill in your details and we&apos;ll hand you over to secure WooCommerce payment on the next step.
+                  Enter your postal code and we&apos;ll apply the live WooCommerce delivery rule before handing you over to secure payment.
                 </p>
               </div>
 
@@ -140,6 +148,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
                   addressLine1: "",
                   suburb: area,
                   city: "Johannesburg",
+                  postalCode: defaultPostalCode,
                 }}
               />
             </div>

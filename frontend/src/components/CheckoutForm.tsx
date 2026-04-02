@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import type { CheckoutFormValues, CheckoutSubmissionResult } from "@/lib/checkout";
+import { calculateOrderTotal, formatCurrency, getDeliveryQuote, type CheckoutFormValues, type CheckoutSubmissionResult } from "@/lib/checkout";
+import { getRentalProduct } from "@/app/rentals/products";
 
 interface CheckoutFormProps {
   initialValues: CheckoutFormValues;
@@ -14,6 +15,9 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
   const [fieldErrors, setFieldErrors] = useState(emptyErrors);
   const [submitMessage, setSubmitMessage] = useState("");
   const [isPending, startTransition] = useTransition();
+  const product = getRentalProduct(formValues.product);
+  const deliveryQuote = getDeliveryQuote(formValues.postalCode);
+  const estimatedTotal = product ? calculateOrderTotal(product.price, formValues.postalCode) : "0.00";
 
   function updateField<K extends keyof CheckoutFormValues>(field: K, value: CheckoutFormValues[K]) {
     setFormValues((current) => ({ ...current, [field]: value }));
@@ -115,6 +119,29 @@ export default function CheckoutForm({ initialValues }: CheckoutFormProps) {
         />
         {fieldErrors.city ? <small className="checkout-field-error">{fieldErrors.city}</small> : null}
       </label>
+
+      <label className="checkout-field">
+        <span>Postal Code</span>
+        <input
+          type="text"
+          inputMode="numeric"
+          maxLength={4}
+          value={formValues.postalCode}
+          onChange={(event) => updateField("postalCode", event.target.value.replace(/[^\d]/g, "").slice(0, 4))}
+          placeholder="2191"
+        />
+        {fieldErrors.postalCode ? <small className="checkout-field-error">{fieldErrors.postalCode}</small> : null}
+      </label>
+
+      <div className="checkout-delivery-estimate checkout-field-full">
+        <p className="checkout-delivery-estimate-label">Delivery</p>
+        <strong>{formValues.postalCode.trim() ? deliveryQuote.deliveryLabel : "Enter your postal code to confirm delivery"}</strong>
+        <span>
+          {formValues.postalCode.trim()
+            ? `${formatCurrency(deliveryQuote.deliveryTotal)} delivery · Estimated total ${formatCurrency(estimatedTotal)}`
+            : "WooCommerce currently gives free delivery for 2191 and R120 flat delivery across the wider Gauteng zone."}
+        </span>
+      </div>
 
       <label className="checkout-field checkout-field-full">
         <span>Anything Else We Should Know?</span>

@@ -235,6 +235,7 @@
   text-align: right;
   max-width: 18rem;
   font-size: 1rem;
+  line-height: 1.45;
 }
 
 .checkout-summary-total strong {
@@ -283,6 +284,35 @@
   color: #8f2554;
   border: 1px solid rgba(217, 31, 136, 0.12);
   line-height: 1.6;
+}
+
+.checkout-delivery-estimate {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #eff9f8 0%, #f7fcfc 100%);
+  border: 1px solid rgba(20, 200, 188, 0.12);
+}
+
+.checkout-delivery-estimate-label {
+  margin: 0;
+  color: #147d77;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.checkout-delivery-estimate strong {
+  color: #142022;
+  font-size: 1rem;
+}
+
+.checkout-delivery-estimate span {
+  color: #597275;
+  font-size: 0.92rem;
+  line-height: 1.55;
 }
 
 .checkout-btn,
