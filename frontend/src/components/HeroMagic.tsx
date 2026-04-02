@@ -29,9 +29,11 @@ export function HeroMagic() {
 
   useEffect(() => {
     const root = document.documentElement;
-    const hasFinePointer = window.matchMedia('(any-pointer: fine)').matches;
+    const hasDesktopCursor =
+      window.matchMedia('(hover: hover)').matches &&
+      window.matchMedia('(pointer: fine)').matches;
 
-    if (!hasFinePointer) {
+    if (!hasDesktopCursor) {
       root.classList.remove('has-wand-cursor');
       return;
     }
@@ -55,6 +57,10 @@ export function HeroMagic() {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
+      if (event.pointerType && event.pointerType !== 'mouse') {
+        return;
+      }
+
       const x = event.clientX;
       const y = event.clientY;
       setCursor({ x, y });

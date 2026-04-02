@@ -619,13 +619,34 @@ h1, h2, h3, h4 {
 .hg-wand-particle-pink { color: #ff52b5; }
 .hg-wand-particle-purple { color: #b58cff; }
 
+@media (hover: none), (pointer: coarse) {
+  .hg-wand-overlay {
+    display: none;
+  }
+
+  .has-wand-cursor body,
+  .has-wand-cursor body * {
+    cursor: auto !important;
+  }
+}
+
 @media (max-width: 780px) {
   .glass-header {
     padding: 0.65rem 0;
   }
 
   .site-main {
-    padding-top: 72px;
+    padding-top: 64px;
+  }
+
+  .hg-hero,
+  .about-hero,
+  .contact-hero,
+  .rentals-hero,
+  .product-hero,
+  .booking-hero,
+  .checkout-hero {
+    padding-top: calc(74px + 0.9rem) !important;
   }
 
   .header-inner {
@@ -648,6 +669,10 @@ h1, h2, h3, h4 {
   }
 
   .header-link-desktop {
+    display: none;
+  }
+
+  .nav-link-cta {
     display: none;
   }
 
@@ -719,7 +744,17 @@ h1, h2, h3, h4 {
   }
 
   .site-main {
-    padding-top: 74px;
+    padding-top: 60px;
+  }
+
+  .hg-hero,
+  .about-hero,
+  .contact-hero,
+  .rentals-hero,
+  .product-hero,
+  .booking-hero,
+  .checkout-hero {
+    padding-top: calc(70px + 0.7rem) !important;
   }
 
   .header-content {
@@ -749,6 +784,7 @@ h1, h2, h3, h4 {
   }
 
   .nav-link-cta {
+    display: none;
     min-height: 32px;
     flex: 0 0 auto;
     justify-content: center;
