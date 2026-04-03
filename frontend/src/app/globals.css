@@ -646,7 +646,7 @@ h1, h2, h3, h4 {
   .product-hero,
   .booking-hero,
   .checkout-hero {
-    padding-top: 3rem !important;
+    padding-top: 3.625rem !important;
   }
 
   .header-inner {
@@ -754,7 +754,7 @@ h1, h2, h3, h4 {
   .product-hero,
   .booking-hero,
   .checkout-hero {
-    padding-top: 2.4rem !important;
+    padding-top: 3rem !important;
   }
 
   .header-content {
