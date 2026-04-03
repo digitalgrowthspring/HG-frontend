@@ -18,7 +18,7 @@ export function Header() {
     <header className="glass-header">
       <div className="container header-content header-inner">
         <Link href="/" className="site-logo-link" onClick={closeMenu}>
-          <Image src="/hg-logo.png" alt="Heavenly Giggles" width={250} height={129} priority className="site-logo" />
+          <Image src="/hg-logo.png" alt="Heavenly Giggles" width={250} height={129} priority fetchPriority="high" sizes="250px" className="site-logo" />
         </Link>
         <div className="header-actions">
           <Link href="/rentals" className="nav-link nav-link-subtle header-link-desktop">

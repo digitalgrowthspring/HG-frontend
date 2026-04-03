@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { rentalProducts } from "@/app/rentals/products";
 import "./about.css";
-import familyImage from "../../../about-family.jpg";
 
 export const metadata: Metadata = buildMetadata({
   title: "About Us | Heavenly Giggles Jumping Castle Hire Fourways",
@@ -82,9 +81,11 @@ export default function AboutPage() {
               <div className="about-hero-image-glow" />
               <div className="about-hero-image-wrap">
                 <Image
-                  src={familyImage}
+                  src="/media/about-family.jpg"
                   alt="The Heavenly Giggles family"
                   className="about-hero-img"
+                  width={1536}
+                  height={1024}
                   priority
                 />
               </div>

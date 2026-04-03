@@ -136,6 +136,8 @@ export default function HomePage() {
                   height={520}
                   className="hg-hero-img"
                   priority
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 100vw, 700px"
                 />
               </div>
             </div>
