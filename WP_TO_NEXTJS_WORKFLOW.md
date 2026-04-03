@@ -231,9 +231,19 @@ Heavenly Giggles has now completed the backend split:
 
 - backend WordPress and WooCommerce on `wp.heavenlygiggles.com`
 - Next.js frontend deployed via Vercel
+- public domain live on `heavenlygiggles.com`
 
 Important deployment lesson from this project:
 
 - because the app lives in `/frontend`, Vercel must use `frontend` as the Root Directory
 - adding `frontend/vercel.json` with explicit Next.js build settings prevents Vercel from treating the project like a generic static deployment
 - a `Ready` deployment plus a Vercel-hosted `404: NOT_FOUND` page usually means Vercel did not recognize the app root/framework correctly, not that the Next.js routes are broken
+
+Important post-launch lesson from this project:
+
+- after cutover, do not leave the old WordPress frontend publicly accessible on the backend subdomain homepage
+- `wp.domain.com` should behave like a backend host, not a second public marketing site
+- preferred cleanup is:
+  redirect `https://wp.domain.com/` to `https://domain.com/`
+  while keeping `wp-admin`, `wp-json`, WooCommerce payment/order URLs, and media accessible on the backend host
+- this reduces SEO duplication risk and avoids confusing users who discover the old site on the backend hostname

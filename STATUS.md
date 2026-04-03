@@ -1,8 +1,8 @@
 # Heavenly Giggles — Project Status
 
 ## Current Phase
-**Phase 1.6 — UX Funnel + Booking Prototype (In Progress)**
-Core marketing pages are rebuilt locally and aligned to the Heavenly Giggles design system. The current focus is polishing the browse → product → booking funnel, while keeping the first custom booking/calendar flow in place for the eventual payment + availability backend.
+**Phase 2.0 — Live on Next.js + Post-Launch Refinement**
+The public frontend is now live on Next.js at `heavenlygiggles.com`, with WordPress/WooCommerce running behind `wp.heavenlygiggles.com`. Current work is post-launch refinement: tightening mobile UX, cleaning up checkout behavior, and severing public-facing ties to the old WordPress frontend.
 
 ## Dev Server
 Running at http://localhost:3002
@@ -15,19 +15,18 @@ Start with: `cd frontend && npm run dev`
   because the app lives in `/frontend`, Vercel must use `frontend` as the Root Directory,
   and `frontend/vercel.json` was added to force explicit Next.js detection after Vercel first returned a platform `404: NOT_FOUND`
 - Current high-value context:
-  local booking and checkout UX are in a good place,
-  WooCommerce order handoff from Next.js has been scaffolded and tested successfully against the live Heavenly Giggles domain,
-  and the current live-domain setup is acceptable for local integration testing only
-- Important infrastructure distinction:
-  right now local Next.js can talk to `heavenlygiggles.com` for WP/WooCommerce,
-  but before launch WordPress and WooCommerce must move behind `wp.heavenlygiggles.com`
-- Important implementation note:
-  `frontend/src/lib/wordpress.ts` still has a hardcoded public-domain fallback and must be updated before cutover
-- Current process lesson:
-  separate these three states clearly:
-  `works locally`,
-  `works locally against the live backend`,
-  `safe after DNS cutover`
+  the public site is live on `https://heavenlygiggles.com`,
+  the backend is live on `https://wp.heavenlygiggles.com`,
+  Vercel deploys from GitHub automatically,
+  and WooCommerce order + PayFast handoff now runs from the custom Next.js checkout into the WP backend
+- Important current cleanup task:
+  `https://wp.heavenlygiggles.com/` still publicly shows the old WordPress frontend.
+  This should be severed so the old site is not publicly accessible on the backend subdomain homepage.
+  Preferred cleanup:
+  redirect the `wp` homepage to `https://heavenlygiggles.com`
+  while keeping `wp-admin`, `wp-json`, WooCommerce payment/order paths, and media working
+- Important process lesson:
+  once the cutover is complete, update status docs immediately so future agents do not continue planning around the pre-launch architecture
 - NotebookLM note:
   the notebook exists and the local notebook docs are current,
   but direct NotebookLM MCP access depends on Codex being started with the `notebooklm` MCP configured
@@ -124,23 +123,46 @@ Start with: `cd frontend && npm run dev`
   Next.js checkout can create a pending WooCommerce order on the live site and return a valid `order-pay` URL
 - [x] Reusable migration workflow added:
   `WP_TO_NEXTJS_WORKFLOW.md` now captures the updated WP → Next.js process, including onboarding/brand context and the backend subdomain split lesson
+- [x] WordPress/WooCommerce moved behind `wp.heavenlygiggles.com`
+- [x] SSL + DNS completed for `wp.heavenlygiggles.com`
+- [x] WordPress `siteurl` / `home` moved to `https://wp.heavenlygiggles.com`
+- [x] Frontend env/config updated to use `wp.heavenlygiggles.com`
+- [x] GitHub repo created:
+  `https://github.com/digitalgrowthspring/HG-frontend`
+- [x] Vercel deployment configured with `frontend` as Root Directory
+- [x] `frontend/vercel.json` added to force explicit Next.js detection on Vercel
+- [x] Public domain cut over:
+  `heavenlygiggles.com` -> Vercel / Next.js
+  `www.heavenlygiggles.com` -> Vercel redirect
+  `wp.heavenlygiggles.com` -> Cloudways / WordPress backend
+- [x] Checkout now uses postcode-based delivery pricing aligned to live WooCommerce:
+  `2191` = free delivery in Fourways
+  Johannesburg fallback = `R120`
+- [x] Checkout now hands off to WooCommerce / PayFast on the backend host
+- [x] Multiple post-launch polish fixes completed:
+  About/Contact CTA targets,
+  homepage anchor CTA behavior,
+  desktop-only wand behavior,
+  tighter mobile header/hero spacing,
+  mobile header WhatsApp button removed,
+  checkout validation and summary cleanup
 
 ## What's Next (in order)
-- [ ] Decide booking model clearly in code and copy:
-  single event/delivery date vs explicit weekend rental span shown in the booking UI
 - [ ] Move blocked dates from hard-coded mock data to a real persistence layer / backend source of truth
-- [ ] Validate the booking step and checkout step end-to-end so users cannot reach checkout with invalid or missing booking data
-- [ ] Connect the new checkout handoff to real WooCommerce credentials/endpoints and verify PayFast redirect
+- [ ] Run one final real end-to-end live payment test on the deployed domain after the latest checkout refinements
 - [ ] On successful booking/payment, write back confirmed dates so availability blocks out automatically
-- [ ] Decide the final WooCommerce/WordPress backend URL pattern for launch:
-  current live-domain testing is fine locally, but deployed production must use `wp.heavenlygiggles.com`
+- [ ] Sever public-facing ties to the old WordPress frontend on `wp.heavenlygiggles.com`
+  Preferred outcome:
+  the `wp` homepage should not act like a second public site
+  but admin, API, WooCommerce payment URLs, and media must still work
+- [ ] Decide the cleanest backend public behavior:
+  homepage redirect to `heavenlygiggles.com`
+  or a locked-down backend landing page
 - [ ] Final CTA/copy consistency pass across homepage/About/Rentals/Contact/Product pages
-- [ ] Once booking flow is stable, resume final consistency/SEO pass
-- [ ] GitHub repo → Vercel deploy
+- [ ] Resume final consistency/SEO pass now that the site is live
+- [ ] Optional post-launch cleanup of old WordPress frontend/plugin dependencies once backend-only behavior is confirmed
 
 ## Deferred (Phase 2)
-- PayFast payment integration
-- WooCommerce API keys — for product images/data (static data used for now)
 - Mailchimp tagging on enquiry
 
 ## Booking Flow Snapshot
@@ -153,7 +175,10 @@ Start with: `cd frontend && npm run dev`
 - Current availability behavior:
   weekends are bookable by default, weekdays are blocked unless listed as holiday exceptions, and hard-coded blocked dates are still checked client-side only
 - Current checkout behavior:
-  `src/app/checkout/page.tsx` now uses a real checkout form and API handoff, but successful payment and booking persistence are still not connected end-to-end
+  `src/app/checkout/page.tsx` now uses a real checkout form and API handoff,
+  validates service area and postcode logic,
+  creates pending WooCommerce orders on the backend,
+  and redirects into WooCommerce / PayFast payment
 - Important limitation:
   a date can look available in the UI, but nothing is actually locked or reserved until a real backend/payment integration is added
 - Design direction:
@@ -179,6 +204,7 @@ Start with: `cd frontend && npm run dev`
 - Product pages are being rebuilt as internal Next.js pages styled to match the core site, rather than relying on old WordPress product-page patterns
 - Product-page refinement is being done one SKU at a time, starting with Standard Jumping Castle before applying the same structure to the other products
 - Booking flow has now started locally, but availability is still mocked and checkout is still non-persistent
+- The site is now live on Next.js, but the old WordPress frontend is still publicly reachable on the `wp` subdomain and should be severed
 - Browse flow now intentionally distinguishes:
   marketing browse sections → product detail pages,
   product pages → booking flow,
