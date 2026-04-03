@@ -1,5 +1,11 @@
 .DS_Store
 
+# Workspace symlinks — machine-specific, managed by shell hook
+CLAUDE.md
+GEMINI.md
+CODEX.md
+.mcp.json
+
 # Frontend runtime/build artifacts
 frontend/node_modules/
 frontend/.next/
@@ -16,5 +22,9 @@ frontend/*.tsbuildinfo
 # Local environment files
 frontend/.env*
 
-# Local screenshots
-screencapture-localhost-3002-2026-03-30-07_50_03.png
+# Local screenshots and loose assets
+screencapture-*.png
+frontend/*.png
+frontend/*.jpg
+frontend/*.jpeg
+"frontend/ChatGPT Image*.png"
