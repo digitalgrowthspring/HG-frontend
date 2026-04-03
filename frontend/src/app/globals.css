@@ -646,7 +646,7 @@ h1, h2, h3, h4 {
   .product-hero,
   .booking-hero,
   .checkout-hero {
-    padding-top: calc(74px + 0.9rem) !important;
+    padding-top: 2.4rem !important;
   }
 
   .header-inner {
@@ -756,7 +756,7 @@ h1, h2, h3, h4 {
   .product-hero,
   .booking-hero,
   .checkout-hero {
-    padding-top: calc(58px + 0.5rem) !important;
+    padding-top: 1.8rem !important;
   }
 
   .header-content {
