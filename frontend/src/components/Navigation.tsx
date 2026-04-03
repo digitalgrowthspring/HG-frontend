@@ -50,9 +50,6 @@ export function Header() {
         <Link href="/rentals" className="mobile-menu-link" onClick={closeMenu}>Rentals</Link>
         <Link href="/about-us" className="mobile-menu-link" onClick={closeMenu}>About</Link>
         <Link href="/contact-us" className="mobile-menu-link" onClick={closeMenu}>Contact</Link>
-        <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="mobile-menu-link" onClick={closeMenu}>
-          📲 WhatsApp Us
-        </a>
       </div>
     </header>
   );
