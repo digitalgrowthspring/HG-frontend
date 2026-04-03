@@ -87,6 +87,8 @@ export default function AboutPage() {
                   width={1536}
                   height={1024}
                   priority
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 100vw, 1536px"
                 />
               </div>
             </div>

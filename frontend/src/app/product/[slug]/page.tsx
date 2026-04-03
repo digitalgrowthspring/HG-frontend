@@ -82,6 +82,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   height={520}
                   className="product-hero-img"
                   priority
+                  fetchPriority="high"
+                  sizes="(max-width: 768px) 100vw, 700px"
                 />
               </div>
             </div>

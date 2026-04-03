@@ -148,7 +148,7 @@ export default function BookProductPage() {
               </div>
             </div>
             <div className="booking-hero-image-wrap">
-              <Image src={product.image} alt={product.name} width={640} height={460} className="booking-hero-image" />
+              <Image src={product.image} alt={product.name} width={640} height={460} className="booking-hero-image" priority fetchPriority="high" sizes="(max-width: 768px) 100vw, 640px" />
             </div>
           </div>
         </div>
