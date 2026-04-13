@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? '27828828864';
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? '27828228864';
 const WA_LINK = `https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20jumping%20castle!`;
 
 export function Header() {

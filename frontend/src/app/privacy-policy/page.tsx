@@ -26,7 +26,7 @@ export default function PrivacyPage() {
         </p>
         <p>
           Email: <a href="mailto:shaney@heavenlygiggles.com">shaney@heavenlygiggles.com</a><br />
-          WhatsApp: <a href="https://wa.me/27828828864" target="_blank" rel="noopener noreferrer">082 882 8864</a>
+          WhatsApp: <a href="https://wa.me/27828228864" target="_blank" rel="noopener noreferrer">+27 82 822 8864</a>
         </p>
       </div>
 
@@ -91,7 +91,7 @@ export default function PrivacyPage() {
       <div className="legal-section">
         <h2>Contact Us About Privacy</h2>
         <p>
-          If you have any privacy-related questions, please email <a href="mailto:shaney@heavenlygiggles.com">shaney@heavenlygiggles.com</a> or message us on <a href="https://wa.me/27828828864" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+          If you have any privacy-related questions, please email <a href="mailto:shaney@heavenlygiggles.com">shaney@heavenlygiggles.com</a> or message us on <a href="https://wa.me/27828228864" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
         </p>
       </div>
     </LegalShell>

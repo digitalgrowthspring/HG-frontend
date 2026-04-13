@@ -286,7 +286,7 @@ export default function ProductBookingCard({
       {showSupportCta ? (
         <div className="product-hero-ctas product-hero-ctas-booking">
           <a
-            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? "27828828864"}?text=${encodeURIComponent(`Hi, I have a question about the ${name}.`)}`}
+            href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP ?? "27828228864"}?text=${encodeURIComponent(`Hi, I have a question about the ${name}.`)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="btn-product-secondary"

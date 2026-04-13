@@ -103,7 +103,7 @@ export default function TermsPage() {
       <div className="legal-section">
         <h2>Contact</h2>
         <p>
-          For questions about these terms, email <a href="mailto:shaney@heavenlygiggles.com">shaney@heavenlygiggles.com</a> or message us on <a href="https://wa.me/27828828864" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
+          For questions about these terms, email <a href="mailto:shaney@heavenlygiggles.com">shaney@heavenlygiggles.com</a> or message us on <a href="https://wa.me/27828228864" target="_blank" rel="noopener noreferrer">WhatsApp</a>.
         </p>
       </div>
     </LegalShell>

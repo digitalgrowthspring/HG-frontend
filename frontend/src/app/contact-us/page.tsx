@@ -9,7 +9,7 @@ export const metadata: Metadata = buildMetadata({
   path: "/contact-us",
 });
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27828828864";
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27828228864";
 const WA_LINK = `https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20jumping%20castle!`;
 const MAP_QUERY = "39A Albatross, Fourways, Johannesburg";
 const MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&z=14&output=embed`;
@@ -18,7 +18,7 @@ const details = [
   {
     icon: "📲",
     label: "Call or WhatsApp",
-    value: "082 882 8864",
+    value: "+27 82 822 8864",
     href: WA_LINK,
     cta: "Open WhatsApp",
     highlight: true,
@@ -200,7 +200,7 @@ export default function ContactPage() {
               <div className="contact-map-item">
                 <span>📲</span>
                 <div>
-                  <strong>082 882 8864</strong>
+                  <strong>+27 82 822 8864</strong>
                   <p>Call or WhatsApp for the fastest reply.</p>
                 </div>
               </div>

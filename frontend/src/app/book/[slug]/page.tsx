@@ -302,7 +302,7 @@ export default function BookProductPage() {
                   {canContinue ? "Continue to Checkout" : "Select an Available Date"}
                 </button>
                 <Link
-                  href={`https://wa.me/27828828864?text=${encodeURIComponent(`Hi, I need help booking the ${product.name}.`)}`}
+                  href={`https://wa.me/27828228864?text=${encodeURIComponent(`Hi, I need help booking the ${product.name}.`)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="booking-btn booking-btn-secondary"
