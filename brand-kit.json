@@ -1,0 +1,23 @@
+{
+  "client_name": "Heavenly Giggles",
+  "mission": "Kids Jump. You Relax. We Handle the Rest.",
+  "social_links": [
+    { "platform": "whatsapp", "value": "27828228864", "url": "https://wa.me/27828228864" }
+  ],
+  "colors": {
+    "primary": "#4ECDC4",
+    "accent": "#FF6B9D",
+    "background": "#FFFFFF",
+    "text": "#2C3E50"
+  },
+  "typography": {
+    "heading": "Fredoka",
+    "body": "Nunito"
+  },
+  "personality": {
+    "tone": "playful",
+    "energy": "high",
+    "targetAudience": "consumer"
+  },
+  "source_url": "https://heavenlygiggles.com"
+}

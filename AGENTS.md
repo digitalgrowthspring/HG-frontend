@@ -19,3 +19,10 @@ Client: Heavenly Giggles — jumping castle hire, Fourways. Live Next.js site, W
 ## Session End
 - Update `STATUS.md` (or the primary status file) with what was done and what's next
 - Sync the updated status to the client's NotebookLM notebook
+
+## Context Pressure
+- If the agent is nearing the end of its usable context window, treat it like session end
+- Update `STATUS.md` before context is lost
+- Sync `STATUS.md` to NotebookLM if MCP is available
+- Sync `CONTEXT.md` only if durable project context changed materially
+- If NotebookLM MCP is unavailable, note pending sync in `notebooklm.md`

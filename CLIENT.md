@@ -8,7 +8,7 @@
 
 - **Website:** https://heavenlygiggles.com
 - **Backend:** https://wp.heavenlygiggles.com (WordPress/WooCommerce — not public-facing)
-- **WhatsApp:** Primary support channel (env: NEXT_PUBLIC_WHATSAPP_NUMBER)
+- **WhatsApp:** Primary support channel (+27 82 822 8864) (env: NEXT_PUBLIC_WHATSAPP)
 - **Target market:** Parents in the Fourways/Johannesburg area planning kids' parties
 
 ## Brand Identity

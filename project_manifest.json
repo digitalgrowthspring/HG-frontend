@@ -1,0 +1,75 @@
+{
+  "archive": {
+    "local_rules": "ARCHIVE.md",
+    "ops_logs": "_Ops/logs/",
+    "tmp": ".tmp/"
+  },
+  "capabilities": {
+    "has_deliverables": false,
+    "has_frontend": true,
+    "has_ppc": true,
+    "has_reporting": false,
+    "has_research": false,
+    "has_resources": true,
+    "has_tools": false
+  },
+  "client_config": {
+    "client_name": "Heavenly Giggles",
+    "client_slug": "heavenly-giggles",
+    "logo_url": "",
+    "notebook_id": "93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+    "notebook_url": "https://notebooklm.google.com/notebook/93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+    "tagline": "Kids Jump. You Relax. We Handle the Rest."
+  },
+  "files": {
+    "has_agents": true,
+    "has_archive_rules": true,
+    "has_brand_identity": true,
+    "has_brand_kit": true,
+    "has_client_config": true,
+    "has_context": true,
+    "has_decisions": true,
+    "has_notebook": true,
+    "has_status": true
+  },
+  "ids": {
+    "drive_folder_id": "1lNJNgV79yJJdydeVNL6p-dcas64Ednh4",
+    "gsc_site_url": "",
+    "notebook_id": "93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+    "notebook_url": "https://notebooklm.google.com/notebook/93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+    "spreadsheet_id": ""
+  },
+  "last_generated": "2026-04-13",
+  "paths": {
+    "archive_rules": "ARCHIVE.md",
+    "brand_identity": "brand-identity.md",
+    "brand_kit": "brand-kit.json",
+    "client_config": "client_config.py",
+    "context": "CLIENT.md",
+    "decisions": "DECISIONS.md",
+    "env": "PPC/.env",
+    "notebook": "notebooklm.md",
+    "root": "/Users/test/Documents/Antigravity/Heavenlygiggles",
+    "status": "STATUS.md"
+  },
+  "project_kind": "client",
+  "project_name": "Heavenlygiggles",
+  "project_slug": "heavenly-giggles",
+  "readiness": {
+    "last_checked": "2026-04-13",
+    "notes": [],
+    "overall_ready": true,
+    "project_kind": "client",
+    "project_name": "Heavenlygiggles",
+    "states": {
+      "context_ready": true,
+      "decisions_ready": true,
+      "drive_ready": true,
+      "mcp_ready": true,
+      "notebook_pointer_ready": true,
+      "notebook_ready": true,
+      "scaffold_ready": true,
+      "status_ready": true
+    }
+  }
+}
