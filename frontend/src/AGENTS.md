@@ -1,11 +1,16 @@
 # [Project Name] — Agent Context
-> Part of Antigravity. Read `../AGENCY.md` for the full framework before starting any work here.
+
+## Naming
+- Use `Memory.Wiki.md` for client-vs-task alias resolution.
+- Keep the umbrella client/project name distinct from task aliases like dashboards, ports, planners, and runtime folders.
+
+> Part of Antigravity. Read `../AGENTS.md` for the full framework before starting any work here.
 
 ## This Folder
 [One-line description of this project or client]
 
 ## Start Here
-1. Read `../AGENCY.md`
+1. Read `../AGENTS.md`
 2. Read the context files listed below
 3. Check `../.BOH/` for a relevant skill
 4. Never ask the user to explain the system

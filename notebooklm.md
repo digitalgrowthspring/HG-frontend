@@ -1,9 +1,13 @@
-# Heavenly Giggles — NotebookLM Intelligence Hub
+# Heavenly Giggles Intelligence Hub — NotebookLM Intelligence Hub
 
-- **Notebook:** Heavenly Giggles Intelligence Hub
-- **Notebook ID:** 93d6f14e-5cfa-428b-9b3e-0412ac1c28f5
-- **URL:** https://notebooklm.google.com/notebook/93d6f14e-5cfa-428b-9b3e-0412ac1c28f5
-- **Last updated:** 2026-04-03
+- Notebook: Heavenly Giggles Intelligence Hub
+- Notebook ID: 93d6f14e-5cfa-428b-9b3e-0412ac1c28f5
+- URL: https://notebooklm.google.com/notebook/93d6f14e-5cfa-428b-9b3e-0412ac1c28f5
+- Last synced: 2026-04-03
+
+## Naming
+- Use `Memory.Wiki.md` for client-vs-task alias resolution.
+- Keep the umbrella client/project name distinct from task aliases like dashboards, ports, planners, and runtime folders.
 
 ## Sources Added
 - **Project Overview — Business, Products & Brand**

@@ -1,0 +1,21 @@
+{
+  "brand": "Heavenly Giggles",
+  "colors": {
+    "primary": "#4ECDC4",
+    "secondary": "#FF6B9D",
+    "background": "#FFFFFF",
+    "surface": "#FFF8FB",
+    "text": "#2C3E50",
+    "muted": "#5F6C7B"
+  },
+  "typography": {
+    "heading": "Fredoka",
+    "body": "Nunito",
+    "ui": "Nunito"
+  },
+  "radius": {
+    "sm": "12px",
+    "md": "20px",
+    "lg": "32px"
+  }
+}

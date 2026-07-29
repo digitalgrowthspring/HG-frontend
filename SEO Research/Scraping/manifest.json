@@ -1,0 +1,115 @@
+{
+  "clientName": "Heavenly Giggles",
+  "websiteUrl": "https://heavenlygiggles.com/",
+  "researchDir": "Heavenlygiggles/SEO Research",
+  "scrapingDir": "Heavenlygiggles/SEO Research/Scraping",
+  "selectionStrategy": "homepage + nav + sitemap + architecture-priority scoring",
+  "selectedPages": [],
+  "sitemapSources": [
+    "https://heavenlygiggles.com/robots.txt",
+    "https://heavenlygiggles.com/sitemap.xml"
+  ],
+  "architectureSummary": [
+    {
+      "bucket": "home",
+      "count": 1,
+      "samples": [
+        "https://heavenlygiggles.com/"
+      ],
+      "navCount": 1,
+      "sitemapCount": 1
+    },
+    {
+      "bucket": "about",
+      "count": 3,
+      "samples": [
+        "https://heavenlygiggles.com/about",
+        "https://heavenlygiggles.com/about-us",
+        "https://heavenlygiggles.com/company"
+      ],
+      "navCount": 1,
+      "sitemapCount": 1
+    },
+    {
+      "bucket": "services",
+      "count": 3,
+      "samples": [
+        "https://heavenlygiggles.com/services",
+        "https://heavenlygiggles.com/service",
+        "https://heavenlygiggles.com/solutions"
+      ],
+      "navCount": 0,
+      "sitemapCount": 0
+    },
+    {
+      "bucket": "product",
+      "count": 5,
+      "samples": [
+        "https://heavenlygiggles.com/products",
+        "https://heavenlygiggles.com/product",
+        "https://heavenlygiggles.com/product/inflatable-water-slide-7m-x-1m",
+        "https://heavenlygiggles.com/product/jumping-castle-slide-7m-x-4m"
+      ],
+      "navCount": 3,
+      "sitemapCount": 3
+    },
+    {
+      "bucket": "pricing",
+      "count": 1,
+      "samples": [
+        "https://heavenlygiggles.com/pricing"
+      ],
+      "navCount": 0,
+      "sitemapCount": 0
+    },
+    {
+      "bucket": "demo",
+      "count": 1,
+      "samples": [
+        "https://heavenlygiggles.com/demo"
+      ],
+      "navCount": 0,
+      "sitemapCount": 0
+    },
+    {
+      "bucket": "contact",
+      "count": 4,
+      "samples": [
+        "https://heavenlygiggles.com/contact",
+        "https://heavenlygiggles.com/contact-us",
+        "https://heavenlygiggles.com/book-demo",
+        "https://heavenlygiggles.com/request-demo"
+      ],
+      "navCount": 1,
+      "sitemapCount": 1
+    },
+    {
+      "bucket": "legal",
+      "count": 2,
+      "samples": [
+        "https://heavenlygiggles.com/privacy-policy",
+        "https://heavenlygiggles.com/terms-conditions"
+      ],
+      "navCount": 2,
+      "sitemapCount": 1
+    },
+    {
+      "bucket": "other",
+      "count": 1,
+      "samples": [
+        "https://heavenlygiggles.com/rentals"
+      ],
+      "navCount": 1,
+      "sitemapCount": 1
+    }
+  ],
+  "pages": [
+    {
+      "slug": "https-heavenlygiggles-com",
+      "url": "https://heavenlygiggles.com/",
+      "title": "Jumping Castle Rentals Fourways | Heavenly Giggles",
+      "status": 200,
+      "filePath": "Heavenlygiggles/SEO Research/Scraping/pages/https-heavenlygiggles-com.md"
+    }
+  ]
+}

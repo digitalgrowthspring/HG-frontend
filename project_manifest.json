@@ -35,11 +35,11 @@
   "ids": {
     "drive_folder_id": "1lNJNgV79yJJdydeVNL6p-dcas64Ednh4",
     "gsc_site_url": "",
-    "notebook_id": "93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
-    "notebook_url": "https://notebooklm.google.com/notebook/93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+    "notebook_id": "",
+    "notebook_url": "",
     "spreadsheet_id": ""
   },
-  "last_generated": "2026-04-13",
+  "last_generated": "2026-07-13",
   "paths": {
     "archive_rules": "ARCHIVE.md",
     "brand_identity": "brand-identity.md",
@@ -56,18 +56,19 @@
   "project_name": "Heavenlygiggles",
   "project_slug": "heavenly-giggles",
   "readiness": {
-    "last_checked": "2026-04-13",
+    "last_checked": "2026-07-13",
     "notes": [],
-    "overall_ready": true,
+    "overall_ready": false,
     "project_kind": "client",
     "project_name": "Heavenlygiggles",
     "states": {
+      "bootstrap_complete": true,
       "context_ready": true,
       "decisions_ready": true,
       "drive_ready": true,
       "mcp_ready": true,
       "notebook_pointer_ready": true,
-      "notebook_ready": true,
+      "notebook_ready": false,
       "scaffold_ready": true,
       "status_ready": true
     }

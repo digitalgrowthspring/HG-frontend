@@ -1,15 +1,24 @@
 # Heavenly Giggles — Agent Context
 
-> Part of **Antigravity**. Read `../AGENCY.md` for the full framework before starting any work here.
+## Naming
+- Use `Memory.Wiki.md` for client-vs-task alias resolution.
+- Keep the umbrella client/project name distinct from task aliases like dashboards, ports, planners, and runtime folders.
+
+
+> Part of **Antigravity**. Read `../AGENTS.md` for the full framework before starting any work here.
 
 ## This Folder
 Client: Heavenly Giggles — jumping castle hire, Fourways. Live Next.js site, WooCommerce backend.
+## Naming
+- Treat this folder as the client/project umbrella.
+- Use `Memory.Wiki.md` to resolve client-vs-task aliases.
+- If a runtime, dashboard, port, or planner folder is task-specific, treat it as a task alias under this umbrella.
 
 ## Start Here
-1. Read `../AGENCY.md` — workspace framework, conventions, and NotebookLM standard
+1. Read `../AGENTS.md` — workspace framework, conventions, and NotebookLM standard
 2. Read the context files listed below
 3. Check `../.BOH/` for a relevant skill before starting any task
-4. Never ask the user to explain the system — it is documented in `../AGENCY.md`
+4. Never ask the user to explain the system — it is documented in `../AGENTS.md`
 
 ## Context Files
 - `CONTEXT.md — full project context, stack, infrastructure`

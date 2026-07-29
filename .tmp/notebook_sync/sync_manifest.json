@@ -1,0 +1,22 @@
+{
+  "project_name": "Heavenlygiggles",
+  "project_kind": "client",
+  "generated_at": "2026-04-13",
+  "notebook_id": "93d6f14e-5cfa-428b-9b3e-0412ac1c28f5",
+  "files": [
+    {
+      "title": "STATUS.md \u2014 Current Phase & Next Steps",
+      "path": "/Users/test/Documents/Antigravity/Heavenlygiggles/STATUS.md",
+      "required": true
+    },
+    {
+      "title": "CLIENT.md \u2014 Durable Project Context",
+      "path": "/Users/test/Documents/Antigravity/Heavenlygiggles/CLIENT.md",
+      "required": false
+    }
+  ],
+  "notes": [
+    "Sync STATUS.md every meaningful session.",
+    "Only sync CLIENT.md when durable project context changed materially."
+  ]
+}
