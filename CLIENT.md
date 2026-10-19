@@ -48,13 +48,20 @@
 ## Tech Stack
 - **Frontend:** Next.js (App Router), vanilla CSS, Vercel
 - **Backend:** WordPress/WooCommerce on Cloudways (wp.heavenlygiggles.com)
-- **Payments:** PayFast via WooCommerce order-pay handoff
+- **Payments:** WooCommerce kept for payment; checkout runs through WhatsApp (payment gateway to confirm)
 - **Repo:** github.com/digitalgrowthspring/HG-frontend
 - **Vercel Root Directory:** frontend/
+
+## Deployment
+- The site deploys automatically from the GitHub repo `digitalgrowthspring/HG-frontend`, branch `main`, to the Vercel project `hg-frontend`.
+- Production currently matches `main` (commit `6da88fb`, 29 July 2026). Check the Production deployment on the Vercel Deployments page to confirm.
+- Safe route: push to a branch other than `main`, open the Preview URL Vercel creates, check it, then merge to `main`.
+- To roll back: on the Deployments page, open the `...` menu on an older deployment and choose Promote to Production (or Instant Rollback).
+- The CLI has not been used for this project. Git is the normal route.
 
 ## Key Decisions
 - Custom booking flow — no rental plugin reintroduced
 - Booking: weekend-first, weekdays blocked by default, holiday exceptions
-- Checkout creates pending WooCommerce order → redirects to order-pay URL → PayFast
+- Checkout is WhatsApp-based. The WooCommerce rental plugin was removed; WooCommerce stays for payment.
 - No Tailwind — vanilla CSS only, all values via tokens in globals.css
 - Static product data (3 SKUs) — WooCommerce REST API is auth-gated
