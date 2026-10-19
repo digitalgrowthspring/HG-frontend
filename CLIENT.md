@@ -48,7 +48,7 @@
 ## Tech Stack
 - **Frontend:** Next.js (App Router), vanilla CSS, Vercel
 - **Backend:** WordPress/WooCommerce on Cloudways (wp.heavenlygiggles.com)
-- **Payments:** WooCommerce kept for payment; checkout runs through WhatsApp (payment gateway to confirm)
+- **Payments:** PayFast, through WooCommerce. WooCommerce was kept when the rental plugin was removed; bookings are confirmed by WhatsApp.
 - **Repo:** github.com/digitalgrowthspring/HG-frontend
 - **Vercel Root Directory:** frontend/
 
@@ -62,6 +62,6 @@
 ## Key Decisions
 - Custom booking flow — no rental plugin reintroduced
 - Booking: weekend-first, weekdays blocked by default, holiday exceptions
-- Checkout is WhatsApp-based. The WooCommerce rental plugin was removed; WooCommerce stays for payment.
+- Bookings are confirmed on WhatsApp. Payment is PayFast through WooCommerce. The WooCommerce rental plugin was removed; WooCommerce stays for payment.
 - No Tailwind — vanilla CSS only, all values via tokens in globals.css
 - Static product data (3 SKUs) — WooCommerce REST API is auth-gated
