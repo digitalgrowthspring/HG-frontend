@@ -7,6 +7,12 @@ const nextConfig: NextConfig = {
       { source: "/cart", destination: "/rentals", permanent: true },
       { source: "/shop", destination: "/rentals", permanent: true },
       { source: "/my-account", destination: "/", permanent: true },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "hg-frontend-delta\\.vercel\\.app" }],
+        destination: "https://heavenlygiggles.com/:path*",
+        permanent: true,
+      },
     ];
   },
   images: {
