@@ -1,5 +1,5 @@
 import { getRentalProduct } from "@/app/rentals/products";
-import { getBookingRange, isDateAvailable } from "@/lib/booking";
+import { formatBookingDate, getBookingRange, isDateAvailable } from "@/lib/booking";
 
 export interface CheckoutFormValues {
   product: string;
@@ -152,12 +152,18 @@ export function buildWooOrderPayload(values: CheckoutFormValues) {
 
   const bookingRange = getBookingRange(values.date);
   const deliveryQuote = getDeliveryQuote(values.postalCode, values.city);
+  const hireDates =
+    bookingRange.from === bookingRange.to
+      ? formatBookingDate(bookingRange.from)
+      : `${formatBookingDate(bookingRange.from)} to ${formatBookingDate(bookingRange.to)}`;
+  const customerNotes = values.notes?.trim();
 
   return {
     payment_method: "payfast",
     payment_method_title: "PayFast",
     set_paid: false,
     status: "pending",
+    customer_note: `Hire dates: ${hireDates}${customerNotes ? `\n${customerNotes}` : ""}`,
     billing: {
       first_name: extractFirstName(values.fullName),
       last_name: extractLastName(values.fullName),
@@ -178,7 +184,7 @@ export function buildWooOrderPayload(values: CheckoutFormValues) {
     },
     fee_lines: [
       {
-        name: `${product.name} Weekend Hire`,
+        name: `${product.name} Weekend Hire (${hireDates})`,
         total: parsePrice(product.price),
       },
     ],
