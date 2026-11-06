@@ -66,16 +66,16 @@ export async function POST(request: Request) {
     );
   }
 
-  const order = (await orderResponse.json()) as { id: number; checkout_payment_url?: string; order_key?: string };
+  const order = (await orderResponse.json()) as { id: number; payment_url?: string; order_key?: string };
   const fallbackCheckoutUrl =
     config.checkoutBaseUrl && order.id && order.order_key
-      ? `${config.checkoutBaseUrl}?pay_for_order=true&key=${order.order_key}&order_id=${order.id}`
+      ? `${config.checkoutBaseUrl.replace(/\/?$/, "/")}${order.id}/?pay_for_order=true&key=${order.order_key}`
       : "";
 
   return NextResponse.json({
     ok: true,
     message: "Order created. Redirecting you into payment...",
     bookingReference: `HG-${order.id}`,
-    checkoutUrl: order.checkout_payment_url || fallbackCheckoutUrl || "",
+    checkoutUrl: order.payment_url || fallbackCheckoutUrl || "",
   });
 }
