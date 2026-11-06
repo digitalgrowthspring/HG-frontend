@@ -11,7 +11,7 @@ Heavenly Giggles hires out jumping castles and inflatable water slides in Fourwa
 - Domains: heavenlygiggles.com (website), wp.heavenlygiggles.com (WordPress/WooCommerce backend, not public-facing)
 - Repos: github.com/digitalgrowthspring/HG-frontend, branch `main`, Vercel Root Directory `frontend/`
 - Hosting: Vercel project `hg-frontend` (website), Cloudways (WordPress and WooCommerce)
-- Integrations: WhatsApp (+27 82 822 8864) for bookings, PayFast through WooCommerce for payment, Google Tag Manager
+- Integrations: WhatsApp (+27 82 771 3949) for bookings, PayFast through WooCommerce for payment, Google Tag Manager
 
 ## Working Conventions
 - Primary handoff file: `STATUS.md`

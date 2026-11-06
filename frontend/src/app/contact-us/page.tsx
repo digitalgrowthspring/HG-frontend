@@ -9,7 +9,7 @@ export const metadata: Metadata = buildMetadata({
   path: "/contact-us",
 });
 
-const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27828228864";
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27827713949";
 const WA_LINK = `https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20jumping%20castle!`;
 const MAP_QUERY = "39A Albatross, Fourways, Johannesburg";
 const MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&z=14&output=embed`;
@@ -18,7 +18,7 @@ const details = [
   {
     icon: "📲",
     label: "Call or WhatsApp",
-    value: "+27 82 822 8864",
+    value: "+27 82 771 3949",
     href: WA_LINK,
     cta: "Open WhatsApp",
     highlight: true,
@@ -26,8 +26,8 @@ const details = [
   {
     icon: "✉️",
     label: "Email",
-    value: "shaney@heavenlygiggles.com",
-    href: "mailto:shaney@heavenlygiggles.com",
+    value: "ryan@heavenlygiggles.com",
+    href: "mailto:ryan@heavenlygiggles.com",
     cta: "Send Email",
   },
   {
@@ -200,14 +200,14 @@ export default function ContactPage() {
               <div className="contact-map-item">
                 <span>📲</span>
                 <div>
-                  <strong>+27 82 822 8864</strong>
+                  <strong>+27 82 771 3949</strong>
                   <p>Call or WhatsApp for the fastest reply.</p>
                 </div>
               </div>
               <div className="contact-map-item">
                 <span>✉️</span>
                 <div>
-                  <strong>shaney@heavenlygiggles.com</strong>
+                  <strong>ryan@heavenlygiggles.com</strong>
                   <p>Email us anytime.</p>
                 </div>
               </div>
