@@ -29,10 +29,10 @@ export const metadata: Metadata = {
   description: "Jumping castle and inflatable rentals in Fourways, Johannesburg. Free delivery, setup included. Kids jump. You relax. We handle the rest.",
   icons: {
     icon: [
-      { url: "/icon.png?v=5", type: "image/png" },
+      { url: "/icon.png?v=13", type: "image/png" },
     ],
-    shortcut: ["/icon.png?v=5"],
-    apple: [{ url: "/icon.png?v=5", type: "image/png" }],
+    shortcut: ["/icon.png?v=13"],
+    apple: [{ url: "/icon.png?v=13", type: "image/png" }],
   },
 };
 
