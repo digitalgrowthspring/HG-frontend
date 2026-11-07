@@ -16,6 +16,7 @@ import {
   isHolidayDate,
   toDateKey,
 } from "@/lib/booking";
+import { useBookedDates } from "@/lib/useBookedDates";
 import "./book.css";
 
 function addMonths(date: Date, months: number) {
@@ -80,6 +81,7 @@ export default function BookProductPage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
   const product = getRentalProduct(params.slug);
+  const bookedDates = useBookedDates(params.slug);
   const [selectedDate, setSelectedDate] = useState("");
   const [area, setArea] = useState("Fourways");
   const [notes, setNotes] = useState("");
@@ -107,9 +109,11 @@ export default function BookProductPage() {
     );
   }
 
-  const blockedDates = getBlockedDates(product.slug);
+  const blockedDates = [...getBlockedDates(product.slug), ...bookedDates];
   const minDate = getTomorrowDateString();
-  const isAvailable = selectedDate ? isDateAvailable(product.slug, selectedDate) : false;
+  const isAvailable = selectedDate
+    ? isDateAvailable(product.slug, selectedDate) && !blockedDates.includes(selectedDate)
+    : false;
   const canContinue = Boolean(selectedDate && isAvailable);
   const bookingRange = selectedDate ? getBookingRange(selectedDate) : { from: "", to: "" };
   const weekendPartnerDate = selectedDate ? getWeekendPartnerDate(selectedDate) : "";

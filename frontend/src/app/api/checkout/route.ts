@@ -4,15 +4,7 @@ import {
   type CheckoutFormValues,
   validateCheckoutForm,
 } from "@/lib/checkout";
-
-function getWooConfig() {
-  return {
-    apiUrl: process.env.WOOCOMMERCE_API_URL || "",
-    consumerKey: process.env.WOOCOMMERCE_CONSUMER_KEY || "",
-    consumerSecret: process.env.WOOCOMMERCE_CONSUMER_SECRET || "",
-    checkoutBaseUrl: process.env.WOOCOMMERCE_CHECKOUT_URL || "",
-  };
-}
+import { getBookedDates, getWooConfig } from "@/lib/bookedDates";
 
 export async function POST(request: Request) {
   const values = (await request.json()) as CheckoutFormValues;
@@ -39,6 +31,17 @@ export async function POST(request: Request) {
           "WooCommerce checkout is not configured yet. The Next.js booking handoff is ready, but we still need the WooCommerce API credentials and checkout URL.",
       },
       { status: 501 },
+    );
+  }
+
+  const bookedDates = await getBookedDates(values.product);
+
+  if (bookedDates.includes(values.date)) {
+    const message = "Sorry, that date has just been booked. Please go back and pick another date.";
+
+    return NextResponse.json(
+      { ok: false, message, fieldErrors: { date: message } },
+      { status: 409 },
     );
   }
 

@@ -14,6 +14,7 @@ import {
   isHolidayDate,
   toDateKey,
 } from "@/lib/booking";
+import { useBookedDates } from "@/lib/useBookedDates";
 
 function addMonths(date: Date, months: number) {
   return new Date(date.getFullYear(), date.getMonth() + months, 1);
@@ -82,12 +83,18 @@ export default function RentalQuickBook({ product }: { product: RentalProduct })
     return new Date(`${firstBookableDate}T00:00:00`);
   });
 
-  const blockedDates = useMemo(() => getBlockedDates(product.slug), [product.slug]);
+  const bookedDates = useBookedDates(product.slug);
+  const blockedDates = useMemo(
+    () => [...getBlockedDates(product.slug), ...bookedDates],
+    [product.slug, bookedDates],
+  );
   const minDate = getTomorrowDateString();
   const monthCells = getMonthDays(calendarMonth);
   const prevMonth = addMonths(calendarMonth, -1);
   const canGoPrev = prevMonth >= new Date(`${minDate}T00:00:00`);
-  const isAvailable = selectedDate ? isDateAvailable(product.slug, selectedDate) : false;
+  const isAvailable = selectedDate
+    ? isDateAvailable(product.slug, selectedDate) && !blockedDates.includes(selectedDate)
+    : false;
   const bookingRange = selectedDate ? getBookingRange(selectedDate) : { from: "", to: "" };
   const hasWeekendWindow = Boolean(
     selectedDate &&

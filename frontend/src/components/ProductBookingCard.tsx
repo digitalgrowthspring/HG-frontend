@@ -13,6 +13,7 @@ import {
   isHolidayDate,
   toDateKey,
 } from "@/lib/booking";
+import { useBookedDates } from "@/lib/useBookedDates";
 
 interface ProductBookingCardProps {
   slug: string;
@@ -117,7 +118,8 @@ export default function ProductBookingCard({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const minDate = getTomorrowDateString();
   const firstBookableDate = getNextBookableDateString(minDate);
-  const blockedDates = useMemo(() => getBlockedDates(slug), [slug]);
+  const bookedDates = useBookedDates(slug);
+  const blockedDates = useMemo(() => [...getBlockedDates(slug), ...bookedDates], [slug, bookedDates]);
   const [selectedDate, setSelectedDate] = useState("");
   const [isCalendarOpen, setIsCalendarOpen] = useState(false);
   const [calendarMonth, setCalendarMonth] = useState(() => new Date(`${firstBookableDate}T00:00:00`));
@@ -128,7 +130,7 @@ export default function ProductBookingCard({
   const selectedRange = selectedDate ? getWeekendRange(selectedDate) : [];
   const normalizedSelectedDate = selectedDate ? getCanonicalBookingDate(selectedDate) : "";
   const isAvailable = selectedRange.length > 0
-    ? selectedRange.every((date) => isDateAvailable(slug, date))
+    ? selectedRange.every((date) => isDateAvailable(slug, date) && !blockedDates.includes(date))
     : false;
 
   useEffect(() => {
