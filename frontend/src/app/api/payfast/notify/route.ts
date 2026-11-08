@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getWooConfig } from "@/lib/bookedDates";
-import { getPayfastConfig, payfastServerValidate, verifyPayfastSignature, type PayfastField } from "@/lib/payfast";
+import { getPayfastConfig, payfastServerValidate, verifyPayfastItnSignature, type PayfastField } from "@/lib/payfast";
 
 // PayFast's instant notification. Only this route marks an order as paid.
 export async function POST(request: Request) {
@@ -13,7 +13,7 @@ export async function POST(request: Request) {
   const config = getPayfastConfig();
   const woo = getWooConfig();
 
-  if (!verifyPayfastSignature(received)) {
+  if (!verifyPayfastItnSignature(received)) {
     console.error("[payfast-notify] reason=invalid_signature");
     return new NextResponse("Invalid signature", { status: 400 });
   }

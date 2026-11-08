@@ -107,6 +107,26 @@ export function verifyPayfastSignature(received: PayfastField[]) {
   return payfastSignature(unsigned, config.passphrase) === signatureField[1];
 }
 
+export function verifyPayfastItnSignature(received: PayfastField[]) {
+  const config = getPayfastConfig();
+  const signatureField = received.find(([key]) => key === "signature");
+
+  if (!signatureField) {
+    return false;
+  }
+
+  let text = received
+    .filter(([key]) => key !== "signature")
+    .map(([key, value]) => `${key}=${phpEncode(value)}`)
+    .join("&");
+
+  if (config.passphrase) {
+    text += `&passphrase=${phpEncode(config.passphrase)}`;
+  }
+
+  return createHash("md5").update(text).digest("hex") === signatureField[1];
+}
+
 export async function payfastServerValidate(received: PayfastField[]) {
   const unsigned = received.filter(([key]) => key !== "signature");
   const response = await fetch(payfastValidateUrl(), {
