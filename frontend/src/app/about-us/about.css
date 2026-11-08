@@ -1029,6 +1029,11 @@
   color: var(--hg-copy);
 }
 
+.about-page .hg-why-list h3,
+.about-page .hg-why-list li > div > p:first-child {
+  font-weight: 700;
+}
+
 /* Our Story: text-only, matching What to Know Before We Arrive on the product pages. */
 .about-page .about-story-list {
   display: grid;

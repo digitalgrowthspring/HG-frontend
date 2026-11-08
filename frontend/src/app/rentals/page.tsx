@@ -194,7 +194,7 @@ export default function RentalsPage() {
           <div className="hg-benefits-layout">
             <div className="hg-section-header">
               <h2>Why Parents Love This</h2>
-              <p>The easiest way to keep kids busy and actually enjoy the party yourself. A whole weekend of fun means more breathing room for everyone.</p>
+              <p>Keep the kids busy and enjoy the party yourself. A whole weekend means more breathing room.</p>
             </div>
             <div className="hg-benefit-grid">
               {parentReasons.map((r) => (

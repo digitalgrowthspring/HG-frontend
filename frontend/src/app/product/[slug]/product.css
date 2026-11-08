@@ -167,6 +167,10 @@
 }
 
 @media (max-width: 900px) {
+  .product-page .hg-hero-copy {
+    padding-top: 1rem;
+  }
+
   .product-know-grid {
     grid-template-columns: minmax(0, 1fr);
   }

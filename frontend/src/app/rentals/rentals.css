@@ -130,7 +130,16 @@
   margin-top: 0.25rem;
 }
 
+.hg-rentals .hg-why-list h3,
+.hg-rentals .hg-why-list li > div > p:first-child {
+  font-weight: 700;
+}
+
 @media (max-width: 900px) {
+  .hg-rentals .hg-hero-copy {
+    padding-top: 1rem;
+  }
+
   .hg-rentals .hg-hero {
     height: auto;
     min-height: 0;
