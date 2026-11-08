@@ -9,14 +9,17 @@ export async function POST(request: Request) {
   form.forEach((value, key) => received.push([key, String(value)]));
 
   const fields = Object.fromEntries(received);
+  console.error(`[payfast-notify] received fields=${Object.keys(fields).join(",")}`);
   const config = getPayfastConfig();
   const woo = getWooConfig();
 
   if (!verifyPayfastSignature(received)) {
+    console.error("[payfast-notify] reason=invalid_signature");
     return new NextResponse("Invalid signature", { status: 400 });
   }
 
   if (fields.merchant_id !== config.merchantId) {
+    console.error(`[payfast-notify] reason=wrong_merchant received=${fields.merchant_id}`);
     return new NextResponse("Wrong merchant", { status: 400 });
   }
 
@@ -25,6 +28,7 @@ export async function POST(request: Request) {
   }
 
   if (!(await payfastServerValidate(received))) {
+    console.error("[payfast-notify] reason=validation_failed");
     return new NextResponse("PayFast validation failed", { status: 400 });
   }
 
@@ -48,6 +52,7 @@ export async function POST(request: Request) {
   }
 
   if (Number(order.total).toFixed(2) !== Number(fields.amount_gross).toFixed(2)) {
+    console.error(`[payfast-notify] reason=amount_mismatch order_total=${order.total} amount_gross=${fields.amount_gross}`);
     return new NextResponse("Amount mismatch", { status: 400 });
   }
 
