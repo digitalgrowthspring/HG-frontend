@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { Suspense, useState } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { getRentalProduct } from "@/app/rentals/products";
 import {
   formatBookingDate,
@@ -77,18 +77,23 @@ function getWeekendPartnerDate(date: string) {
   return "";
 }
 
-export default function BookProductPage() {
+function BookProductPageContent() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const product = getRentalProduct(params.slug);
   const bookedDates = useBookedDates(params.slug);
-  const [selectedDate, setSelectedDate] = useState("");
-  const [area, setArea] = useState("Fourways");
-  const [notes, setNotes] = useState("");
+  const requestedDate = searchParams.get("date") ?? "";
+  const initialDate = requestedDate && isBookableDate(requestedDate) && isDateAvailable(params.slug, requestedDate)
+    ? requestedDate
+    : "";
+  const [selectedDate, setSelectedDate] = useState(initialDate);
+  const [area, setArea] = useState(searchParams.get("area") || "Fourways");
+  const [notes, setNotes] = useState(searchParams.get("notes") ?? "");
   const [calendarMonth, setCalendarMonth] = useState(() => {
     const tomorrow = getTomorrowDateString();
     const firstBookableDate = getNextBookableDateString(tomorrow);
-    return new Date(`${firstBookableDate}T00:00:00`);
+    return new Date(`${initialDate || firstBookableDate}T00:00:00`);
   });
 
   if (!product) {
@@ -367,5 +372,13 @@ export default function BookProductPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function BookProductPage() {
+  return (
+    <Suspense>
+      <BookProductPageContent />
+    </Suspense>
   );
 }

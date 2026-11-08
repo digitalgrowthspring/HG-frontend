@@ -757,63 +757,6 @@
   box-shadow: 0 12px 30px rgba(239, 47, 153, 0.44);
 }
 
-.btn-hg-primary,
-.btn-hg-secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  font-family: var(--font-fredoka), sans-serif;
-  font-weight: 700;
-  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease, background 0.22s ease;
-}
-
-.btn-hg-primary {
-  min-height: 3.7rem;
-  padding: 0.9rem 1.75rem;
-  border-radius: 999px;
-  background: linear-gradient(155deg, #ff52b5 0%, #ef2f99 55%, #d91f88 100%);
-  color: #ffffff;
-  font-size: 1rem;
-  line-height: 1.08;
-  text-align: center;
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
-  box-shadow:
-    0 14px 30px rgba(239, 47, 153, 0.34),
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.12);
-  animation: hg-pulse-glow 2.6s ease-in-out infinite;
-}
-
-.btn-hg-primary:hover {
-  transform: translateY(-3px) scale(1.03);
-  background: linear-gradient(135deg, #de2090 0%, #ff43a8 100%);
-  box-shadow: 0 22px 44px rgba(239, 47, 153, 0.48);
-}
-
-.btn-hg-secondary {
-  min-height: 3.4rem;
-  padding: 0.85rem 1.5rem;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  border: 1.5px solid rgba(255, 255, 255, 0.28);
-  color: #ffffff;
-  font-size: 1rem;
-  backdrop-filter: blur(4px);
-}
-
-.btn-hg-secondary:hover {
-  transform: translateY(-2px);
-  background: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-}
-
-.btn-hg-primary:focus-visible,
-.btn-hg-secondary:focus-visible {
-  outline: 3px solid rgba(255, 255, 255, 0.85);
-  outline-offset: 4px;
-}
-
 @media (prefers-reduced-motion: reduce) {
   .about-hero-stats,
   .btn-hg-primary {
@@ -924,4 +867,232 @@
   .about-product-card.card-featured {
     transform: none;
   }
+}
+
+/* Refinement: left-aligned section headings, matching the product pages. */
+.about-page .about-section-header,
+.about-page .about-story-header {
+  text-align: left;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Trust strip: same treatment as the product page strip. */
+.about-page .about-trust {
+  padding: 1.5rem 0 0;
+}
+
+/* Testimonials: same top spacing as the product pages. */
+.about-page section.about-reviews {
+  padding-top: 4.5rem;
+}
+
+/* Pale mint, as the final CTA on the product pages. */
+.about-page section.about-products {
+  background: #f0fbf9;
+}
+
+/* Product cards: buttons aligned across the three cards. */
+.about-page .about-products .hg-product {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-page .about-products .hg-product .about-product-actions {
+  align-self: stretch;
+  width: 100%;
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.about-page .about-products .about-product-actions .btn-hg-primary {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+/* Hero: same columns and widths as the Product pages, with a larger family image. */
+.about-page .about-hero .hg-container {
+  max-width: var(--hg-max);
+}
+
+.about-page .about-hero-top {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+  align-items: center;
+  padding: 3.5rem 0;
+}
+
+.about-page .about-hero-image-wrap {
+  aspect-ratio: 4 / 3;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.about-page .about-hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Our Story: plain white cards, no gradients or heavy shadows. */
+.about-page .about-story-card {
+  background: #ffffff;
+  border: 1px solid #dcebea;
+  border-radius: 1rem;
+  box-shadow: none;
+}
+
+.about-page .about-story-card::before,
+.about-page .about-story-card::after {
+  display: none;
+}
+
+.about-page .about-hero-image,
+.about-page .about-hero-image-wrap {
+  width: 100%;
+  max-width: none;
+  justify-self: stretch;
+}
+
+/* Our Story: text-only, three columns, matching What to Know Before We Arrive. */
+.about-page .about-story-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem 2.5rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-page .about-story-item h3 {
+  margin: 0;
+  color: #12302c;
+  font-size: 1.2rem;
+}
+
+.about-page .about-story-item p {
+  margin: 0.5rem 0 0;
+  color: var(--hg-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.about-page .about-story-item {
+  padding-left: 0;
+  background: none;
+}
+
+.about-page .about-story-item::before,
+.about-page .about-story-item::after {
+  content: none;
+  display: none;
+}
+
+/* Why Parents Trust Us: the same benefits section as the Product pages. */
+.about-page .about-trust-section {
+  padding: 5rem 0 4.5rem;
+  background: #029c8a;
+  color: #ffffff;
+}
+
+.about-page .about-trust-section .hg-section-header {
+  margin-bottom: 3rem;
+}
+
+.about-page .about-trust-section h2 {
+  color: #ffffff;
+}
+
+.about-page .about-trust-section .hg-section-header p {
+  max-width: 66%;
+}
+
+.about-page .about-trust-section .hg-benefit-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 3rem;
+}
+
+.about-page .about-trust-section .hg-benefit {
+  padding: 1.75rem;
+  background: #ffffff;
+  border-radius: 1rem;
+}
+
+.about-page .about-trust-section .hg-benefit h3 {
+  font-size: 1.4rem;
+  color: var(--hg-ink);
+}
+
+.about-page .about-trust-section .hg-benefit p {
+  color: var(--hg-copy);
+}
+
+/* Our Story: text-only, matching What to Know Before We Arrive on the product pages. */
+.about-page .about-story-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem 2.5rem;
+  margin: 2rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-page .about-story-item h3 {
+  margin: 0;
+  color: #12302c;
+  font-size: 1.2rem;
+}
+
+.about-page .about-story-item p {
+  margin: 0;
+  color: var(--hg-body);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+  .about-page .about-story-list {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .about-page .about-trust-section .product-benefits-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .about-page .about-trust-section .hg-benefit {
+    min-width: 0;
+  }
+}
+
+/* Product cards: descriptions take the spare height so feature lists and buttons line up. */
+.about-page .about-products .hg-product > p {
+  flex: 1 0 auto;
+}
+
+.about-page .about-products .hg-product .hg-rental-features {
+  margin-bottom: 0;
+}
+
+/* About hero photo: same frame as the homepage, cropped from the top. */
+.about-page .hg-hero-photo {
+  height: 536px;
+  overflow: hidden;
+}
+
+.about-page .hg-hero-img {
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.about-page .about-story-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
 }

@@ -174,20 +174,32 @@ export default function ProductBookingCard({
           type="button"
           className={`product-booking-trigger${isCalendarOpen ? " is-open" : ""}`}
           onClick={() => {
-            if (!isCalendarOpen && normalizedSelectedDate && isAvailable) {
+            if (isCalendarOpen) {
+              setIsCalendarOpen(false);
+              return;
+            }
+
+            if (selectedDate && isAvailable) {
               goToCheckout(normalizedSelectedDate);
               return;
             }
 
-            setIsCalendarOpen((current) => !current);
+            setIsCalendarOpen(true);
           }}
           aria-expanded={isCalendarOpen}
           aria-haspopup="dialog"
         >
-          <span>{getTriggerLabel(selectedDate)}</span>
-          <strong>
-            {isCalendarOpen ? "▲" : selectedDate && isAvailable ? "Continue →" : "▼"}
-          </strong>
+          {selectedDate && isAvailable ? (
+            <>
+              <span>Continue to Booking</span>
+              <strong>→</strong>
+            </>
+          ) : (
+            <>
+              <span>Select dates</span>
+              <strong>{isCalendarOpen ? "▲" : "▼"}</strong>
+            </>
+          )}
         </button>
       </label>
 
@@ -273,9 +285,14 @@ export default function ProductBookingCard({
         {!selectedDate ? (
           <p>Weekends and public holidays only.</p>
         ) : isAvailable ? (
-          <p>
-            Weekend available for <strong>{name}</strong>. Tap the pink bar to continue.
-          </p>
+          <>
+            <p>
+              Selected: <strong>{getTriggerLabel(selectedDate)}</strong>
+            </p>
+            <button type="button" className="product-booking-change" onClick={() => setIsCalendarOpen(true)}>
+              Change dates
+            </button>
+          </>
         ) : (
           <p>
             {isBookableDate(selectedDate)

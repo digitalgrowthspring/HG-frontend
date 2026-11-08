@@ -3,7 +3,7 @@ import { buildMetadata } from "@/lib/seo";
 import LegalShell from "@/components/LegalShell";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Privacy Policy | Heavenly Giggles Jumping Castle Hire Fourways",
+  title: "Privacy Policy | Jumping Castle Rental & Hire Fourways",
   description: "How Heavenly Giggles collects, uses, and protects your information when you enquire or book with us.",
   path: "/privacy-policy",
 });

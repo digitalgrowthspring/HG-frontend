@@ -6,6 +6,7 @@ export interface CheckoutFormValues {
   date: string;
   area: string;
   notes?: string;
+  couponCode?: string;
   fullName: string;
   phone: string;
   email: string;
@@ -95,8 +96,10 @@ export function formatCurrency(amount: string | number) {
   return `R${safeAmount.toFixed(0)}`;
 }
 
-export function calculateOrderTotal(productPrice: string, postalCode: string, city = "Johannesburg") {
-  return (Number(parsePrice(productPrice)) + Number(getDeliveryQuote(postalCode, city).deliveryTotal)).toFixed(2);
+export function calculateOrderTotal(productPrice: string, postalCode: string, city = "Johannesburg", discount = 0) {
+  const hirePrice = Number(parsePrice(productPrice));
+  const discountedHirePrice = Math.max(0, hirePrice - discount);
+  return (discountedHirePrice + Number(getDeliveryQuote(postalCode, city).deliveryTotal)).toFixed(2);
 }
 
 export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmissionResult {
@@ -143,7 +146,7 @@ export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmis
   };
 }
 
-export function buildWooOrderPayload(values: CheckoutFormValues) {
+export function buildWooOrderPayload(values: CheckoutFormValues, discount = 0, couponCode = "") {
   const product = getRentalProduct(values.product);
 
   if (!product) {
@@ -152,6 +155,8 @@ export function buildWooOrderPayload(values: CheckoutFormValues) {
 
   const bookingRange = getBookingRange(values.date);
   const deliveryQuote = getDeliveryQuote(values.postalCode, values.city);
+  const hirePrice = Number(parsePrice(product.price));
+  const discountedHirePrice = Math.max(0, hirePrice - discount).toFixed(2);
   const hireDates =
     bookingRange.from === bookingRange.to
       ? formatBookingDate(bookingRange.from)
@@ -182,12 +187,15 @@ export function buildWooOrderPayload(values: CheckoutFormValues) {
       state: "Gauteng",
       postcode: values.postalCode.trim(),
     },
-    fee_lines: [
+    line_items: [
       {
-        name: `${product.name} Weekend Hire (${hireDates})`,
-        total: parsePrice(product.price),
+        product_id: product.wooProductId,
+        quantity: 1,
+        subtotal: parsePrice(product.price),
+        total: discountedHirePrice,
       },
     ],
+    coupon_lines: couponCode ? [{ code: couponCode, discount: Number(discount).toFixed(2) }] : [],
     shipping_lines: [
       {
         method_id: deliveryQuote.shippingMethodId,

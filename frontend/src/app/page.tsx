@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import Link from "next/link";
 import Image from "next/image";
+import HomeReviews from "@/components/HomeReviews";
 import "./home.css";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Jumping Castle Rentals Fourways | Heavenly Giggles",
+  title: "Jumping Castle Rental & Hire Fourways | Heavenly Giggles",
   description: "Kids jump. You relax. We handle the rest. Jumping castle and inflatable rentals in Fourways, Johannesburg. Free delivery, setup included.",
   path: "/",
 });
@@ -21,17 +22,15 @@ const products = [
     size: "7m × 1m",
     price: "R800",
     desc: "Summer sorted. They'll be too busy sliding to even think about coming inside.",
-    image: `${WP_UPLOADS_BASE}/2025/02/large-inflatable-slide-7m-2m--e1741081790716-600x582.webp`,
-    color: "card-blue",
+    image: "/inflatable-water-slide-hero.jpg",
   },
   {
     slug: "jumping-castle-slide-7m-x-4m",
     name: "Jumping Castle & Slide",
     size: "7m × 4m",
     price: "R900",
-    desc: "Jump AND slide — double the excitement, double the tired kids at bedtime. You're welcome.",
-    image: `${WP_UPLOADS_BASE}/2025/02/jumping-cstle-and-slide-600x455.webp`,
-    color: "card-featured",
+    desc: "Jump AND slide. Double the excitement, double the tired kids at bedtime. You're welcome.",
+    image: "/jumping-castle-slide-photo-v2.jpg",
     badge: "Most Popular",
   },
   {
@@ -40,56 +39,88 @@ const products = [
     size: "4m × 4m",
     price: "R700",
     desc: "The classic. Perfect for birthdays, playdates, and any excuse to keep the kids busy for hours.",
-    image: `${WP_UPLOADS_BASE}/2024/11/standard-jumping-castle-600x499.webp`,
-    color: "card-teal",
-  },
-];
-
-const testimonials = [
-  {
-    quote: "We rented the classic 4m x 4m Jumping Castle and what a treat! The boys had more fun jumping than in the swimming pool. Equipment was in immaculate condition and easy to operate.",
-    name: "Marilu Meiring",
-    tag: "Single Mom, Fourways",
-    image: `${WP_UPLOADS_BASE}/2025/07/testimonial-lady-image.webp`,
-  },
-  {
-    quote: "I was 9 months pregnant and completely overwhelmed planning my son's 7th birthday. Finding Heavenly Giggles was the best thing ever — they handled everything. The kids had an amazing time.",
-    name: "Michelle Taylor",
-    tag: "Pregnant Mom, Fourways",
-    image: `${WP_UPLOADS_BASE}/2025/07/testimonial-2.webp`,
-  },
-  {
-    quote: "I hired a jumping castle for my husband's 40th — absolutely perfect for the kids and teens. The team was professional, handled everything smoothly. Would definitely use them again!",
-    name: "Chante de Sousa",
-    tag: "Loving Wife, Fourways",
-    image: `${WP_UPLOADS_BASE}/2025/07/testimonial.webp`,
+    image: "/standard-jumping-castle-photo-v3.jpg",
   },
 ];
 
 const benefits = [
-  { icon: "⚡", title: "Burn Off Endless Energy", text: "Jumping castles let kids bounce it all out while you finally sit back and relax." },
-  { icon: "🥂", title: "Enjoy the Party Stress-Free", text: "With the kids busy bouncing, you get to sip a drink and actually enjoy yourself." },
-  { icon: "🎯", title: "Contain the Chaos", text: "Our castles keep the madness in one place, giving you peace of mind and calm." },
-  { icon: "⭐", title: "Make the Castle the Star", text: "Let the castle take centre stage so you can step back and chill." },
-  { icon: "🏠", title: "Protect Your Home (and Sanity)", text: "The kids burn energy safely on the castle, not your furniture." },
-  { icon: "📸", title: "Create Lasting Memories", text: "Jumping castles bring pure joy and laughter — unforgettable moments for kids, priceless smiles for parents." },
+  {
+    title: "Burn Off Endless Energy",
+    text: "Jumping castles let kids bounce it all out while you finally sit back and relax.",
+    icon: <path d="M13 2 3 14h9l-1 8 10-12h-9z" />,
+  },
+  {
+    title: "Enjoy the Party Stress-Free",
+    text: "With the kids busy bouncing, you get to sip a drink and actually enjoy yourself.",
+    icon: <path d="M5.8 11.3 2 22l10.7-3.79M4 3h.01M22 8h.01M15 2h.01M22 20h.01M22 2l-2.24.75a2.9 2.9 0 0 0-1.96 3.12c.1.86-.57 1.63-1.45 1.63h-.38c-.86 0-1.6.6-1.76 1.44L14 10M22 13l-.82-.33c-.86-.34-1.82.2-1.98 1.11-.11.7-.72 1.22-1.43 1.22H17M11 2l.33.82c.34.86-.2 1.82-1.11 1.98-.7.1-1.22.72-1.22 1.43V7M11 13c1.93 1.93 2.83 4.17 2 5-.83.83-3.07-.07-5-2-1.93-1.93-2.83-4.17-2-5 .83-.83 3.07.07 5 2z" />,
+  },
+  {
+    title: "Contain the Chaos",
+    text: "Our castles keep the madness in one place, giving you peace of mind and calm.",
+    icon: <path d="M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0zM8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01" />,
+  },
+  {
+    title: "Make the Castle the Star",
+    text: "Let the castle take centre stage so you can step back and chill.",
+    icon: <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z" />,
+  },
+  {
+    title: "Protect Your Home (and Sanity)",
+    text: "The kids burn energy safely on the castle, not your furniture.",
+    icon: <path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z" />,
+  },
+  {
+    title: "Create Lasting Memories",
+    text: "Jumping castles bring pure joy and laughter. Unforgettable moments for kids, priceless smiles for parents.",
+    icon: <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3zM12 16.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />,
+  },
 ];
 
-const funHighlights = [
+const steps = [
+  { title: "Choose Your Castle", text: "Find the perfect jumping castle for your party." },
+  { title: "Choose Your Date", text: "Book online or chat to us on WhatsApp." },
+  { title: "We Deliver and Set Up", text: "We handle the setup and collection so you can enjoy the party." },
+];
+
+const sellingPoints = [
   {
-    title: "Boundless Joy",
-    text: "Jumping castles that turn excitement into pure magic.",
-    image: `${WP_UPLOADS_BASE}/2025/07/kids-playing-on-jumping-castle.webp`,
+    title: "Free Delivery to Fourways",
+    text: "Flat R120 for the rest of Johannesburg.",
+    icon: <path d="M3 7h11v9H3zM14 10h4l3 3v3h-7zM7.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zM17.5 19a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />,
   },
   {
-    title: "Laughs That Last",
-    text: "A space for giggles, smiles, and memories with their friends.",
-    image: `${WP_UPLOADS_BASE}/2025/07/little-girl-sitting-on-jumping-castle.webp`,
+    title: "Clean and Safe Equipment",
+    text: "Cleaned, sanitised and safety checked.",
+    icon: <path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6zM9 12l2 2 4-4" />,
   },
   {
-    title: "Unforgettable Moments",
-    text: "The kind of fun they’ll talk about long after the party ends.",
+    title: "Easy Booking and Secure Payment",
+    text: "Book online or on WhatsApp, pay securely.",
+    icon: <path d="M4 6h16v13H4zM4 10h16M8 3v4M16 3v4" />,
+  },
+];
+
+const moments = [
+  {
+    alt: "Little boys playing on a jumping castle",
     image: `${WP_UPLOADS_BASE}/2025/07/little-boys-jumping-castle.webp`,
+    width: 1284,
+    height: 1208,
+    sizes: "(max-width: 900px) 100vw, 50vw",
+  },
+  {
+    alt: "Kids climbing on an obstacle course inflatable",
+    image: "/rentals-hero-obstacle-course.png",
+    width: 1672,
+    height: 941,
+    sizes: "(max-width: 900px) 100vw, 50vw",
+  },
+  {
+    alt: "Little girl sitting on a jumping castle",
+    image: `${WP_UPLOADS_BASE}/2025/07/little-girl-sitting-on-jumping-castle.webp`,
+    width: 1295,
+    height: 865,
+    sizes: "(max-width: 900px) 100vw, 50vw",
   },
 ];
 
@@ -99,89 +130,116 @@ export default function HomePage() {
 
       {/* ── Hero ── */}
       <section className="hg-hero">
-        <div className="hg-hero-glow-1" />
-        <div className="hg-hero-glow-2" />
-        <div className="hg-container">
-          <div className="hg-hero-top">
-            <div className="hg-hero-inner">
-              <h1 className="hg-badge">Jumping Castle Hire &amp; Rental Fourways</h1>
-              <h2 className="hg-hero-h1">
-                Kids Jump. <span>You Relax.</span><br />
-                We Handle the Rest.
-              </h2>
-              <p className="hg-hero-sub">
-                They&apos;ll jump, laugh, and burn off all that energy - leaving you to soak in the quiet victory. It&apos;s their party, but let&apos;s be honest, <strong>you&apos;re the real winner here.</strong>
-              </p>
-              <div className="hg-hero-price">
-                <strong>From R700 for the whole weekend.</strong>
-                <span>Because <strong>mums deserve two days off,</strong> not one.</span>
-              </div>
-              <div className="hg-hero-ctas">
-                <a href="#homepage-products" className="btn-hg-primary">
-                  Rent Online Now
-                </a>
-                <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
-                  Speak to Us on WhatsApp
-                </a>
-              </div>
-            </div>
-
-            <div className="hg-hero-image">
-              <div className="hg-hero-image-glow" />
-              <div className="hg-hero-image-wrap">
-                <Image
-                  src="/hero-castle.png"
-                  alt="Kids laughing on a jumping castle"
-                  width={700}
-                  height={520}
-                  className="hg-hero-img"
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 768px) 100vw, 700px"
-                />
-              </div>
-            </div>
+        <div className="hg-hero-copy">
+          <h1 className="hg-badge">Jumping Castle Hire &amp; Rental Fourways</h1>
+          <h2 className="hg-hero-h1">
+            Kids Jump. <span>You Relax.</span><br />
+            We Handle the Rest.
+          </h2>
+          <p className="hg-hero-sub">
+            They&apos;ll jump, laugh and burn off all that energy. It&apos;s their party, but let&apos;s be honest, <strong>you&apos;re the real winner here.</strong>
+          </p>
+          <div className="hg-hero-price">
+            <strong>From <span className="hg-hero-price-amount">R700</span> for the whole weekend.</strong>
+            <span>Because <strong>mums deserve two days off,</strong> not one.</span>
           </div>
-
-          <div className="hg-hero-testimonials">
-            {testimonials.map((t) => (
-              <div key={t.name} className="hg-hero-quote">
-                <div className="hg-hero-quote-stars">★★★★★</div>
-                <p>&ldquo;{t.quote.split(". ")[0].slice(0, 92)}...&rdquo; - <strong>{t.name.split(" ")[0]}, Fourways</strong></p>
-              </div>
-            ))}
+          <div className="hg-actions">
+            <a href="#homepage-products" className="btn-hg-primary">
+              Rent Online Now
+            </a>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              Speak to Us on WhatsApp
+            </a>
           </div>
+          <p className="hg-hero-proof">
+            <span className="hg-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            &ldquo;We rented the classic 4m x 4m Jumping Castle and what a treat! The boys had more fun jumping than in the swimming pool.&rdquo; <span className="hg-hero-proof-name"><strong>Marilu</strong>, Fourways</span>
+          </p>
         </div>
 
-        <div className="hg-hero-trustbar">
-          <div className="hg-container hg-hero-trustbar-inner">
-            <div className="hg-hero-trustitem">
-              <span>🚚</span>
-              <strong>Free Delivery to Fourways</strong>
-            </div>
-            <div className="hg-hero-trustitem">
-              <span>💳</span>
-              <strong>Secure Payment Online</strong>
-            </div>
-            <div className="hg-hero-trustitem">
-              <span>✔</span>
-              <strong>SABS Quality Check</strong>
-            </div>
+        <div className="hg-hero-photo">
+          <Image
+            src="/hero-castle-hd.webp"
+            alt="Kids laughing on a jumping castle"
+            width={3072}
+            height={2048}
+            quality={90}
+            className="hg-hero-img"
+            priority
+            fetchPriority="high"
+            sizes="(max-width: 900px) 100vw, 50vw"
+          />
+        </div>
+      </section>
+
+      {/* ── Why Choose Heavenly Giggles ── */}
+      <section className="hg-strip">
+        <div className="hg-container hg-why">
+          <h2 className="hg-visually-hidden">More Fun. Less Fuss.</h2>
+          <ul className="hg-why-list">
+            {sellingPoints.map((point) => (
+              <li key={point.title}>
+                <svg viewBox="0 0 24 24" aria-hidden="true" className="hg-why-icon">{point.icon}</svg>
+                <div>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Rentals ── */}
+      <section id="homepage-products" className="hg-section">
+        <div className="hg-container">
+          <div className="hg-section-header">
+            <h2>Find the Perfect Jumping Castle</h2>
+            <p>Every hire is for the whole weekend, with setup and collection included.</p>
+          </div>
+          <div className="hg-product-grid">
+            {products.map((p) => (
+              <article key={p.slug} className="hg-product">
+                <Link href={`/product/${p.slug}`} className="hg-product-visual">
+                  {p.badge && <span className="hg-product-badge">{p.badge}</span>}
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    width={600}
+                    height={450}
+                    className="hg-product-image"
+                    sizes="(max-width: 900px) 100vw, 33vw"
+                  />
+                </Link>
+                <h3>{p.name}</h3>
+                <div className="hg-product-size">{p.size}</div>
+                <div className="hg-product-price">
+                  <span>From</span>
+                  <span className="hg-product-price-row"><strong>{p.price}</strong> / weekend</span>
+                </div>
+                <p>{p.desc}</p>
+                <Link href={`/product/${p.slug}`} className="btn-hg-primary">
+                  View Details
+                </Link>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
       {/* ── Benefits ── */}
-      <section className="hg-section hg-section-dark">
-        <div className="hg-container">
-          <div className="hg-section-header hg-section-header-light">
-            <h2>From Chaos to Calm - Let Us Handle the Fun While You Relax</h2>
-            <p>Six reasons your next party needs a jumping castle.</p>
+      <section className="hg-section hg-section-brand">
+        <div className="hg-container hg-benefits">
+          <div className="hg-section-header">
+            <h2>More bouncing.<br />Less worrying.</h2>
+            <p>They jump, laugh and burn off all that energy. You get to enjoy the party too.</p>
           </div>
           <div className="hg-benefit-grid">
             {benefits.map((b) => (
-              <div key={b.title} className="hg-benefit-card">
-                <div className="hg-benefit-icon">{b.icon}</div>
+              <div key={b.title} className="hg-benefit">
+                <span className="hg-benefit-icon">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">{b.icon}</svg>
+                </span>
                 <h3>{b.title}</h3>
                 <p>{b.text}</p>
               </div>
@@ -190,123 +248,68 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Fun Highlights ── */}
-      <section className="hg-section hg-section-alt">
-        <div className="hg-container">
-          <div className="hg-section-header">
-            <h2>Non-Stop Fun They&apos;ll Rave About (and Actually Remember)</h2>
-            <p>Your kids deserve a party that&apos;s as exciting as their imaginations.</p>
-          </div>
-          <div className="hg-highlight-grid">
-            {funHighlights.map((item) => (
-              <article key={item.title} className="hg-highlight-card">
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  width={420}
-                  height={280}
-                  className="hg-highlight-image"
-                />
-                <div className="hg-highlight-body">
-                  <h3>{item.title}</h3>
-                  <p>{item.text}</p>
-                </div>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="hg-band-label">Party Planning Made Simple</div>
-
-      {/* ── Steps ── */}
-      <section className="hg-section hg-section-dark">
+      {/* ── How It Works ── */}
+      <section className="hg-section hg-section-steps">
         <div className="hg-container">
           <div className="hg-section-header">
             <h2>Fun for Them, Freedom for You</h2>
             <p>Throwing a party shouldn&apos;t feel like a second job. Here&apos;s how we make it easy:</p>
           </div>
-          <div className="hg-steps">
-            {[
-              { n: "01", title: "Choose Your Castle", text: "Pick the perfect jumping castle for your event." },
-              { n: "02", title: "Let the Fun Begin", text: "Watch the kids leap, bounce, and burn off energy for hours." },
-              { n: "03", title: "Enjoy Your Day", text: "Sit back, relax, and let the laughter handle the rest." },
-            ].map((s) => (
-              <div key={s.n} className="hg-step">
-                <div className="hg-step-num">{s.n}</div>
-                <div>
-                  <h3>{s.title}</h3>
-                  <p>{s.text}</p>
-                </div>
-              </div>
+          <ol className="hg-steps">
+            {steps.map((s, i) => (
+              <li key={s.title}>
+                <span className="hg-step-num" aria-hidden="true">{String(i + 1).padStart(2, "0")}</span>
+                <h3>{s.title}</h3>
+                <p>{s.text}</p>
+              </li>
+            ))}
+          </ol>
+          <a href="#homepage-products" className="btn-hg-primary">
+            Rent Online Now
+          </a>
+        </div>
+      </section>
+
+      {/* ── The Experience ── */}
+      <section className="hg-section">
+        <div className="hg-container">
+          <div className="hg-section-header">
+            <h2>Big Smiles, Happy Memories</h2>
+            <p>The kind of fun they&apos;ll talk about long after the party ends.</p>
+          </div>
+          <div className="hg-moments">
+            {moments.map((m) => (
+              <Image
+                key={m.image}
+                src={m.image}
+                alt={m.alt}
+                width={m.width}
+                height={m.height}
+                sizes={m.sizes}
+                className="hg-moment"
+              />
             ))}
           </div>
-          <div className="hg-steps-cta">
+        </div>
+      </section>
+
+      {/* ── Reviews ── */}
+      <HomeReviews />
+
+      {/* ── Final CTA ── */}
+      <section className="hg-section hg-section-mint hg-section-cta">
+        <div className="hg-container hg-cta">
+          <div>
+            <h2>Ready to Make Their Day?</h2>
+            <p>Pick your jumping castle, choose your date and leave the fun to us.</p>
+          </div>
+          <div className="hg-actions">
             <a href="#homepage-products" className="btn-hg-primary">
               Rent Online Now
             </a>
-          </div>
-        </div>
-      </section>
-
-      <div className="hg-band-label">Testimonials</div>
-
-      {/* ── Testimonials ── */}
-      <section className="hg-section hg-section-alt">
-        <div className="hg-container">
-          <div className="hg-section-header">
-            <h2>Parents Agree - This Is the Stress-Free Party Solution</h2>
-          </div>
-          <div className="hg-testimonial-grid">
-            {testimonials.map((t) => (
-              <div key={t.name} className="hg-testimonial">
-                <Image
-                  src={t.image}
-                  alt={t.name}
-                  width={92}
-                  height={92}
-                  className="hg-testimonial-image"
-                />
-                <div className="hg-testimonial-stars">⭐⭐⭐⭐⭐</div>
-                <p>&ldquo;{t.quote}&rdquo;</p>
-                <div className="hg-testimonial-author">
-                  <strong>{t.name}</strong>
-                  <span>{t.tag}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Final CTA ── */}
-      <section id="homepage-products" className="hg-section hg-cta-section">
-        <div className="hg-container">
-          <div className="hg-cta-inner">
-            <h2>It&apos;s Time to Relax - Book Your Jumping Castle Today!</h2>
-            <p>Give your kids the time of their lives while you sit back and savour the moment. Book your jumping castle today and let the fun - and your break - begin.</p>
-            <div className="hg-product-grid">
-              {products.map((p) => (
-                <div key={`cta-${p.name}`} className={`hg-product-card ${p.color}`}>
-                  {p.badge && <div className="hg-product-badge">{p.badge}</div>}
-                  <Link href={`/product/${p.slug}`} className="hg-product-visual">
-                    <Image
-                      src={p.image}
-                      alt={p.name}
-                      width={360}
-                      height={240}
-                      className="hg-product-image"
-                    />
-                  </Link>
-                  <h3>{p.name}</h3>
-                  <div className="hg-product-size">{p.size}</div>
-                  <div className="hg-product-price">From <strong>{p.price}</strong> / weekend</div>
-                  <Link href={`/product/${p.slug}`} className="btn-hg-card">
-                    Get More Details
-                  </Link>
-                </div>
-              ))}
-            </div>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              Speak to Us on WhatsApp
+            </a>
           </div>
         </div>
       </section>

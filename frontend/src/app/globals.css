@@ -255,7 +255,7 @@ h1, h2, h3, h4 {
 }
 
 .site-logo {
-  height: 82px;
+  height: 92px;
   width: auto;
   display: block;
 }
@@ -317,25 +317,19 @@ h1, h2, h3, h4 {
   align-items: center;
   gap: 0.4rem;
   padding: 0.72rem 1.35rem;
-  background: linear-gradient(135deg, #18c8bc 0%, #149f98 55%, #0f7d77 100%);
+  background: var(--accent-dark);
   color: #fff;
   font-weight: 700;
   font-size: 0.875rem;
   border-radius: 999px;
   text-decoration: none;
-  border: 1px solid rgba(20, 200, 188, 0.24);
-  box-shadow:
-    0 10px 22px rgba(20, 200, 188, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  border: 1px solid var(--accent-dark);
   transition: var(--transition-base);
 }
 
 .btn-whatsapp:hover {
-  background: linear-gradient(135deg, #0fbeb2 0%, #0f938c 55%, #0b726d 100%);
+  background: #0b6660;
   transform: translateY(-1px);
-  box-shadow:
-    0 14px 26px rgba(20, 200, 188, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.28);
 }
 
 .nav-links {
@@ -658,7 +652,7 @@ h1, h2, h3, h4 {
   }
 
   .site-logo {
-    height: 54px;
+    height: 62px;
   }
 
   .header-actions {
@@ -769,7 +763,7 @@ h1, h2, h3, h4 {
   }
 
   .site-logo {
-    height: 68px;
+    height: 72px;
     width: auto;
     max-width: min(54vw, 220px);
   }
@@ -915,7 +909,8 @@ h1, h2, h3, h4 {
 
 .wp-content h1, .wp-content h2 {
   line-height: 1.1;
-  letter-spacing: -0.04em;
+  letter-spacing: normal;
+  font-weight: 600;
   margin-bottom: 2rem;
 }
 

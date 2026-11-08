@@ -1,5 +1,6 @@
 export interface RentalProduct {
   slug: string;
+  wooProductId: number;
   name: string;
   size: string;
   eyebrow?: string;
@@ -8,6 +9,7 @@ export interface RentalProduct {
   heroTitleSecondLine?: string;
   price: string;
   image: string;
+  angles?: string[];
   color: string;
   badge?: string;
   features: string[];
@@ -26,6 +28,11 @@ export interface RentalProduct {
   additionalSectionTitle?: string;
   additionalSectionHeading?: string;
   additionalSectionSubtitle?: string;
+  rentalColumns?: Array<{
+    label: string;
+    icon: "shield" | "home" | "calendar" | "card";
+    body: string;
+  }>;
   additionalSectionRows?: Array<{
     icon: string;
     label: string;
@@ -54,18 +61,46 @@ const WP_UPLOADS_BASE = "https://wp.heavenlygiggles.com/wp-content/uploads";
 export const rentalProducts: RentalProduct[] = [
   {
     slug: "standard-jumping-castle-4m-x-4m",
+    wooProductId: 703,
+    rentalColumns: [
+      {
+        label: "Ages & Safety",
+        icon: "shield",
+        body: "Suitable for kids aged 1 to 12. An adult must be present at all times. We clean and sanitise every castle before and after each hire.",
+      },
+      {
+        label: "Space & Power",
+        icon: "home",
+        body: "Needs a flat, grassy area of 4m x 4m with no slopes or sharp objects. Requires a standard 220v plug point within reach.",
+      },
+      {
+        label: "Booking & Collection",
+        icon: "calendar",
+        body: "Weekend hire from R700. Free delivery and setup in Fourways, with Monday collection. Cancel 48 hours before your event to avoid fees. Full terms apply.",
+      },
+      {
+        label: "Payment",
+        icon: "card",
+        body: "Full payment is required before delivery. We accept credit and debit cards.",
+      },
+    ],
     name: "Standard Jumping Castle",
     size: "4m × 4m",
     eyebrow: "Standard Jumping Castle 4m × 4m",
-    heroTitle: "They Get to Bounce",
-    heroHighlight: "You Get to Chill",
+    heroTitle: "They Bounce",
+    heroHighlight: "You Relax",
     heroTitleSecondLine: undefined,
     price: "R700",
-    image: `${WP_UPLOADS_BASE}/2024/11/standard-jumping-castle-600x499.webp`,
+    image: "/standard-jumping-castle-photo-v3.jpg",
+    angles: [
+      "/products/standard-jumping-castle/angle-1.jpg",
+      "/products/standard-jumping-castle/angle-2.jpg",
+      "/products/standard-jumping-castle/angle-3.jpg",
+    ],
     color: "card-purple",
     features: ["Up to 6 kids at once", "Suitable ages 3–12", "SABS safety checked", "Includes blower & pegs"],
     desc: "The classic. Perfect for birthdays, playdates, and any excuse to keep the kids busy for hours. Easy to set up in any standard garden.",
-    summary: "They jump. They laugh. They burn energy. Meanwhile, you get to sit down for five minutes without someone asking for snacks.",
+    summary: "Keep the kids bouncing, laughing and entertained for hours. Our classic jumping castle is perfect for birthdays, playdates and a whole weekend of fun.",
     detail:
       "Our 4m x 4m Standard Jumping Castle is the perfect party lifesaver: fun, safe, and designed to keep kids entertained for hours while you actually get to enjoy the day too.",
     heroLead:
@@ -127,42 +162,42 @@ export const rentalProducts: RentalProduct[] = [
         icon: "🚚",
         label: "Delivery & Setup",
         body: [
-          "We handle the setup and takedown for you, because the last thing you need is an engineering degree just to inflate a castle, and weekend pickups happen on Monday so the fun gets a proper finish.",
+          "We handle setup and takedown. Weekend pickups happen on Monday.",
         ],
       },
       {
         icon: "🌿",
         label: "Setting Up for Maximum Fun",
         body: [
-          "All inflatables must be set up on grass with no sharp objects underneath, and we peg everything down securely because a flying castle is only funny in cartoons.",
+          "Set up on flat grass with no sharp objects underneath. We peg everything down securely.",
         ],
       },
       {
-        icon: "💦",
-        label: "For Water Slides Only",
+        icon: "🔌",
+        label: "Power Connection",
         body: [
-          "For water slides, the plug must stay covered with the supplied cover because water and electricity should never meet unless you are aiming for a science experiment.",
+          "Keep a standard 220v plug point within reach. No electrician is needed.",
         ],
       },
       {
         icon: "🪪",
         label: "Identification & Security",
         body: [
-          "A valid ID or driver’s license is required on delivery, no ID means no inflatable, and we’d all rather avoid that level of heartbreak at the gate.",
+          "A valid ID or driver’s licence is required on delivery.",
         ],
       },
       {
         icon: "⚠️",
         label: "Indemnity (AKA, Don’t Sue Us)",
         body: [
-          "Using the inflatable means accepting our standard indemnity terms, which is the official way of saying have fun, be safe, and please do not do anything that would make your grandma worry.",
+          "Using the inflatable means accepting our standard indemnity terms. Please follow the safety rules and use it as intended.",
         ],
       },
       {
         icon: "🎈",
         label: "Quick Signature on Arrival",
         body: [
-          "We’ll need a quick signature on arrival before the fun begins, just a tiny bit of official stuff so everyone is covered while the kids go absolutely wild.",
+          "We’ll need a quick signature on arrival, so everyone is covered.",
         ],
       },
     ],
@@ -177,7 +212,7 @@ export const rentalProducts: RentalProduct[] = [
     requirementsSectionSubtitle: "The simple setup rules that keep the bouncing safe, stable, and stress-free.",
     benefitsHeading: "Why This Standard Jumping Castle Works So Well",
     benefitsIntro:
-      "Ever seen kids with endless energy and thought, “Is this some kind of sorcery?” We don’t know where it comes from, but we know how to manage it, with four meters of bouncy, giggle-inducing fun.",
+      "Four metres of bouncy fun that keeps kids busy and gives you a breather.",
     requirementsRows: [
       {
         label: "Requirements",
@@ -187,22 +222,22 @@ export const rentalProducts: RentalProduct[] = [
       {
         label: "Power",
         value:
-          "🔌 This jumping castle runs on a standard 220v plug point. No electrician required, phew. Just make sure there’s a power source within reach, and we’ll handle the rest.",
+          "🔌 This jumping castle runs on a standard 220v plug point. No electrician required. Just make sure there is a power point within reach.",
       },
       {
         label: "Ages",
         value:
-          "👧👦 This jumping castle is perfect for kids aged 1 to 12, the ideal age range for non-stop bouncing, giggling, and wearing themselves out. Parents, we know you’re tempted, but maybe leave this one to the little ones.",
+          "👧👦 This jumping castle is suitable for kids aged 1 to 12.",
       },
       {
         label: "Safety",
         value:
-          "👀 An adult must be present at all times while the inflatable is in use, because kids plus inflatables plus no supervision equals absolute chaos. Safety first: our inflatables are designed for maximum fun and minimum bumps, but keep an eye out for daredevils attempting world-record jumps.",
+          "👀 An adult must be present at all times while the inflatable is in use. Our inflatables are built for safe play, so please keep an eye on the children whenever they are on it.",
       },
       {
         label: "Hygiene",
         value:
-          "🧼 We get it, kids + bouncing + excitement = all kinds of mess. That’s why we deep clean and sanitize every jumping castle before and after each use. No surprises, no sticky situations, just good, clean fun.",
+          "🧼 We clean and sanitise every jumping castle before and after each hire.",
       },
       {
         label: "T&C's",
@@ -212,44 +247,44 @@ export const rentalProducts: RentalProduct[] = [
       {
         label: "Payment",
         value:
-          "💳 No pay, no play. Full payment is required before delivery, or we can’t bring the fun to your doorstep. We accept credit and debit cards.",
+          "💳 Full payment is required before delivery. We accept credit and debit cards.",
       },
     ],
     reasons: [
       {
         icon: "🏰",
         title: "They Jump. They Laugh. They Burn Energy.",
-        text: "It gives kids a fun, safe place to bounce for hours and gives you a rare chance to breathe for a minute.",
+        text: "A safe place to bounce for hours, and a rare chance for you to catch your breath.",
         tone: "gold",
       },
       {
         icon: "🪑",
         title: "You Actually Get Five Quiet Minutes",
-        text: "While they are busy jumping, you get a little breathing room to host, chat, or sip your coffee while it is still hot.",
+        text: "Kids stay busy jumping, so you have room to host, chat, or enjoy a hot coffee.",
         tone: "pink",
       },
       {
         icon: "📏",
         title: "Fits Beautifully into Standard Gardens",
-        text: "The 4m x 4m size makes it easy to place in most home spaces without the setup feeling too big or overwhelming.",
+        text: "The 4m x 4m size fits most garden spaces without feeling too big.",
         tone: "teal",
       },
       {
         icon: "⭐",
         title: "A Classic Party Lifesaver",
-        text: "It is the easy yes for birthdays, playdates, and family gatherings when you want fun that is simple and reliable.",
+        text: "The easy choice for birthdays, playdates and family gatherings. Simple and reliable.",
         tone: "purple",
       },
       {
         icon: "🛡️",
         title: "Built for Safe, Durable Fun",
-        text: "With reinforced stitching, SABS-approved fabric, and a quality blower, it is made to arrive party-ready.",
+        text: "Reinforced stitching, SABS-approved fabric and a quality blower, ready for every party.",
         tone: "pink",
       },
       {
         icon: "📅",
         title: "Whole-Weekend Hire Just Feels Better",
-        text: "From R700 for the weekend means no rushed few-hour slot, just more time for the kids to play and you to relax.",
+        text: "A full weekend from R700, so the kids have time to play and you have time to relax.",
         tone: "teal",
       },
     ],
@@ -261,6 +296,29 @@ export const rentalProducts: RentalProduct[] = [
   },
   {
     slug: "jumping-castle-slide-7m-x-4m",
+    wooProductId: 794,
+    rentalColumns: [
+      {
+        label: "Ages & Safety",
+        icon: "shield",
+        body: "Suitable for kids aged 1 to 12. An adult must be present at all times. We clean and sanitise every castle before and after each hire.",
+      },
+      {
+        label: "Space & Power",
+        icon: "home",
+        body: "Needs a flat, grassy area of 7m x 4m with no slopes or sharp objects. Requires a standard 220v plug point within reach.",
+      },
+      {
+        label: "Booking & Collection",
+        icon: "calendar",
+        body: "Weekend hire from R900. Free delivery and setup in Fourways, with Monday collection. Cancel 48 hours before your event to avoid fees. Full terms apply.",
+      },
+      {
+        label: "Payment",
+        icon: "card",
+        body: "Full payment is required before delivery. We accept credit and debit cards.",
+      },
+    ],
     name: "Jumping Castle & Slide",
     size: "7m × 4m",
     eyebrow: "Jumping Castle & Slide 7m × 4m",
@@ -268,12 +326,17 @@ export const rentalProducts: RentalProduct[] = [
     heroHighlight: "You Sit & Relax",
     heroTitleSecondLine: undefined,
     price: "R900",
-    image: `${WP_UPLOADS_BASE}/2025/02/jumping-cstle-and-slide-600x455.webp`,
+    image: "/jumping-castle-slide-photo-v2.jpg",
+    angles: [
+      "/products/jumping-castle-slide/angle-1.jpg",
+      "/products/jumping-castle-slide/angle-2.jpg",
+      "/products/jumping-castle-slide/angle-3.jpg",
+    ],
     color: "card-pink",
     badge: "Most Popular",
     features: ["Jump AND slide", "Up to 8 kids at once", "Suitable ages 3–14", "SABS safety checked"],
     desc: "Double the excitement — jump, climb, and slide. The biggest hit at every party. Kids will be too busy to even think about going inside.",
-    summary: "A bigger jumping castle with a built-in slide for double the fun and bigger party energy.",
+    summary: "Double the fun with room to jump, climb and slide. The kids stay entertained for hours while you sit back and enjoy the party.",
     detail:
       "If you want the one that usually steals the show, this is it. The jumping castle and slide combo adds more movement, more excitement, and more ways for kids to burn energy while you enjoy a party that feels effortlessly entertaining.",
     heroLead:
@@ -323,42 +386,42 @@ export const rentalProducts: RentalProduct[] = [
         icon: "🚚",
         label: "Delivery & Setup",
         body: [
-          "We handle the setup and takedown unless otherwise arranged, because the last thing you need is an engineering degree just to inflate a castle, and weekend pickups happen on Monday so the fun gets a proper finish.",
+          "We handle setup and takedown. Weekend pickups happen on Monday.",
         ],
       },
       {
         icon: "🌿",
         label: "Setting Up for Maximum Fun",
         body: [
-          "All inflatables must be set up on grass with no sharp objects underneath, and we peg everything down securely because a flying castle is only funny in cartoons.",
+          "Set up on flat grass with no sharp objects underneath. We peg everything down securely.",
         ],
       },
       {
-        icon: "💦",
-        label: "For Water Slides Only",
+        icon: "🔌",
+        label: "Power Connection",
         body: [
-          "For water slides, the plug must stay covered with the supplied cover because water and electricity should never meet unless you are aiming for a science experiment.",
+          "Keep a standard 220v plug point within reach. No electrician is needed.",
         ],
       },
       {
         icon: "🪪",
         label: "Identification & Security",
         body: [
-          "A valid ID or driver’s license is required on delivery, no ID means no inflatable, and we’d all rather avoid that level of heartbreak at the gate.",
+          "A valid ID or driver’s licence is required on delivery.",
         ],
       },
       {
         icon: "⚠️",
         label: "Indemnity (AKA, Don’t Sue Us)",
         body: [
-          "Using the inflatable means accepting our standard indemnity terms, which is the official way of saying have fun, be safe, and please do not do anything that would make your grandma worry.",
+          "Using the inflatable means accepting our standard indemnity terms. Please follow the safety rules and use it as intended.",
         ],
       },
       {
         icon: "🎈",
         label: "Quick Signature on Arrival",
         body: [
-          "We’ll need a quick signature on arrival before the fun begins, just a tiny bit of official stuff so everyone is covered while the kids go absolutely wild.",
+          "We’ll need a quick signature on arrival, so everyone is covered.",
         ],
       },
     ],
@@ -406,18 +469,46 @@ export const rentalProducts: RentalProduct[] = [
   },
   {
     slug: "inflatable-water-slide-7m-x-1m",
+    wooProductId: 795,
+    rentalColumns: [
+      {
+        label: "Ages & Safety",
+        icon: "shield",
+        body: "Suitable for kids aged 3 and up. An adult must be present at all times. We clean and sanitise every slide before and after each hire.",
+      },
+      {
+        label: "Space & Power",
+        icon: "home",
+        body: "Needs a level area of 7m x 1m with no slopes or sharp objects. Electrical: a standard 220v plug point within reach, kept covered and away from water. Water: a hosepipe connection with a steady supply nearby.",
+      },
+      {
+        label: "Booking & Collection",
+        icon: "calendar",
+        body: "Weekend hire from R800. Free delivery and setup in Fourways, with Monday collection. Cancel 48 hours before your event to avoid fees. Full terms apply.",
+      },
+      {
+        label: "Payment",
+        icon: "card",
+        body: "Full payment is required before delivery. We accept credit and debit cards.",
+      },
+    ],
     name: "Inflatable Water Slide",
     size: "7m × 1m",
     eyebrow: "Inflatable Water Slide 7m × 1m",
-    heroTitle: "They Get to Slide",
-    heroHighlight: "You Get to Unwind",
+    heroTitle: "They Slide",
+    heroHighlight: "You Unwind",
     heroTitleSecondLine: undefined,
     price: "R800",
-    image: `${WP_UPLOADS_BASE}/2025/02/large-inflatable-slide-7m-2m--e1741081790716-600x582.webp`,
+    image: "/inflatable-water-slide-hero.jpg",
+    angles: [
+      "/products/inflatable-water-slide/angle-1.jpg",
+      "/products/inflatable-water-slide/angle-2.jpg",
+      "/products/inflatable-water-slide/angle-3.jpg",
+    ],
     color: "card-teal",
     features: ["Water slide fun", "Suitable ages 4–14", "Needs garden hose connection", "SABS safety checked"],
     desc: "Summer sorted. Attach a garden hose and watch them go. They'll be too busy sliding to even think about coming inside.",
-    summary: "A 7m inflatable water slide built for warm-weather parties, summer weekends, and nonstop laughs.",
+    summary: "Turn up the summer fun with seven metres of sliding, splashing and laughter. Perfect for keeping the kids cool, active and entertained.",
     detail:
       "When the weather is hot and the kids have endless energy, the inflatable water slide is the answer. Add a hose, let the sliding begin, and instantly turn your space into the kind of summer fun they will talk about long after the weekend is over.",
     heroLead:
@@ -467,42 +558,42 @@ export const rentalProducts: RentalProduct[] = [
         icon: "🚚",
         label: "Delivery & Setup",
         body: [
-          "We handle the setup and takedown unless otherwise arranged, because the last thing you need is an engineering degree just to inflate a castle, and weekend pickups happen on Monday so the fun gets a proper finish.",
+          "We handle setup and takedown. Weekend pickups happen on Monday.",
         ],
       },
       {
         icon: "🌿",
         label: "Setting Up for Maximum Fun",
         body: [
-          "All inflatables must be set up on grass with no sharp objects underneath, and we peg everything down securely because a flying castle is only funny in cartoons.",
+          "Set up on flat grass with no sharp objects underneath. We peg everything down securely.",
         ],
       },
       {
         icon: "💦",
         label: "For Water Slides Only",
         body: [
-          "The plug must stay covered with the supplied cover because water and electricity should never meet unless you are aiming for a science experiment.",
+          "Keep the plug covered with the supplied cover, away from water. Have a hosepipe connection and steady water supply nearby.",
         ],
       },
       {
         icon: "🪪",
         label: "Identification & Security",
         body: [
-          "A valid ID or driver’s license is required on delivery, no ID means no inflatable, and we’d all rather avoid that level of heartbreak at the gate.",
+          "A valid ID or driver’s licence is required on delivery.",
         ],
       },
       {
         icon: "⚠️",
         label: "Indemnity (AKA, Don’t Sue Us)",
         body: [
-          "Using the inflatable means accepting our standard indemnity terms, which is the official way of saying have fun, be safe, and please do not do anything that would make your grandma worry.",
+          "Using the inflatable means accepting our standard indemnity terms. Please follow the safety rules and use it as intended.",
         ],
       },
       {
         icon: "🎈",
         label: "Quick Signature on Arrival",
         body: [
-          "We’ll need a quick signature on arrival before the fun begins, just a tiny bit of official stuff so everyone is covered while the kids go absolutely wild.",
+          "We’ll need a quick signature on arrival, so everyone is covered.",
         ],
       },
     ],

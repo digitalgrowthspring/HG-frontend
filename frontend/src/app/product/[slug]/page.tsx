@@ -1,13 +1,75 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { buildMetadata } from "@/lib/seo";
 import { getRentalProduct, rentalProducts } from "@/app/rentals/products";
 import ProductBookingCard from "@/components/ProductBookingCard";
+import ProductGallery from "@/components/ProductGallery";
+import { LineIcon, type IconKind } from "@/components/LineIcon";
+import HomeReviews from "@/components/HomeReviews";
+import "../../home.css";
 import "./product.css";
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>;
+}
+
+const WP_UPLOADS_BASE = "https://wp.heavenlygiggles.com/wp-content/uploads";
+
+const testimonials = [
+  {
+    quote: "We rented a jumping castle and what a treat! The boys had more fun jumping than in the swimming pool. Equipment was in immaculate condition and easy to operate.",
+    name: "Marilu Meiring",
+    tag: "Single Mom, Fourways",
+    image: `${WP_UPLOADS_BASE}/2025/07/testimonial-lady-image.webp`,
+  },
+  {
+    quote: "I was 9 months pregnant and completely overwhelmed planning my son's 7th birthday. Finding Heavenly Giggles was the best thing ever — they handled everything. The kids had an amazing time.",
+    name: "Michelle Taylor",
+    tag: "Pregnant Mom, Fourways",
+    image: `${WP_UPLOADS_BASE}/2025/07/testimonial-2.webp`,
+  },
+  {
+    quote: "I hired a jumping castle for my husband's 40th — absolutely perfect for the kids and teens. The team was professional, handled everything smoothly. Would definitely use them again!",
+    name: "Chante de Sousa",
+    tag: "Loving Wife, Fourways",
+    image: `${WP_UPLOADS_BASE}/2025/07/testimonial.webp`,
+  },
+];
+
+const heroReviewIndex: Record<string, number> = {
+  "standard-jumping-castle-4m-x-4m": 2,
+  "jumping-castle-slide-7m-x-4m": 1,
+  "inflatable-water-slide-7m-x-1m": 0,
+};
+
+const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27827713949";
+const WA_LINK = `https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20jumping%20castle!`;
+
+function fullSizeImage(url: string) {
+  return url.replace(/-\d+x\d+(\.\w+)$/, "$1");
+}
+
+function stripEmoji(value: string) {
+  return value.replace(/\p{Extended_Pictographic}[\uFE0F\u200D\p{Extended_Pictographic}]*/gu, "").replace(/\s{2,}/g, " ").trim();
+}
+
+function toneIcon(index: number): IconKind {
+  return ["bolt", "heart", "cushion", "calendar", "cup", "sun"][index % 6] as IconKind;
+}
+
+function labelIcon(label: string): IconKind {
+  const value = label.toLowerCase();
+  if (value.includes("delivery")) return "truck";
+  if (value.includes("grass") || value.includes("setting")) return "garden";
+  if (value.includes("water") || value.includes("hose")) return "water";
+  if (value.includes("identification") || value.includes("id")) return "id";
+  if (value.includes("safety") || value.includes("hygiene")) return "shield";
+  if (value.includes("payment")) return "calendar";
+  if (value.includes("indemnity") || value.includes("warning")) return "warning";
+  if (value.includes("signature")) return "balloon";
+  return "sparkle";
 }
 
 export async function generateStaticParams() {
@@ -18,12 +80,10 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const { slug } = await params;
   const product = getRentalProduct(slug);
 
-  if (!product) {
-    return buildMetadata({ title: "Product Not Found", path: `/product/${slug}` });
-  }
+  if (!product) return buildMetadata({ title: "Product Not Found", path: `/product/${slug}` });
 
   return buildMetadata({
-    title: `${product.name} | Heavenly Giggles Fourways`,
+    title: `${product.name} Rental & Hire Fourways`,
     description: product.summary,
     path: `/product/${product.slug}`,
   });
@@ -35,229 +95,150 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   if (!product) notFound();
 
-  return (
-    <div className="product-page">
-      <section className="product-hero">
-        <div className="product-hero-glow-1" />
-        <div className="product-hero-glow-2" />
-        <div className="hg-container">
-          <div className="product-hero-top">
-            <div className="product-hero-content">
-              <p className="product-badge">
-                {product.eyebrow || "Jumping Castle Hire & Rental Fourways"}
-              </p>
-              <h1>
-                {product.heroTitle}{" "}
-                {product.heroHighlight ? <span>{product.heroHighlight}</span> : null}
-                {product.heroTitleSecondLine ? (
-                  <>
-                    <br />
-                    {product.heroTitleSecondLine}
-                  </>
-                ) : null}
-              </h1>
-              <div className="product-hero-proof">
-                {product.heroLead ? <p>{product.heroLead}</p> : null}
-                {product.heroProofBullets ? (
-                  <ul className="product-hero-proof-list">
-                    {product.heroProofBullets.map((bullet) => (
-                      <li key={bullet}>{bullet}</li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-              <div className="product-hero-price">
-                <strong>From {product.price} for the whole weekend.</strong>
-              </div>
-              <ProductBookingCard slug={product.slug} name={product.name} />
-            </div>
+  const price = product.price;
+  const benefits: Array<{ title?: string; text: string }> =
+    "reasons" in product && product.reasons
+      ? product.reasons
+      : "descriptionBullets" in product && product.descriptionBullets
+        ? product.descriptionBullets
+        : [];
+  const heroReview = testimonials[heroReviewIndex[product.slug] ?? 0];
+  const heroQuote = heroReview.quote.split(/(?<=[.!])\s/)[0];
+  const infoRows = [
+    ...(product.additionalSectionRows ?? []).map((row) => ({
+      label: stripEmoji(row.label),
+      icon: labelIcon(row.label),
+      body: row.body.map((paragraph) => stripEmoji(paragraph)),
+    })),
+    ...(product.requirementsRows ?? []).map((row) => ({
+      label: stripEmoji(row.label),
+      icon: labelIcon(row.label),
+      body: [stripEmoji(row.value)],
+    })),
+  ];
 
-            <div className="product-hero-image">
-              <div className="product-hero-image-glow" />
-              <div className="product-hero-image-wrap">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={700}
-                  height={520}
-                  className="product-hero-img"
-                  priority
-                  fetchPriority="high"
-                  sizes="(max-width: 768px) 100vw, 700px"
-                />
-              </div>
-            </div>
+  const knowRows = infoRows.slice(0, product.additionalSectionRows?.length ?? 0);
+
+  return (
+    <div className="product-page hg-home">
+      <section id="product-hero" className="hg-hero product-hero">
+        <div className="hg-hero-copy product-hero-copy">
+          <p className="hg-badge">{stripEmoji(product.eyebrow || "Jumping Castle Hire & Rental Fourways")}</p>
+          <h1 className="hg-hero-h1">
+            {stripEmoji(product.heroTitle || product.name)}.
+            {product.heroHighlight ? <><br /><span>{stripEmoji(product.heroHighlight)}.</span></> : null}
+            {product.heroTitleSecondLine ? <><br />{stripEmoji(product.heroTitleSecondLine)}</> : null}
+          </h1>
+          {product.heroLead ? <p className="hg-hero-sub">{stripEmoji(product.heroLead)}</p> : null}
+          <div className="hg-hero-price">
+            <strong>From <span className="hg-hero-price-amount">{price}</span> for the whole weekend.</strong>
+            <span>Because <strong>mums deserve two days off,</strong> not one.</span>
           </div>
+          <div className="hg-actions product-hero-actions">
+            <ProductBookingCard slug={product.slug} name={product.name} showSupportCta={false} />
+            <Link href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              WhatsApp
+            </Link>
+          </div>
+          <p className="hg-hero-proof">
+            <span className="hg-stars" role="img" aria-label="5 out of 5 stars">★★★★★</span>
+            &ldquo;{heroQuote}&rdquo; <strong>{heroReview.name.split(" ")[0]}, Fourways</strong>
+          </p>
         </div>
 
-        <div className="product-trustbar">
-          <div className="hg-container product-trustbar-inner">
-            <div className="product-trustitem">
-              <span>🚚</span>
-              <strong>Free Delivery to Fourways</strong>
+        <ProductGallery name={product.name} mainSrc={fullSizeImage(product.image)} angles={product.angles ?? []} />
+      </section>
+
+      <section className="hg-strip">
+        <div className="hg-container hg-why">
+          <ul className="hg-why-list">
+            <li><LineIcon kind="truck" className="hg-why-icon" /><div><p>Free Delivery to Fourways</p><p>Flat R120 for the rest of Johannesburg.</p></div></li>
+            <li><LineIcon kind="wrench" className="hg-why-icon" /><div><p>Setup &amp; Takedown Included</p><p>We set up, secure and collect.</p></div></li>
+            <li><LineIcon kind="shield" className="hg-why-icon" /><div><p>SABS Safety Checked</p><p>Cleaned, sanitised and safety checked.</p></div></li>
+          </ul>
+        </div>
+      </section>
+
+      {knowRows.length ? (
+        <section className="hg-section product-know-section">
+          <div className="hg-container">
+            <div className="hg-section-header">
+              <h2>What to Know Before We Arrive</h2>
+              <p>Everything that helps the weekend run smoothly.</p>
             </div>
-            <div className="product-trustitem">
-              <span>🛠️</span>
-              <strong>Setup &amp; Takedown Included</strong>
-            </div>
-            <div className="product-trustitem">
-              <span>✔</span>
-              <strong>SABS Safety Checked</strong>
-            </div>
+            <ul className="product-know-grid">
+              {knowRows.map((row) => (
+                <li key={row.label} className="product-know-item">
+                  <h3>{row.label}</h3>
+                  <div>
+                    {row.body.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="hg-section hg-section-brand product-benefits-section">
+        <div className="hg-container">
+          <div className="hg-section-header">
+            <h2>{"benefitsHeading" in product && product.benefitsHeading ? stripEmoji(product.benefitsHeading) : "Why Kids Love It (and Parents Do Too)"}</h2>
+            {"benefitsIntro" in product && product.benefitsIntro ? <p>{stripEmoji(product.benefitsIntro)}</p> : null}
+          </div>
+          <div className="hg-benefit-grid product-benefits-grid">
+            {benefits.map((item, index) => (
+              <article key={`${index}-${item.text}`} className="hg-benefit">
+                <div className="hg-benefit-icon"><LineIcon kind={toneIcon(index)} /></div>
+                <h3>{stripEmoji(item.title ?? "")}</h3>
+                <p>{stripEmoji(item.text)}</p>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      {("descriptionBullets" in product && product.descriptionBullets) || ("reasons" in product && product.reasons) ? (
-        <section className="product-section product-section-light">
+      {product.rentalColumns?.length ? (
+        <section className="hg-section hg-section-mint product-rental-section">
           <div className="hg-container">
-            <div className="product-reasons">
-              <div className="product-reasons-header">
-                <h2>
-                  {"benefitsHeading" in product && product.benefitsHeading
-                    ? product.benefitsHeading
-                    : `Why This ${product.name} Works So Well`}
-                </h2>
-              </div>
-
-              <div className="product-reasons-intro">
-                <p>
-                  {"benefitsIntro" in product && product.benefitsIntro
-                    ? product.benefitsIntro
-                    : product.summary}
-                </p>
-              </div>
-
-              <div className="product-reasons-grid">
-                {"descriptionBullets" in product && product.descriptionBullets
-                  ? product.descriptionBullets.map((item, index) => (
-                      <article
-                        key={item.text}
-                        className={`product-reason-card ${[
-                          "product-reason-card-gold",
-                          "product-reason-card-pink",
-                          "product-reason-card-teal",
-                          "product-reason-card-purple",
-                          "product-reason-card-pink",
-                          "product-reason-card-teal",
-                        ][index % 6]}`}
-                      >
-                        <div className="product-description-block-icon">{item.icon}</div>
-                        <div className="product-description-block-copy">
-                          {"title" in item && item.title ? <h3>{item.title}</h3> : null}
-                          <p>{item.text}</p>
-                        </div>
-                      </article>
-                    ))
-                  : "reasons" in product &&
-                    product.reasons &&
-                    product.reasons.map((reason) => (
-                      <article
-                        key={reason.title}
-                        className={`product-reason-card product-reason-card-${reason.tone}`}
-                      >
-                        <div className={`product-reason-icon product-reason-icon-${reason.tone}`}>{reason.icon}</div>
-                        <h3>{reason.title}</h3>
-                        <p>{reason.text}</p>
-                      </article>
-                    ))}
-              </div>
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {"additionalSectionRows" in product && product.additionalSectionRows ? (
-        <section className="product-section product-section-dark">
-          <div className="hg-container">
-            <div className="product-section-header product-section-header-centered">
-              <h2>
-                {"additionalSectionHeading" in product && product.additionalSectionHeading
-                  ? product.additionalSectionHeading
-                  : "What to Know Before We Arrive"}
-              </h2>
-              {"additionalSectionSubtitle" in product && product.additionalSectionSubtitle ? (
-                <p>{product.additionalSectionSubtitle}</p>
-              ) : null}
-            </div>
-
-            <div className="product-info-grid">
-              {product.additionalSectionRows.map((row) => (
-                <article key={row.label} className="product-info-card">
-                  <div className="product-info-card-heading">
-                    <span>{row.icon}</span>
-                    <h3>{row.label}</h3>
-                  </div>
-                  <div className="product-info-card-copy">
-                    {row.body.map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
-                    ))}
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : null}
-
-      {"requirementsRows" in product && product.requirementsRows ? (
-        <section className="product-section product-section-light">
-          <div className="hg-container">
-            <div className="product-section-header product-section-header-centered product-section-header-compact">
+            <div className="hg-section-header">
               <h2>Rental Information</h2>
-              {"requirementsSectionSubtitle" in product && product.requirementsSectionSubtitle ? (
-                <p>{product.requirementsSectionSubtitle}</p>
-              ) : null}
+              <p>Everything you need to know before booking.</p>
             </div>
-
-            <div className="product-requirements-table">
-              {product.requirementsRows.map((row, index) => (
-                <div
-                  key={`${row.label}-${index}`}
-                  className="product-requirements-row"
-                >
-                  <div className="product-requirements-label">{row.label}</div>
-                  <div className="product-requirements-value">{row.value}</div>
-                </div>
+            <ul className="product-rental-columns">
+              {product.rentalColumns.map((column) => (
+                <li key={column.label} className="product-rental-column">
+                  <LineIcon kind={column.icon} className="product-rental-icon" />
+                  <h3>{column.label}</h3>
+                  <p>{column.body}</p>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </section>
-      ) : (
-        <section className="product-section product-section-light">
-          <div className="hg-container">
-            {("additionalInfo" in product || "rentalInfo" in product) && (
-              <div className="product-extra-info">
-                <div className="product-extra-grid">
-                  {"additionalInfo" in product && product.additionalInfo && (
-                    <div className="product-extra-card product-extra-card-additional">
-                      <p className="product-extra-kicker">Additional Info</p>
-                      <h3>The practical details</h3>
-                      <ul className="product-extra-list">
-                        {product.additionalInfo.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+      ) : null}
 
-                  {"rentalInfo" in product && product.rentalInfo && (
-                    <div className="product-extra-card product-extra-card-rental">
-                      <p className="product-extra-kicker">Rental Info</p>
-                      <h3>How the hire works</h3>
-                      <ul className="product-extra-list">
-                        {product.rentalInfo.map((item) => (
-                          <li key={item}>{item}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
+      <HomeReviews className="product-reviews-section" />
+
+      <section className="hg-section hg-section-mint hg-section-cta product-cta-section">
+        <div className="hg-container hg-cta">
+          <div>
+            <h2>Ready to Make Their Day?</h2>
+            <p>Choose your dates and leave the fun to us.</p>
+            <p className="product-cta-reassurance">Every hire is for the whole weekend, with setup and collection included.</p>
           </div>
-        </section>
-      )}
+          <div className="hg-actions product-hero-actions product-cta-actions">
+            <ProductBookingCard slug={product.slug} name={product.name} showSupportCta={false} />
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              Speak to Us on WhatsApp
+            </a>
+          </div>
+        </div>
+      </section>
+
+
+
+
     </div>
   );
 }

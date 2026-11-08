@@ -194,3 +194,109 @@
     padding: 1.45rem 1.2rem;
   }
 }
+
+/* Legal pages: white intro and body, matching the rest of the site. No gradients or background shapes. */
+.legal-page {
+  background: #ffffff;
+}
+
+.legal-hero {
+  padding: 9rem 0 2rem;
+  background: #ffffff;
+}
+
+.legal-hero h1 {
+  color: #12302c;
+  font-family: var(--font-fredoka), system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.legal-badge {
+  background: none;
+  border: 0;
+  padding: 0;
+  color: var(--accent-dark);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.legal-badge-dot {
+  display: none;
+}
+
+.legal-meta {
+  color: var(--hg-body);
+}
+
+.legal-body {
+  background: #ffffff;
+}
+
+/* Remove the remaining glows, gradients and card shadows. */
+.legal-page::before,
+.legal-page::after,
+.legal-hero::before,
+.legal-hero::after,
+.legal-section::before,
+.legal-section::after {
+  content: none;
+  display: none;
+}
+
+.legal-hero {
+  background-image: none;
+}
+
+.legal-body {
+  background-image: none;
+}
+
+.legal-section {
+  background: #ffffff;
+  background-image: none;
+  border: 1px solid #dcebea;
+  border-radius: 1rem;
+  box-shadow: none;
+  transform: none;
+}
+
+.legal-section:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.legal-divider {
+  display: none;
+}
+
+/* Legal pages: less space under the heading, darker body text, tighter cards. */
+.legal-hero {
+  padding-bottom: 1rem;
+}
+
+.legal-body {
+  padding-top: 0;
+  padding-bottom: 4rem;
+}
+
+.legal-body .legal-container {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.legal-section {
+  margin: 0;
+  padding: 1.1rem 1.4rem;
+}
+
+.legal-section p,
+.legal-section li,
+.legal-section span {
+  color: #34484a;
+}
+
+.legal-body p,
+.legal-body li {
+  color: #34484a;
+}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 export const SITE_URL = "https://heavenlygiggles.com";
 export const SITE_NAME = "Heavenly Giggles";
+export const SOCIAL_IMAGE = `${SITE_URL}/hero-castle-hd.webp`;
 const DEFAULT_DESCRIPTION =
   "Jumping castle and inflatable rentals in Fourways, Johannesburg. Free delivery, setup included. Kids jump. You relax. We handle the rest.";
 
@@ -42,11 +43,13 @@ export function buildMetadata({
       url,
       siteName: SITE_NAME,
       type: "website",
+      images: [{ url: SOCIAL_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: normalizedDescription,
+      images: [SOCIAL_IMAGE],
     },
   };
 }

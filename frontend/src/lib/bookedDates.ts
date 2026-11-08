@@ -1,8 +1,11 @@
 import { toDateKey } from "@/lib/booking";
 
-const CONFIRMED_ORDER_STATUSES = "processing,on-hold,completed";
+const CONFIRMED_ORDER_STATUSES = "processing,completed";
 const ORDERS_PER_PAGE = 100;
 const MAX_ORDER_PAGES = 10;
+const BOOKED_DATES_CACHE_TTL_MS = 5 * 60 * 1000;
+
+const bookedDatesCache = new Map<string, { dates: string[]; cachedAt: number }>();
 
 interface WooOrderMeta {
   meta_data?: Array<{ key: string; value: unknown }>;
@@ -37,7 +40,15 @@ function getDatesInRange(from: string, to: string) {
 }
 
 // A failed lookup returns no dates, so a WooCommerce outage cannot stop bookings.
-export async function getBookedDates(slug: string) {
+export async function getBookedDates(slug: string, options: { fresh?: boolean } = {}) {
+  if (!options.fresh) {
+    const cached = bookedDatesCache.get(slug);
+
+    if (cached && Date.now() - cached.cachedAt < BOOKED_DATES_CACHE_TTL_MS) {
+      return [...cached.dates];
+    }
+  }
+
   const config = getWooConfig();
 
   if (!config.apiUrl || !config.consumerKey || !config.consumerSecret) {
@@ -91,5 +102,8 @@ export async function getBookedDates(slug: string) {
     return [];
   }
 
-  return [...bookedDates].sort();
+  const dates = [...bookedDates].sort();
+  bookedDatesCache.set(slug, { dates, cachedAt: Date.now() });
+
+  return [...dates];
 }

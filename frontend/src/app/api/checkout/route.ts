@@ -1,10 +1,15 @@
 import { NextResponse } from "next/server";
 import {
   buildWooOrderPayload,
+  calculateOrderTotal,
   type CheckoutFormValues,
   validateCheckoutForm,
 } from "@/lib/checkout";
 import { getBookedDates, getWooConfig } from "@/lib/bookedDates";
+import { discountFor, lookupCoupon } from "@/lib/coupons";
+import { getRentalProduct } from "@/app/rentals/products";
+import { formatBookingDate, getBookingRange } from "@/lib/booking";
+import { buildPayfastPaymentFields, isPayfastConfigured, payfastProcessUrl } from "@/lib/payfast";
 
 export async function POST(request: Request) {
   const values = (await request.json()) as CheckoutFormValues;
@@ -34,7 +39,14 @@ export async function POST(request: Request) {
     );
   }
 
-  const bookedDates = await getBookedDates(values.product);
+  if (!isPayfastConfigured()) {
+    return NextResponse.json(
+      { ok: false, message: "Payment is not configured yet. No booking has been created." },
+      { status: 501 },
+    );
+  }
+
+  const bookedDates = await getBookedDates(values.product, { fresh: true });
 
   if (bookedDates.includes(values.date)) {
     const message = "Sorry, that date has just been booked. Please go back and pick another date.";
@@ -45,16 +57,45 @@ export async function POST(request: Request) {
     );
   }
 
-  const orderPayload = buildWooOrderPayload(values);
+  const product = getRentalProduct(values.product);
+  const hirePrice = Number(product?.price.replace(/[^\d.]/g, "") ?? 0);
+  let couponDiscount = 0;
+  let couponCode = "";
+
+  if (values.couponCode?.trim()) {
+    const coupon = await lookupCoupon(values.couponCode, hirePrice);
+
+    if (!coupon.ok) {
+      return NextResponse.json({ ok: false, message: coupon.message }, { status: 400 });
+    }
+
+    couponCode = coupon.code;
+    couponDiscount = discountFor(coupon, hirePrice);
+  }
+
+  const orderPayload = buildWooOrderPayload(values, couponDiscount, couponCode);
   const authToken = Buffer.from(`${config.consumerKey}:${config.consumerSecret}`).toString("base64");
-  const orderResponse = await fetch(config.apiUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Basic ${authToken}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(orderPayload),
-  });
+  let orderResponse: Response;
+
+  try {
+    orderResponse = await fetch(config.apiUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${authToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderPayload),
+      signal: AbortSignal.timeout(20000),
+    });
+  } catch {
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Our booking system isn’t responding right now. Please try again in a few minutes, or WhatsApp us to book.",
+      },
+      { status: 503 },
+    );
+  }
 
   if (!orderResponse.ok) {
     const errorText = await orderResponse.text();
@@ -69,16 +110,21 @@ export async function POST(request: Request) {
     );
   }
 
-  const order = (await orderResponse.json()) as { id: number; payment_url?: string; order_key?: string };
-  const fallbackCheckoutUrl =
-    config.checkoutBaseUrl && order.id && order.order_key
-      ? `${config.checkoutBaseUrl.replace(/\/?$/, "/")}${order.id}/?pay_for_order=true&key=${order.order_key}`
-      : "";
+  const order = (await orderResponse.json()) as { id: number; total: string };
+  const fields = buildPayfastPaymentFields({
+    orderId: order.id,
+    amount: calculateOrderTotal(product?.price ?? "0", values.postalCode, values.city, couponDiscount),
+    itemDescription: (() => { const range = getBookingRange(values.date); return range.from === range.to ? `Weekend hire: ${formatBookingDate(range.from)}` : `Weekend hire: ${formatBookingDate(range.from)} to ${formatBookingDate(range.to)}`; })(),
+    itemName: (() => { const range = getBookingRange(values.date); const shortDate = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString("en-ZA", { day: "numeric", month: "short" }); const dates = range.from === range.to ? shortDate(range.from) : `${shortDate(range.from)}-${shortDate(range.to)} ${new Date(`${range.to}T00:00:00`).getFullYear()}`; const product = getRentalProduct(values.product); return `${product?.name ?? "Inflatable hire"} ${(product?.size ?? "").replace("×", "x")} (${dates})`.trim(); })(),
+    name: values.fullName,
+    email: values.email,
+    phone: values.phone,
+  });
 
   return NextResponse.json({
     ok: true,
-    message: "Order created. Redirecting you into payment...",
+    message: "Redirecting you to PayFast...",
     bookingReference: `HG-${order.id}`,
-    checkoutUrl: order.payment_url || fallbackCheckoutUrl || "",
+    payfast: { action: payfastProcessUrl(), fields },
   });
 }

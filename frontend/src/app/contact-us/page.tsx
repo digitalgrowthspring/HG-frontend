@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { buildMetadata } from "@/lib/seo";
 import Link from "next/link";
+import { LineIcon } from "@/components/LineIcon";
+import ContactMap from "@/components/ContactMap";
+import "../home.css";
 import "./contact.css";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Contact Us | Heavenly Giggles Jumping Castle Hire",
+  title: "Contact Us | Jumping Castle Rental & Hire",
   description: "Get in touch with Heavenly Giggles. WhatsApp, email, or find us in Fourways, Johannesburg. We'll help you book the perfect jumping castle.",
   path: "/contact-us",
 });
@@ -13,228 +16,165 @@ const WHATSAPP = process.env.NEXT_PUBLIC_WHATSAPP ?? "27827713949";
 const WA_LINK = `https://wa.me/${WHATSAPP}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20jumping%20castle!`;
 const MAP_QUERY = "39A Albatross, Fourways, Johannesburg";
 const MAP_EMBED = `https://www.google.com/maps?q=${encodeURIComponent(MAP_QUERY)}&z=14&output=embed`;
+const MAP_DIRECTIONS = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(MAP_QUERY)}`;
 
-const details = [
-  {
-    icon: "📲",
-    label: "Call or WhatsApp",
-    value: "+27 82 771 3949",
-    href: WA_LINK,
-    cta: "Open WhatsApp",
-    highlight: true,
-  },
-  {
-    icon: "✉️",
-    label: "Email",
-    value: "ryan@heavenlygiggles.com",
-    href: "mailto:ryan@heavenlygiggles.com",
-    cta: "Send Email",
-  },
-  {
-    icon: "📍",
-    label: "Where We Deliver",
-    value: "Fourways free delivery, rest of JHB R120 flat fee",
-    href: "https://maps.google.com/?q=Fourways,Johannesburg",
-    cta: "Open Maps",
-  },
-  {
-    icon: "🕗",
-    label: "Hours",
-    value: "Monday – Sunday, 8:00 – 17:00",
-  },
+const contactInfo: Array<{ icon: "pin" | "phone" | "mail" | "clock"; label: string; value: string; href?: string; external?: boolean; note?: string }> = [
+  { icon: "phone", label: "WhatsApp / Phone", value: "+27 82 771 3949", href: WA_LINK, external: true },
+  { icon: "mail", label: "Email", value: "ryan@heavenlygiggles.com", href: "mailto:ryan@heavenlygiggles.com" },
+  { icon: "pin", label: "Location", value: "39A Albatross, Fourways, Johannesburg", note: "This is our business address. Please WhatsApp before visiting so we can confirm." },
+  { icon: "clock", label: "Availability", value: "Monday to Sunday, 08:00 to 17:00" },
 ];
 
-const faqs = [
-  {
-    q: "Pick your inflatable",
-    a: "Choose the jumping castle or slide that fits your party best.",
-  },
-  {
-    q: "Choose your date and location",
-    a: "Send us your preferred date and your area so we can confirm availability.",
-  },
-  {
-    q: "Confirm your booking",
-    a: "We’ll confirm everything with you and handle the rest. Seriously, that’s it.",
-  },
+const trustPoints = [
+  { icon: "truck" as const, title: "Free Delivery to Fourways", text: "Flat R120 for the rest of Johannesburg." },
+  { icon: "smile" as const, title: "Fastest on WhatsApp", text: "Speak directly to real people." },
+  { icon: "shield" as const, title: "SABS Quality Checked", text: "Cleaned, sanitised and safety checked." },
 ];
 
 const reasons = [
   {
-    icon: "📲",
-    title: "No calls, no paperwork, no stress",
-    text: "We’ve made renting an inflatable as easy as clicking a button, with quick, easy booking from your phone.",
+    title: "No Calls, No Paperwork, No Stress",
+    text: "Renting an inflatable is as easy as clicking a button, with quick, easy booking from your phone.",
   },
   {
-    icon: "🚚",
-    title: "Delivery & Setup - You Chill, We Work",
-    text: "We bring the fun straight to your door, set it up, secure it, and make sure everything is perfect.",
+    title: "Delivery & Setup",
+    text: "We bring the fun straight to your door, set it up, secure it and make sure everything is ready.",
   },
   {
-    icon: "🧼",
-    title: "Sanitised, Safe, and Party-Ready",
-    text: "Every inflatable is deep cleaned, sanitised, and safety-checked before and after each hire.",
+    title: "Clean, Safe & Party Ready",
+    text: "Every inflatable is deep cleaned, sanitised and safety checked before and after each hire.",
   },
   {
-    icon: "🎉",
     title: "More Giggles, Less Stress",
-    text: "Kids burn energy, you get a break. We make the fun effortless for you and exhausting, in the best way, for them.",
+    text: "Kids burn energy, you get a break. We make the fun effortless for you and exhausting in the best way for them.",
   },
+];
+
+const zones = [
+  { zone: "Fourways", fee: "FREE", note: "Delivery and collection included." },
+  { zone: "Rest of Johannesburg", fee: "R120", note: "Flat delivery and collection fee." },
 ];
 
 export default function ContactPage() {
   return (
-    <div className="contact-page">
+    <div className="contact-page hg-home">
 
       {/* ── Hero ── */}
-      <section className="contact-hero">
-        <div className="contact-hero-glow-1" />
-        <div className="contact-hero-glow-2" />
-        <div className="hg-container">
-          <div className="contact-hero-top">
-            <div className="contact-hero-content">
-              <div className="contact-badge">Get in Touch</div>
-              <h1>
-                Because Parenting Is <span className="contact-hero-highlight">Hard Enough!</span>
-              </h1>
-              <p className="contact-hero-sub">
-                Need a jumping castle, slide, or just a way to keep the kids busy while you sip your coffee in peace? We&apos;ve got you.
-              </p>
-              <div className="contact-hero-ctas">
-                <Link href="/rentals#rentals-products" className="btn-contact-primary">
-                  Rent Online Now
-                </Link>
-                <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-contact-secondary">
-                  Speak to Us on WhatsApp
-                </a>
-              </div>
-            </div>
-
-            <div className="contact-hero-panel">
-              <p className="contact-hero-panel-kicker">No Stress. No Mess.</p>
-              <h2>Just bouncing kids and a happy, relaxed you.</h2>
-              <ul className="contact-hero-list">
-                <li><strong>Birthdays, school events, or random Tuesdays</strong> — we show up for all of them.</li>
-                <li><strong>We set up, secure, and collect</strong> so you don&apos;t lift a finger.</li>
-                <li><strong>Available 7 days, 8am–5pm</strong> with real people ready to help.</li>
-              </ul>
-            </div>
+      <section className="hg-hero">
+        <div className="hg-hero-copy">
+          <h1 className="hg-badge">Get in Touch</h1>
+          <h2 className="hg-hero-h1">
+            Because Parenting Is <span>Hard Enough!</span>
+          </h2>
+          <p className="hg-hero-sub">
+            Need a jumping castle, slide, or just a way to keep the kids busy while you enjoy your coffee in peace? We&apos;ve got you.
+          </p>
+          <div className="hg-actions">
+            <Link href="/rentals#rentals-products" className="btn-hg-primary">
+              Rent Online Now
+            </Link>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              Speak to Us on WhatsApp
+            </a>
           </div>
         </div>
-        <div className="contact-trustbar">
-          <div className="hg-container contact-trustbar-inner">
-            <div className="contact-trustitem">
-              <span>🚚</span>
-              <strong>Free Delivery to Fourways</strong>
-            </div>
-            <div className="contact-trustitem">
-              <span>💬</span>
-              <strong>Fastest on WhatsApp</strong>
-            </div>
-            <div className="contact-trustitem">
-              <span>✔</span>
-              <strong>SABS Quality Checked</strong>
-            </div>
-          </div>
+
+        <div className="hg-hero-photo contact-hero-map">
+          <ContactMap
+            embedSrc={MAP_EMBED}
+            directionsHref={MAP_DIRECTIONS}
+            title="Heavenly Giggles location map"
+          />
         </div>
       </section>
 
-      {/* ── Why Book ── */}
-      <section className="contact-section contact-section-light">
+      <section className="hg-strip">
+        <div className="hg-container hg-why">
+          <ul className="hg-why-list">
+            {trustPoints.map((point) => (
+              <li key={point.title}>
+                <LineIcon kind={point.icon} className="hg-why-icon" />
+                <div>
+                  <h3>{point.title}</h3>
+                  <p>{point.text}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* ── Why Book With Us ── */}
+      <section className="hg-section contact-why">
         <div className="hg-container">
-          <div className="contact-section-header">
+          <div className="hg-section-header">
             <h2>Why Book With Us?</h2>
             <p>No calls, no paperwork, no stress. Just pure, effortless fun for parents and party planners.</p>
           </div>
-          <div className="contact-faq-list">
+          <ul className="contact-text-list">
             {reasons.map((reason) => (
-              <div key={reason.title} className="contact-faq-item">
-                <div className="contact-faq-icon">{reason.icon}</div>
+              <li key={reason.title}>
                 <h3>{reason.title}</h3>
                 <p>{reason.text}</p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
 
-      {/* ── Delivery ── */}
-      <section className="contact-section contact-section-alt">
+      {/* ── Where We Deliver ── */}
+      <section className="hg-section hg-section-brand contact-delivery">
         <div className="hg-container">
-          <div className="contact-section-header">
+          <div className="hg-section-header">
             <h2>Where We Deliver</h2>
+            <p>Based in Fourways, bringing the fun to families across Johannesburg.</p>
           </div>
-          <div className="contact-delivery-grid">
-            {[
-              { zone: "Fourways", fee: "FREE", highlight: true },
-              { zone: "Rest of JHB", fee: "R120" },
-            ].map((z) => (
-              <div key={z.zone} className={`contact-delivery-row${z.highlight ? " contact-delivery-free" : ""}`}>
-                <span className="contact-delivery-zone">{z.zone}</span>
-                <span className="contact-delivery-fee">{z.fee}</span>
-              </div>
+          <div className="contact-zone-grid">
+            {zones.map((z) => (
+              <article key={z.zone} className="hg-benefit contact-zone-card">
+                <div className="hg-benefit-icon"><LineIcon kind="truck" /></div>
+                <h3>{z.zone}</h3>
+                <p className="contact-zone-fee">{z.fee}</p>
+                <p>{z.note}</p>
+              </article>
             ))}
           </div>
           <p className="contact-delivery-note">
-            Not sure if we deliver to your area? Just WhatsApp us and we&apos;ll confirm in minutes.
+            Not sure if we deliver to your area? WhatsApp us and we&apos;ll confirm.
           </p>
         </div>
       </section>
 
-      {/* ── Map ── */}
-      <section className="contact-section contact-section-light">
+      {/* ── Get in Touch ── */}
+      <section className="hg-section contact-find">
         <div className="hg-container">
-          <div className="contact-section-header">
-            <h2>Find Us</h2>
-            <p>Based in Fourways and ready to make booking easy if you want to chat, email, or open directions.</p>
+          <div className="hg-section-header">
+            <h2>Get in Touch</h2>
+            <p>Real people, ready to help make your next party easier.</p>
           </div>
-          <div className="contact-map-card">
-            <div className="contact-map-details">
-              <div className="contact-map-item">
-                <span>📍</span>
-                <div>
-                  <strong>39A Albatross, Fourways</strong>
-                  <p>Johannesburg, South Africa</p>
-                </div>
-              </div>
-              <div className="contact-map-item">
-                <span>📲</span>
-                <div>
-                  <strong>+27 82 771 3949</strong>
-                  <p>Call or WhatsApp for the fastest reply.</p>
-                </div>
-              </div>
-              <div className="contact-map-item">
-                <span>✉️</span>
-                <div>
-                  <strong>ryan@heavenlygiggles.com</strong>
-                  <p>Email us anytime.</p>
-                </div>
-              </div>
-              <div className="contact-map-item">
-                <span>🕗</span>
-                <div>
-                  <strong>Monday – Sunday, 8:00 – 17:00</strong>
-                  <p>We&apos;re available 7 days a week.</p>
-                </div>
-              </div>
-              <div className="contact-map-ctas">
-                <Link href="/rentals#rentals-products" className="btn-contact-primary">
-                  Rent Online Now
-                </Link>
-                <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-contact-secondary">
-                  Speak to Us on WhatsApp
-                </a>
-              </div>
-            </div>
-            <div className="contact-map-frame">
-              <iframe
-                src={MAP_EMBED}
-                title="Heavenly Giggles location map"
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+          <ul className="contact-info-columns">
+            {contactInfo.map((item) => (
+              <li key={item.label} className="contact-info-item">
+                <LineIcon kind={item.icon} className="contact-info-icon" />
+                <h3>{item.label}</h3>
+                {item.href ? (
+                  <a href={item.href} target={item.external ? "_blank" : undefined} rel={item.external ? "noopener noreferrer" : undefined}>
+                    {item.value}
+                  </a>
+                ) : (
+                  <p>{item.value}</p>
+                )}
+                {item.note ? <p className="contact-info-note">{item.note}</p> : null}
+              </li>
+            ))}
+          </ul>
+          <div className="hg-actions contact-find-actions">
+            <Link href="/rentals#rentals-products" className="btn-hg-primary">
+              Rent Online Now
+            </Link>
+            <a href={WA_LINK} target="_blank" rel="noopener noreferrer" className="btn-hg-secondary">
+              Speak to Us on WhatsApp
+            </a>
           </div>
         </div>
       </section>

@@ -4,7 +4,7 @@ import { buildMetadata } from "@/lib/seo";
 import LegalShell from "@/components/LegalShell";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Terms & Conditions | Heavenly Giggles Jumping Castle Hire Fourways",
+  title: "Terms & Conditions | Jumping Castle Rental & Hire Fourways",
   description: "The terms that apply when you use the Heavenly Giggles website or book a jumping castle with us.",
   path: "/terms-conditions",
 });

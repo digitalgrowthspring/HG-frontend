@@ -4,7 +4,7 @@ import { Fredoka, Nunito } from "next/font/google";
 import "./globals.css";
 import { Header, Footer } from "@/components/Navigation";
 import { HeroMagic } from "@/components/HeroMagic";
-import { SITE_NAME, SITE_URL } from "@/lib/seo";
+import { SITE_NAME, SITE_URL, SOCIAL_IMAGE } from "@/lib/seo";
 
 const fredoka = Fredoka({
   subsets: ["latin"],
@@ -23,10 +23,17 @@ const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: `${SITE_NAME} | Jumping Castle Rentals Fourways`,
+    default: `${SITE_NAME} | Jumping Castle Rental & Hire Fourways`,
     template: `%s | ${SITE_NAME}`,
   },
   description: "Jumping castle and inflatable rentals in Fourways, Johannesburg. Free delivery, setup included. Kids jump. You relax. We handle the rest.",
+  openGraph: {
+    images: [{ url: SOCIAL_IMAGE }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    images: [SOCIAL_IMAGE],
+  },
   icons: {
     icon: [
       { url: "/icon.png?v=13", type: "image/png" },
@@ -45,7 +52,7 @@ export default function RootLayout({
     <html lang="en" className={`${fredoka.variable} ${nunito.variable}`}>
       <head>
       </head>
-      <body style={{ margin: 0 }}>
+      <body>
         {gtmId ? (
           <>
             <Script

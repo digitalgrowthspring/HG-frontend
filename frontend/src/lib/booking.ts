@@ -1,7 +1,4 @@
 const blockedDatesByProduct: Record<string, string[]> = {
-  "standard-jumping-castle-4m-x-4m": ["2026-04-04", "2026-04-11", "2026-04-18"],
-  "jumping-castle-slide-7m-x-4m": ["2026-04-05", "2026-04-12"],
-  "inflatable-water-slide-7m-x-1m": ["2026-04-04", "2026-04-19"],
 };
 
 function padDatePart(value: number) {

@@ -11,10 +11,6 @@ interface LegalShellProps {
 export default function LegalShell({ badge = 'Legal', title, date, children }: LegalShellProps) {
   return (
     <div className="legal-page">
-      <div className="legal-blob-1" />
-      <div className="legal-blob-2" />
-      <div className="legal-blob-3" />
-
       <section className="legal-hero">
         <div className="legal-container">
           <div className="legal-badge">

@@ -1,8 +1,8 @@
 import Link from "next/link";
 import CheckoutForm from "@/components/CheckoutForm";
 import { getRentalProduct } from "@/app/rentals/products";
-import { calculateOrderTotal, formatCurrency, getDeliveryQuote } from "@/lib/checkout";
 import { formatBookingDate, getBookingRange, isDateAvailable } from "@/lib/booking";
+import "../home.css";
 import "./checkout.css";
 
 interface CheckoutPageProps {
@@ -28,13 +28,13 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
     bookingRange.to &&
     bookingRange.from !== bookingRange.to,
   );
-  const defaultPostalCode = "2191";
-  const defaultDeliveryQuote = getDeliveryQuote(defaultPostalCode);
-  const defaultEstimatedTotal = product ? calculateOrderTotal(product.price, defaultPostalCode) : "0.00";
+  const windowLabel = hasWeekendWindow
+    ? `${formatBookingDate(bookingRange.from)} to ${formatBookingDate(bookingRange.to)}`
+    : formatBookingDate(date);
 
   if (!product) {
     return (
-      <div className="checkout-page">
+      <div className="checkout-page hg-home">
         <section className="checkout-shell">
           <div className="hg-container">
             <div className="checkout-empty">
@@ -52,7 +52,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
 
   if (!hasValidBooking) {
     return (
-      <div className="checkout-page">
+      <div className="checkout-page hg-home">
         <section className="checkout-shell">
           <div className="hg-container">
             <div className="checkout-empty">
@@ -71,67 +71,32 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
   }
 
   return (
-    <div className="checkout-page">
-      <section className="checkout-hero">
+    <div className="checkout-page hg-home">
+      <section className="checkout-intro">
         <div className="hg-container">
-          <p className="checkout-kicker">Checkout</p>
-          <h1>Lock In Your Booking</h1>
-          <p className="checkout-hero-sub">
-            We&apos;ve carried your selected booking date and hire window through. Fill in the final details and you&apos;re ready for payment and confirmation.
-          </p>
+          <h1>Almost Time for Fun!</h1>
+          <p>Just a few details and your weekend is sorted.</p>
         </div>
       </section>
 
       <section className="checkout-shell">
         <div className="hg-container">
-          <div className="checkout-grid">
-            <aside className="checkout-summary-card">
-              <h2>Your Order</h2>
-              <div className="checkout-summary-meta">
-                <p className="checkout-summary-meta-label">Rental window</p>
-                <strong>
-                  {hasWeekendWindow
-                    ? `${formatBookingDate(bookingRange.from)} to ${formatBookingDate(bookingRange.to)}`
-                    : formatBookingDate(date)}
-                </strong>
-              </div>
-              <div className="checkout-summary-row">
-                <span>Product</span>
-                <strong>{product.name}</strong>
-              </div>
-              <div className="checkout-summary-row">
-                <span>Subtotal</span>
-                <strong>{product.price}</strong>
-              </div>
-              <div className="checkout-summary-row">
-                <span>Delivery</span>
-                <strong>{defaultDeliveryQuote.deliveryLabel}</strong>
-              </div>
-              <div className="checkout-summary-row checkout-summary-total">
-                <span>Estimated total</span>
-                <strong>{formatCurrency(defaultEstimatedTotal)}</strong>
-              </div>
-            </aside>
-
-            <div className="checkout-form-card">
-              <h2>Your Details</h2>
-              <CheckoutForm
-                initialValues={{
-                  product: product.slug,
-                  date,
-                  area,
-                  notes,
-                  fullName: "",
-                  phone: "",
-                  email: "",
-                  addressLine1: "",
-                  suburb: area,
-                  city: "Johannesburg",
-                  postalCode: defaultPostalCode,
-                }}
-              />
-            </div>
-          </div>
+          <CheckoutForm
+            windowLabel={windowLabel}
+            initialValues={{
+              product: product.slug,
+              date,
+              area,
+              notes,
+              fullName: "",
+              phone: "",
+              email: "",
+              addressLine1: "",
+              suburb: area,
+              city: "Johannesburg",
+              postalCode: "2191",
+            }}
+          />
         </div>
       </section>
     </div>

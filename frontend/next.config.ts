@@ -2,6 +2,8 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "localhost"],
+  // Keep the development issue badge out of visual QA screenshots.
+  devIndicators: false,
   async redirects() {
     return [
       { source: "/cart", destination: "/rentals", permanent: true },
@@ -16,6 +18,7 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    qualities: [75, 90],
     remotePatterns: [
       {
         protocol: "https",
