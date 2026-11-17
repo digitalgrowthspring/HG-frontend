@@ -54,7 +54,7 @@ export default async function QuotePrintPage({ searchParams }: QuotePrintPagePro
   const deliveryAddress = [quote.c?.a, quote.c?.s, quote.c?.ci, quote.c?.pc].filter(Boolean).join(", ");
 
   return (
-    <div className="checkout-page hg-home">
+    <div className="checkout-page hg-home quote-page">
       <section className="checkout-intro">
         <div className="hg-container">
           <h1>Your Quote</h1>
@@ -67,7 +67,7 @@ export default async function QuotePrintPage({ searchParams }: QuotePrintPagePro
       <section className="checkout-shell quote-sheet">
         <div className="hg-container">
           <div className="quote-print-logo">
-            <Image src="/hg-logo-v17.png" alt="Heavenly Giggles" width={1706} height={909} className="quote-print-logo-img" />
+            <Image src="/hg-logo-v17.png" alt="Heavenly Giggles" width={1706} height={909} priority className="quote-print-logo-img" />
           </div>
           <div className="checkout-layout">
             <div className="quote-details">

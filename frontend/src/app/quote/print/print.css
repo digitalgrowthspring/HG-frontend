@@ -113,3 +113,140 @@
   margin-top: 0.2rem;
   color: #44595a;
 }
+
+/* Desktop: a centred, balanced two-column quote. Mobile keeps the stacked layout. */
+@media (min-width: 900px) {
+  .quote-sheet .hg-container {
+    max-width: 1080px;
+  }
+
+  .quote-sheet .checkout-layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 2rem;
+    align-items: stretch;
+  }
+
+  .quote-sheet .quote-details {
+    padding: 2.25rem 2.5rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .quote-sheet .quote-details h2 {
+    font-size: 1.5rem;
+  }
+
+  .quote-sheet .quote-details-list div {
+    grid-template-columns: 9.5rem 1fr;
+  }
+
+  .quote-sheet .quote-details .quote-print-button {
+    margin-top: auto;
+    align-self: flex-start;
+  }
+
+  .quote-sheet .checkout-summary-card {
+    padding: 2.25rem 2.5rem;
+    height: 100%;
+  }
+
+  .quote-sheet .checkout-summary-image {
+    width: 150px;
+    height: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .quote-page .checkout-intro .hg-container {
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+}
+
+/* Printed quote: one A4 portrait page, columns stacked, logo at the top. */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 12mm;
+  }
+
+  .quote-page .checkout-intro {
+    padding: 0 0 0.75rem;
+  }
+
+  .quote-page .checkout-intro h1 {
+    font-size: 1.6rem;
+  }
+
+  .quote-sheet .hg-container {
+    padding: 0;
+    max-width: none;
+  }
+
+  .quote-sheet .checkout-layout {
+    display: block;
+  }
+
+  .quote-sheet .quote-details,
+  .quote-sheet .checkout-summary-card {
+    border: 1px solid #d7e6e3;
+    padding: 1rem 1.25rem;
+    margin-bottom: 0.75rem;
+    break-inside: avoid;
+  }
+
+  .quote-sheet .quote-details h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem;
+  }
+
+  .quote-sheet .quote-details-list div {
+    grid-template-columns: 7rem 1fr;
+    padding-bottom: 0.4rem;
+  }
+
+  .quote-sheet .quote-details p {
+    margin: 0 0 0.4rem;
+  }
+
+  .quote-sheet .checkout-summary-image {
+    width: 90px;
+    height: auto;
+  }
+
+  .quote-print-logo-img {
+    width: 130px;
+  }
+}
+
+@media print {
+  .quote-sheet {
+    zoom: 0.8;
+  }
+}
+
+@media print {
+  /* Stop the hidden site wrapper (full-screen minimum height) from leaving a blank page. */
+  .site-main,
+  .checkout-page,
+  body {
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .quote-sheet {
+    position: static !important;
+  }
+}
+
+@media print {
+  /* The site header, navigation and footer never print on the quote. */
+  header,
+  .glass-header,
+  nav,
+  footer {
+    display: none !important;
+  }
+}
