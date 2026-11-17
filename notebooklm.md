@@ -46,3 +46,12 @@ If context pressure is high, treat it like session end and sync before continuin
 - Legacy notebooks retained for reference:
   `HG Migration` — https://notebooklm.google.com/notebook/3c6aa6f3-6b7f-46a9-b9f2-e9a2fc04a5d9
   `Heavenly Giggles Web Copy` — https://notebooklm.google.com/notebook/f81ef019-ba42-44f9-b83d-5266f500781d
+
+## Pending sync — 2026-11-05
+- vercel.app redirect pushed to `main` (commit `b317b19`) and deployed. Local STATUS.md is current. Pending: append STATUS.md to this notebook. Not synced this session.
+
+## Pending sync — 2026-11-06
+- Payment and contact work is recorded in local STATUS.md and CONTEXT.md. Pending: append both to this notebook. Not synced this session.
+
+## Pending sync — 2026-11-15
+- Analytics section in STATUS.md and the Stape note in CONTEXT.md (GA4 page-view gap, Stape container renewed). Pending: append both to this notebook (93d6f14e). Not pushed this session. Session log queued locally at `_Ops/pending_syncs/session-log-2026-11-15-2.json`.
