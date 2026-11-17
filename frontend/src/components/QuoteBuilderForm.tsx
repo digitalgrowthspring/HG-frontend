@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import ProductBookingCard from "@/components/ProductBookingCard";
 import { getRentalProduct } from "@/app/rentals/products";
 import { formatBookingDate, getBookingRange } from "@/lib/booking";
@@ -15,7 +14,8 @@ interface QuoteBuilderFormProps {
 const QUOTE_DAYS = "2";
 
 export default function QuoteBuilderForm({ products }: QuoteBuilderFormProps) {
-  const router = useRouter();
+  const [savedUrl, setSavedUrl] = useState("");
+  const [savedDetails, setSavedDetails] = useState({ customer: "", productName: "", date: "" });
   const [product, setProduct] = useState(products[0]?.slug ?? "");
   const [date, setDate] = useState("");
   const [name, setName] = useState("");
@@ -52,15 +52,15 @@ export default function QuoteBuilderForm({ products }: QuoteBuilderFormProps) {
         // The quote and its date hold run for the same two days.
         body: JSON.stringify({ product, date, name, days: QUOTE_DAYS, email, phone, address, suburb, city, postalCode, notes }),
       });
-      const result = (await response.json()) as { ok: boolean; message?: string; quotePath?: string };
+      const result = (await response.json()) as { ok: boolean; message?: string; liveQuoteUrl?: string };
 
-      if (!result.ok || !result.quotePath) {
+      if (!result.ok || !result.liveQuoteUrl) {
         setMessage(result.message ?? "Couldn’t save the quote.");
         return;
       }
 
-      // Saving opens the branded quote with its unique link.
-      router.push(result.quotePath);
+      setSavedUrl(result.liveQuoteUrl);
+      setSavedDetails({ customer: name.trim(), productName: selected?.name ?? "your hire", date: weekendLabel });
     } catch {
       setMessage("Couldn’t reach the local server. Is `next dev` running?");
     } finally {
@@ -69,6 +69,7 @@ export default function QuoteBuilderForm({ products }: QuoteBuilderFormProps) {
   }
 
   return (
+    <>
     <form id="quote-form" className="checkout-form" onSubmit={save}>
       <div className="checkout-layout quote-fit">
         <div className="quote-col">
@@ -195,5 +196,26 @@ export default function QuoteBuilderForm({ products }: QuoteBuilderFormProps) {
         </div>
       </div>
     </form>
+
+    {savedUrl ? (
+      <div className="quote-builder-result">
+        <strong>Quote saved for {savedDetails.customer || "the client"}: {savedDetails.productName}, {savedDetails.date}</strong>
+        <code>{savedUrl}</code>
+        <p>
+          <a href={savedUrl} target="_blank" rel="noreferrer">Open the quote →</a>
+          {" · "}
+          <a
+            href={`https://wa.me/?text=${encodeURIComponent(
+              `Hi${savedDetails.customer ? ` ${savedDetails.customer}` : ""}, here is your Heavenly Giggles quote for ${savedDetails.productName}${savedDetails.date ? ` on ${savedDetails.date}` : ""}: ${savedUrl}\n\nTap “Accept and pay” on the page to confirm your booking.`,
+            )}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Send on WhatsApp →
+          </a>
+        </p>
+      </div>
+    ) : null}
+    </>
   );
 }

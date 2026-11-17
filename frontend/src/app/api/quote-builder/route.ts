@@ -5,6 +5,7 @@ import { isDateAvailable } from "@/lib/booking";
 import { getDeliveryQuote } from "@/lib/checkout";
 import { createQuoteToken, QUOTE_DEFAULT_DAYS } from "@/lib/quotes";
 import { newQuoteReference, saveQuote } from "@/lib/quoteStore";
+import { SITE_URL } from "@/lib/seo";
 import { createQuoteOrder, quoteHoldUntil, wooQuoteOrdersEnabled } from "@/lib/wooQuote";
 
 // Signs quotes, so it must never be reachable on the live site.
@@ -149,6 +150,8 @@ export async function POST(request: Request) {
     ok: true,
     id: saved.id,
     quotePath: `/q/${saved.id}`,
+    // The link to send: the live quote page, which carries its own signed prices.
+    liveQuoteUrl: `${SITE_URL}/quote/print?quote=${token}`,
     checkoutPath: `/checkout?quote=${token}`,
     orderId: orderId ?? null,
     holdUntil: orderId ? holdUntil : null,

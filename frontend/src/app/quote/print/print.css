@@ -61,6 +61,23 @@
   color: #ffffff;
 }
 
+/* Logo at the top of the quote. Hidden on screen (the site header already shows it), shown when printed. */
+.quote-print-logo {
+  display: none;
+}
+
+@media print {
+  .quote-print-logo {
+    display: block;
+    margin: 0 0 1rem;
+  }
+
+  .quote-print-logo-img {
+    width: 180px;
+    height: auto;
+  }
+}
+
 @media print {
   /* Print only the quote: hide the site header, footer, intro band and buttons. */
   body * {
