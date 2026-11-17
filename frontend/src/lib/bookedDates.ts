@@ -1,6 +1,8 @@
 import { toDateKey } from "@/lib/booking";
 
-const CONFIRMED_ORDER_STATUSES = "processing,completed";
+// Paid orders always hold a date. Pending orders hold it only when they are quotes
+// still inside their hold window (see the pending check below).
+const CONFIRMED_ORDER_STATUSES = "processing,completed,pending";
 const ORDERS_PER_PAGE = 100;
 const MAX_ORDER_PAGES = 10;
 const BOOKED_DATES_CACHE_TTL_MS = 5 * 60 * 1000;
@@ -8,6 +10,7 @@ const BOOKED_DATES_CACHE_TTL_MS = 5 * 60 * 1000;
 const bookedDatesCache = new Map<string, { dates: string[]; cachedAt: number }>();
 
 interface WooOrderMeta {
+  status?: string;
   meta_data?: Array<{ key: string; value: unknown }>;
 }
 
@@ -65,7 +68,7 @@ export async function getBookedDates(slug: string, options: { fresh?: boolean } 
         status: CONFIRMED_ORDER_STATUSES,
         per_page: String(ORDERS_PER_PAGE),
         page: String(page),
-        _fields: "id,meta_data",
+        _fields: "id,status,meta_data",
       });
       const response = await fetch(`${config.apiUrl}?${params.toString()}`, {
         headers: { Authorization: `Basic ${authToken}` },
@@ -84,6 +87,15 @@ export async function getBookedDates(slug: string, options: { fresh?: boolean } 
 
         if (getMetaValue(order, "_hg_booking_slug") !== slug || !from || !to) {
           continue;
+        }
+
+        // A pending order holds a date only while it is a quote inside its hold window.
+        if (order.status === "pending") {
+          const holdUntil = getMetaValue(order, "_hg_quote_hold_until");
+
+          if (!holdUntil || new Date(holdUntil).getTime() <= Date.now()) {
+            continue;
+          }
         }
 
         for (const date of getDatesInRange(from, to)) {

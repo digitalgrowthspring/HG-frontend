@@ -9,11 +9,12 @@ import { getRentalProduct } from "@/app/rentals/products";
 interface CheckoutFormProps {
   initialValues: CheckoutFormValues;
   windowLabel: string;
+  quote?: { hire: number; delivery: number };
 }
 
 const emptyErrors: Partial<Record<keyof CheckoutFormValues, string>> = {};
 
-export default function CheckoutForm({ initialValues, windowLabel }: CheckoutFormProps) {
+export default function CheckoutForm({ initialValues, windowLabel, quote }: CheckoutFormProps) {
   const [formValues, setFormValues] = useState(initialValues);
   const [fieldErrors, setFieldErrors] = useState(emptyErrors);
   const [submitMessage, setSubmitMessage] = useState("");
@@ -25,7 +26,9 @@ export default function CheckoutForm({ initialValues, windowLabel }: CheckoutFor
   const router = useRouter();
   const product = getRentalProduct(formValues.product);
   const deliveryQuote = getDeliveryQuote(formValues.postalCode, formValues.city);
-  const estimatedTotal = product ? calculateOrderTotal(product.price, formValues.postalCode, formValues.city, coupon?.discount ?? 0) : "0.00";
+  const estimatedTotal = quote
+    ? (quote.hire + quote.delivery).toFixed(2)
+    : product ? calculateOrderTotal(product.price, formValues.postalCode, formValues.city, coupon?.discount ?? 0) : "0.00";
 
   useEffect(() => {
     try {
@@ -326,13 +329,17 @@ export default function CheckoutForm({ initialValues, windowLabel }: CheckoutFor
           <dl className="checkout-summary-rows">
             <div>
               <dt>Weekend hire</dt>
-              <dd>{product?.price ?? ""}</dd>
+              <dd>{quote ? formatCurrency(quote.hire) : product?.price ?? ""}</dd>
             </div>
             <div>
               <dt>Delivery</dt>
-              <dd>{formValues.postalCode.trim() ? formatCurrency(deliveryQuote.deliveryTotal) : "—"}</dd>
+              <dd>
+                {quote
+                  ? formatCurrency(quote.delivery)
+                  : formValues.postalCode.trim() ? formatCurrency(deliveryQuote.deliveryTotal) : "—"}
+              </dd>
             </div>
-            {coupon ? (
+            {coupon && !quote ? (
               <div>
                 <dt>Voucher</dt>
                 <dd>−{formatCurrency(coupon.discount)}</dd>
@@ -343,6 +350,10 @@ export default function CheckoutForm({ initialValues, windowLabel }: CheckoutFor
               <dd>{formatCurrency(estimatedTotal)}</dd>
             </div>
           </dl>
+          {quote ? (
+            <p className="checkout-summary-note">This is your agreed quote. Add your details below to continue.</p>
+          ) : null}
+          {!quote ? (
           <label className="checkout-field checkout-field-full checkout-voucher">
             <span>Voucher code</span>
             <input
@@ -361,6 +372,7 @@ export default function CheckoutForm({ initialValues, windowLabel }: CheckoutFor
             </button>
             {couponMessage ? <small className={coupon ? "checkout-submit-message" : "checkout-field-error"}>{couponMessage}</small> : null}
           </label>
+          ) : null}
           <button type="submit" form="checkout-details-form" className="checkout-btn-primary checkout-btn-block" disabled={isPending}>
             {isPending ? "Starting Booking..." : "Continue to Payment"}
           </button>

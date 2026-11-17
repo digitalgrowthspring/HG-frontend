@@ -42,3 +42,6 @@ next-env.d.ts
 
 # local research and screenshots (not for deploy)
 /_research/
+
+# Local saved quotes (development only)
+.quotes/

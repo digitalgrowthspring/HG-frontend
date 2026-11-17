@@ -2,6 +2,7 @@ import Link from "next/link";
 import CheckoutForm from "@/components/CheckoutForm";
 import { getRentalProduct } from "@/app/rentals/products";
 import { formatBookingDate, getBookingRange, isDateAvailable } from "@/lib/booking";
+import { verifyQuoteToken, type QuotePayload } from "@/lib/quotes";
 import "../home.css";
 import "./checkout.css";
 
@@ -11,15 +12,48 @@ interface CheckoutPageProps {
     date?: string;
     area?: string;
     notes?: string;
+    quote?: string;
   }>;
 }
 
 export default async function CheckoutPage({ searchParams }: CheckoutPageProps) {
   const resolvedSearchParams = await searchParams;
-  const productSlug = resolvedSearchParams?.product ?? "";
-  const date = resolvedSearchParams?.date ?? "";
+  const quoteToken = resolvedSearchParams?.quote ?? "";
+  let quote: QuotePayload | null = null;
+  let quoteError = "";
+
+  if (quoteToken) {
+    const check = verifyQuoteToken(quoteToken);
+
+    if (check.ok) {
+      quote = check.quote;
+    } else {
+      quoteError = check.reason;
+    }
+  }
+
+  if (quoteToken && !quote) {
+    return (
+      <div className="checkout-page hg-home">
+        <section className="checkout-shell">
+          <div className="hg-container">
+            <div className="checkout-empty">
+              <h1>This Quote Can’t Be Used</h1>
+              <p>{quoteError}</p>
+              <Link href="/rentals" className="checkout-link-back">
+                Back to Rentals
+              </Link>
+            </div>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  const productSlug = quote?.p ?? resolvedSearchParams?.product ?? "";
+  const date = quote?.d ?? resolvedSearchParams?.date ?? "";
   const area = resolvedSearchParams?.area ?? "Fourways";
-  const notes = resolvedSearchParams?.notes ?? "";
+  const notes = quote?.c?.no ?? resolvedSearchParams?.notes ?? "";
   const product = getRentalProduct(productSlug);
   const hasValidBooking = Boolean(product && date && isDateAvailable(product.slug, date));
   const bookingRange = date ? getBookingRange(date) : { from: "", to: "" };
@@ -76,6 +110,7 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
         <div className="hg-container">
           <h1>Almost Time for Fun!</h1>
           <p>Just a few details and your weekend is sorted.</p>
+          {quote?.n ? <p>Quote prepared for {quote.n}.</p> : null}
         </div>
       </section>
 
@@ -83,18 +118,20 @@ export default async function CheckoutPage({ searchParams }: CheckoutPageProps) 
         <div className="hg-container">
           <CheckoutForm
             windowLabel={windowLabel}
+            quote={quote ? { hire: quote.h, delivery: quote.l } : undefined}
             initialValues={{
               product: product.slug,
               date,
               area,
               notes,
-              fullName: "",
-              phone: "",
-              email: "",
-              addressLine1: "",
-              suburb: area,
-              city: "Johannesburg",
-              postalCode: "2191",
+              quoteToken: quote ? quoteToken : undefined,
+              fullName: quote?.n ?? "",
+              phone: quote?.c?.ph ?? "",
+              email: quote?.c?.e ?? "",
+              addressLine1: quote?.c?.a ?? "",
+              suburb: quote?.c?.s ?? area,
+              city: quote?.c?.ci ?? "Johannesburg",
+              postalCode: quote?.c?.pc ?? "2191",
             }}
           />
         </div>

@@ -1,0 +1,106 @@
+.quote-builder {
+  padding: 9rem 0 4rem;
+  max-width: 760px;
+}
+
+.quote-builder h1 {
+  margin: 0 0 0.5rem;
+}
+
+.quote-builder-lede {
+  margin: 0 0 2rem;
+  color: #4b5b5b;
+}
+
+.quote-builder .checkout-field select {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #c9dcd8;
+  border-radius: 10px;
+  background: #fff;
+  font: inherit;
+  color: inherit;
+}
+
+.quote-builder-result {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #d7e6e3;
+  border-radius: 14px;
+  background: #fff;
+  display: grid;
+  gap: 1rem;
+}
+
+.quote-builder-result a {
+  color: #0f7b74;
+  font-weight: 600;
+}
+
+.quote-builder-result code {
+  display: block;
+  word-break: break-all;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+}
+
+.quote-builder-error {
+  margin-top: 1rem;
+  color: #b00020;
+  font-weight: 600;
+}
+
+/* Fit the whole quote form on one screen. */
+.quote-builder {
+  padding-top: 7.5rem;
+  padding-bottom: 2rem;
+  max-width: 980px;
+}
+
+.quote-builder h1 {
+  font-size: 2rem;
+}
+
+.quote-builder .quote-builder-lede {
+  margin-bottom: 1rem;
+}
+
+.quote-builder .checkout-form {
+  gap: 0.6rem;
+}
+
+.quote-builder .checkout-form-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem 0.9rem;
+}
+
+.quote-builder .checkout-field {
+  gap: 0.2rem;
+}
+
+.quote-builder .checkout-field input,
+.quote-builder .checkout-field select,
+.quote-builder .checkout-field textarea {
+  padding: 0.5rem 0.75rem;
+}
+
+.quote-builder .checkout-field textarea {
+  min-height: 2.6rem;
+  rows: 2;
+}
+
+.quote-builder .checkout-field-full {
+  grid-column: 1 / -1;
+}
+
+.quote-builder .checkout-summary-note {
+  margin: 0;
+}
+
+.quote-builder .product-booking-card {
+  width: 100%;
+}
+
+.quote-builder .product-booking-trigger {
+  padding: 0.5rem 1rem;
+}

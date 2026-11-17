@@ -14,6 +14,7 @@ export interface CheckoutFormValues {
   suburb: string;
   city: string;
   postalCode: string;
+  quoteToken?: string;
 }
 
 export interface CheckoutSubmissionResult {
@@ -146,7 +147,12 @@ export function validateCheckoutForm(values: CheckoutFormValues): CheckoutSubmis
   };
 }
 
-export function buildWooOrderPayload(values: CheckoutFormValues, discount = 0, couponCode = "") {
+export function buildWooOrderPayload(
+  values: CheckoutFormValues,
+  discount = 0,
+  couponCode = "",
+  quoted?: { hire: number; delivery: number },
+) {
   const product = getRentalProduct(values.product);
 
   if (!product) {
@@ -156,7 +162,10 @@ export function buildWooOrderPayload(values: CheckoutFormValues, discount = 0, c
   const bookingRange = getBookingRange(values.date);
   const deliveryQuote = getDeliveryQuote(values.postalCode, values.city);
   const hirePrice = Number(parsePrice(product.price));
-  const discountedHirePrice = Math.max(0, hirePrice - discount).toFixed(2);
+  const discountedHirePrice = quoted
+    ? quoted.hire.toFixed(2)
+    : Math.max(0, hirePrice - discount).toFixed(2);
+  const deliveryTotal = quoted ? quoted.delivery.toFixed(2) : deliveryQuote.deliveryTotal;
   const hireDates =
     bookingRange.from === bookingRange.to
       ? formatBookingDate(bookingRange.from)
@@ -200,7 +209,7 @@ export function buildWooOrderPayload(values: CheckoutFormValues, discount = 0, c
       {
         method_id: deliveryQuote.shippingMethodId,
         method_title: deliveryQuote.shippingMethodTitle,
-        total: deliveryQuote.deliveryTotal,
+        total: deliveryTotal,
       },
     ],
     meta_data: [

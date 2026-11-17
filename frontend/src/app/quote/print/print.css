@@ -1,0 +1,98 @@
+.quote-details {
+  background: #ffffff;
+  border: 1px solid #d7e6e3;
+  border-radius: 14px;
+  padding: 1.75rem;
+  color: #2f4546;
+}
+
+.quote-details h2 {
+  margin: 0 0 0.75rem;
+  color: #12302c;
+  font-family: var(--font-fredoka), system-ui, sans-serif;
+  font-size: 1.35rem;
+}
+
+.quote-details h2:not(:first-child) {
+  margin-top: 1.75rem;
+}
+
+.quote-details-list {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0 0 1rem;
+}
+
+.quote-details-list div {
+  display: grid;
+  grid-template-columns: 8.5rem 1fr;
+  gap: 0.75rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #e5eeec;
+}
+
+.quote-details-list dt {
+  font-weight: 700;
+  color: #12302c;
+}
+
+.quote-details-list dd {
+  margin: 0;
+}
+
+.quote-details p {
+  margin: 0 0 1rem;
+  line-height: 1.6;
+}
+
+.quote-details .quote-print-button {
+  display: inline-block;
+  padding: 0.7rem 1.2rem;
+  border-radius: 999px;
+  background: #ffffff;
+  color: #0f7b74;
+  border: 2px solid #0f7b74;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.quote-details .quote-print-button:hover {
+  background: #0f7b74;
+  color: #ffffff;
+}
+
+@media print {
+  /* Print only the quote: hide the site header, footer, intro band and buttons. */
+  body * {
+    visibility: hidden;
+  }
+
+  .quote-sheet,
+  .quote-sheet * {
+    visibility: visible;
+  }
+
+  .quote-sheet {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Quote page polish: no underline on the pay button, and a gap between product name and size. */
+.quote-sheet a.checkout-btn-primary {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.quote-sheet .checkout-summary-product span {
+  display: block;
+  margin-top: 0.2rem;
+  color: #44595a;
+}

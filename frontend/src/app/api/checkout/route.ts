@@ -10,6 +10,7 @@ import { discountFor, lookupCoupon } from "@/lib/coupons";
 import { getRentalProduct } from "@/app/rentals/products";
 import { formatBookingDate, getBookingRange } from "@/lib/booking";
 import { buildPayfastPaymentFields, isPayfastConfigured, payfastProcessUrl } from "@/lib/payfast";
+import { verifyQuoteToken, type QuotePayload } from "@/lib/quotes";
 
 export async function POST(request: Request) {
   const values = (await request.json()) as CheckoutFormValues;
@@ -61,8 +62,24 @@ export async function POST(request: Request) {
   const hirePrice = Number(product?.price.replace(/[^\d.]/g, "") ?? 0);
   let couponDiscount = 0;
   let couponCode = "";
+  let quote: QuotePayload | null = null;
 
-  if (values.couponCode?.trim()) {
+  if (values.quoteToken) {
+    const check = verifyQuoteToken(values.quoteToken);
+
+    if (!check.ok) {
+      return NextResponse.json({ ok: false, message: check.reason }, { status: 400 });
+    }
+
+    if (check.quote.p !== values.product || check.quote.d !== values.date) {
+      return NextResponse.json(
+        { ok: false, message: "This quote doesn’t match the booking. WhatsApp us for a fresh quote." },
+        { status: 400 },
+      );
+    }
+
+    quote = check.quote;
+  } else if (values.couponCode?.trim()) {
     const coupon = await lookupCoupon(values.couponCode, hirePrice);
 
     if (!coupon.ok) {
@@ -73,13 +90,19 @@ export async function POST(request: Request) {
     couponDiscount = discountFor(coupon, hirePrice);
   }
 
-  const orderPayload = buildWooOrderPayload(values, couponDiscount, couponCode);
+  const orderPayload = buildWooOrderPayload(
+    values,
+    couponDiscount,
+    couponCode,
+    quote ? { hire: quote.h, delivery: quote.l } : undefined,
+  );
   const authToken = Buffer.from(`${config.consumerKey}:${config.consumerSecret}`).toString("base64");
   let orderResponse: Response;
 
   try {
-    orderResponse = await fetch(config.apiUrl, {
-      method: "POST",
+    // A quote that already has a pending WooCommerce order is updated, never duplicated.
+    orderResponse = await fetch(quote?.o ? `${config.apiUrl}/${quote.o}` : config.apiUrl, {
+      method: quote?.o ? "PUT" : "POST",
       headers: {
         Authorization: `Basic ${authToken}`,
         "Content-Type": "application/json",
@@ -113,7 +136,9 @@ export async function POST(request: Request) {
   const order = (await orderResponse.json()) as { id: number; total: string };
   const fields = buildPayfastPaymentFields({
     orderId: order.id,
-    amount: calculateOrderTotal(product?.price ?? "0", values.postalCode, values.city, couponDiscount),
+    amount: quote
+      ? (quote.h + quote.l).toFixed(2)
+      : calculateOrderTotal(product?.price ?? "0", values.postalCode, values.city, couponDiscount),
     itemDescription: (() => { const range = getBookingRange(values.date); return range.from === range.to ? `Weekend hire: ${formatBookingDate(range.from)}` : `Weekend hire: ${formatBookingDate(range.from)} to ${formatBookingDate(range.to)}`; })(),
     itemName: (() => { const range = getBookingRange(values.date); const shortDate = (iso: string) => new Date(`${iso}T00:00:00`).toLocaleDateString("en-ZA", { day: "numeric", month: "short" }); const dates = range.from === range.to ? shortDate(range.from) : `${shortDate(range.from)}-${shortDate(range.to)} ${new Date(`${range.to}T00:00:00`).getFullYear()}`; const product = getRentalProduct(values.product); return `${product?.name ?? "Inflatable hire"} ${(product?.size ?? "").replace("×", "x")} (${dates})`.trim(); })(),
     name: values.fullName,

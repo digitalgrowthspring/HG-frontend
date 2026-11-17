@@ -19,6 +19,8 @@ interface ProductBookingCardProps {
   slug: string;
   name: string;
   showSupportCta?: boolean;
+  // When set (the quote builder), picking a date reports it here instead of opening checkout.
+  onDateSelect?: (date: string) => void;
 }
 
 function addMonths(date: Date, months: number) {
@@ -113,6 +115,7 @@ export default function ProductBookingCard({
   slug,
   name,
   showSupportCta = true,
+  onDateSelect,
 }: ProductBookingCardProps) {
   const router = useRouter();
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -179,7 +182,7 @@ export default function ProductBookingCard({
               return;
             }
 
-            if (selectedDate && isAvailable) {
+            if (selectedDate && isAvailable && !onDateSelect) {
               goToCheckout(normalizedSelectedDate);
               return;
             }
@@ -189,7 +192,7 @@ export default function ProductBookingCard({
           aria-expanded={isCalendarOpen}
           aria-haspopup="dialog"
         >
-          {selectedDate && isAvailable ? (
+          {selectedDate && isAvailable && !onDateSelect ? (
             <>
               <span>Continue to Booking</span>
               <strong>→</strong>
@@ -259,8 +262,10 @@ export default function ProductBookingCard({
                   type="button"
                   className={`product-booking-day${inSelectedRange ? " is-selected" : ""}${weekendBlocked ? " is-weekend-blocked" : ""}${booked ? " is-booked" : ""}${isPast || rangePast ? " is-past" : ""}${!bookable ? " is-weekday" : ""}${holiday ? " is-holiday" : ""}${inSelectedRange ? " is-range" : ""}${isRangeStart ? " is-range-start" : ""}${isRangeEnd ? " is-range-end" : ""}`}
                   onClick={() => {
-                    setSelectedDate(getCanonicalBookingDate(date));
+                    const picked = getCanonicalBookingDate(date);
+                    setSelectedDate(picked);
                     setIsCalendarOpen(false);
+                    onDateSelect?.(picked);
                   }}
                   disabled={disabled}
                   aria-pressed={inSelectedRange}
